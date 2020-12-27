@@ -62,8 +62,8 @@ namespace Invest.MVC.Controllers
         {
             var history = _context.StockHistory
                               .Where(m => m.StockId == id)
-                              .Select(p => new { p.Created, p.Value })
-                              .OrderBy(p => p.Created);
+                              .Select(p => new { p.CreatedUtc, p.Value })
+                              .OrderBy(p => p.CreatedUtc);
 
             if (history == null || false == history.Any())
             {
@@ -78,7 +78,7 @@ namespace Invest.MVC.Controllers
             costcoValues.ForEach(p =>
             {
                 costcoData.Add(new LineSeriesData { Y = Convert.ToDouble(p.Value) });
-                costcoCategory.Add(p.Created.ToString("yyyy-MM-dd"));
+                costcoCategory.Add(p.CreatedUtc.ToString("yyyy-MM-dd"));
             });
 
             ViewData["costcoData"] = costcoData;
@@ -104,8 +104,8 @@ namespace Invest.MVC.Controllers
             {
                 var history = _context.StockHistory
                                   .Where(m => m.Symbol == symbol)
-                                  .Select(p => new { p.Created, p.Value, p.Name })
-                                  .OrderBy(p => p.Created);
+                                  .Select(p => new { p.CreatedUtc, p.Value, p.Name })
+                                  .OrderBy(p => p.CreatedUtc);
 
                 if (history == null || false == history.Any())
                 {
@@ -124,7 +124,7 @@ namespace Invest.MVC.Controllers
 
                         if (0 == count)
                         {
-                            categories.Add(p.Created.ToString("yyyy-MM-dd"));
+                            categories.Add(p.CreatedUtc.ToString("yyyy-MM-dd"));
                         }
 
                         name = p.Name;
@@ -166,7 +166,7 @@ namespace Invest.MVC.Controllers
 
             var categories = _context.StockHistory
                 .Where(m => symbols.Contains(m.Symbol))
-                .Select(p => p.Created).Distinct()
+                .Select(p => p.CreatedUtc).Distinct()
                 .OrderBy(p => p)
                 .Select(p => p.ToString("yyyy-MM-dd"))
                 .ToList();
@@ -180,8 +180,8 @@ namespace Invest.MVC.Controllers
 
             var histories = _context.StockHistory
                                 .Where(m => symbols.Contains(m.Symbol))
-                                .Select(p => new { p.Created, p.Value, p.Name, p.Symbol })
-                                .OrderBy(p => p.Created)
+                                .Select(p => new { p.CreatedUtc, p.Value, p.Name, p.Symbol })
+                                .OrderBy(p => p.CreatedUtc)
                                 .ToList();
 
             if (histories == null || false == histories.Any())
@@ -194,13 +194,13 @@ namespace Invest.MVC.Controllers
 
             foreach (var history in histories)
             {
-                if (date == history.Created.ToString("yyyy-MM-dd"))
+                if (date == history.CreatedUtc.ToString("yyyy-MM-dd"))
                 {
                     dict[history.Symbol][index] = history.Value;
                 }
                 else
                 {
-                    date = history.Created.ToString("yyyy-MM-dd");
+                    date = history.CreatedUtc.ToString("yyyy-MM-dd");
                     index++;
 
                     foreach (var symbol in symbols)

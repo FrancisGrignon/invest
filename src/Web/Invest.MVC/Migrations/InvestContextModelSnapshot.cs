@@ -26,20 +26,60 @@ namespace Invest.MVC.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("CreatedUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Enable")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ExchangeRate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("UpdatedUtc")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("ForexId");
 
                     b.ToTable("Forexes");
+                });
+
+            modelBuilder.Entity("Invest.MVC.ForexHistory", b =>
+                {
+                    b.Property<int>("ForexHistoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ExchangeRate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ForexId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedUtc")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ForexHistoryId");
+
+                    b.HasIndex("ForexId");
+
+                    b.ToTable("ForexHistories");
                 });
 
             modelBuilder.Entity("Invest.MVC.Investment", b =>
@@ -49,8 +89,16 @@ namespace Invest.MVC.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("CreatedUtc")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("bit");
 
                     b.Property<int>("InvestorId")
                         .HasColumnType("int");
@@ -61,6 +109,9 @@ namespace Invest.MVC.Migrations
                     b.Property<int>("StockId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("UpdatedUtc")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("InvestmentId");
 
                     b.HasIndex("InvestorId");
@@ -70,6 +121,56 @@ namespace Invest.MVC.Migrations
                     b.ToTable("Investments");
                 });
 
+            modelBuilder.Entity("Invest.MVC.InvestmentHistory", b =>
+                {
+                    b.Property<int>("InvestmentHistoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ExchangeRate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InvestmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InvestorId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("StockId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("InvestmentHistoryId");
+
+                    b.HasIndex("InvestmentId");
+
+                    b.HasIndex("InvestorId");
+
+                    b.HasIndex("StockId");
+
+                    b.ToTable("InvestmentHistories");
+                });
+
             modelBuilder.Entity("Invest.MVC.Investor", b =>
                 {
                     b.Property<int>("InvestorId")
@@ -77,7 +178,7 @@ namespace Invest.MVC.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("CreatedUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -85,9 +186,15 @@ namespace Invest.MVC.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<bool>("Enable")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedUtc")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("InvestorId");
 
@@ -101,13 +208,19 @@ namespace Invest.MVC.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("CreatedUtc")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime>("UpdatedUtc")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("OperationId");
 
@@ -117,32 +230,42 @@ namespace Invest.MVC.Migrations
                         new
                         {
                             OperationId = 1,
-                            Created = new DateTime(2020, 12, 25, 22, 33, 58, 876, DateTimeKind.Utc).AddTicks(8885),
-                            Name = "Buy"
+                            CreatedUtc = new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(8817),
+                            Enable = true,
+                            Name = "Buy",
+                            UpdatedUtc = new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(8830)
                         },
                         new
                         {
                             OperationId = 5,
-                            Created = new DateTime(2020, 12, 25, 22, 33, 58, 876, DateTimeKind.Utc).AddTicks(9368),
-                            Name = "Dividend"
+                            CreatedUtc = new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9423),
+                            Enable = true,
+                            Name = "Dividend",
+                            UpdatedUtc = new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9426)
                         },
                         new
                         {
                             OperationId = 4,
-                            Created = new DateTime(2020, 12, 25, 22, 33, 58, 876, DateTimeKind.Utc).AddTicks(9371),
-                            Name = "Merge"
+                            CreatedUtc = new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9429),
+                            Enable = true,
+                            Name = "Merge",
+                            UpdatedUtc = new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9430)
                         },
                         new
                         {
                             OperationId = 2,
-                            Created = new DateTime(2020, 12, 25, 22, 33, 58, 876, DateTimeKind.Utc).AddTicks(9373),
-                            Name = "Sell"
+                            CreatedUtc = new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9432),
+                            Enable = true,
+                            Name = "Sell",
+                            UpdatedUtc = new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9434)
                         },
                         new
                         {
                             OperationId = 3,
-                            Created = new DateTime(2020, 12, 25, 22, 33, 58, 876, DateTimeKind.Utc).AddTicks(9374),
-                            Name = "Split"
+                            CreatedUtc = new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9435),
+                            Enable = true,
+                            Name = "Split",
+                            UpdatedUtc = new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9437)
                         });
                 });
 
@@ -153,13 +276,16 @@ namespace Invest.MVC.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("CreatedUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasMaxLength(3)
                         .HasColumnType("nvarchar(3)");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -170,6 +296,9 @@ namespace Invest.MVC.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime>("UpdatedUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(18,2)");
@@ -189,13 +318,16 @@ namespace Invest.MVC.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("CreatedUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasMaxLength(3)
                         .HasColumnType("nvarchar(3)");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -210,12 +342,17 @@ namespace Invest.MVC.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<DateTime>("UpdatedUtc")
+                        .HasColumnType("datetime2");
+
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("StockHistoryId");
 
                     b.HasIndex("StockId");
+
+                    b.HasIndex("Symbol");
 
                     b.ToTable("StockHistory");
                 });
@@ -230,7 +367,7 @@ namespace Invest.MVC.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("CreatedUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Currency")
@@ -241,6 +378,13 @@ namespace Invest.MVC.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ExchangeRate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("InvestorId")
                         .HasColumnType("int");
@@ -254,6 +398,9 @@ namespace Invest.MVC.Migrations
                     b.Property<int>("StockId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("UpdatedUtc")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("TransactionId");
 
                     b.HasIndex("InvestorId");
@@ -265,10 +412,21 @@ namespace Invest.MVC.Migrations
                     b.ToTable("Transactions");
                 });
 
+            modelBuilder.Entity("Invest.MVC.ForexHistory", b =>
+                {
+                    b.HasOne("Invest.MVC.Forex", "Forex")
+                        .WithMany("ForexHistories")
+                        .HasForeignKey("ForexId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Forex");
+                });
+
             modelBuilder.Entity("Invest.MVC.Investment", b =>
                 {
                     b.HasOne("Invest.MVC.Investor", "Investor")
-                        .WithMany("Stocks")
+                        .WithMany("Investments")
                         .HasForeignKey("InvestorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -284,12 +442,39 @@ namespace Invest.MVC.Migrations
                     b.Navigation("Stock");
                 });
 
+            modelBuilder.Entity("Invest.MVC.InvestmentHistory", b =>
+                {
+                    b.HasOne("Invest.MVC.Investment", "Investment")
+                        .WithMany("InvestmentHistories")
+                        .HasForeignKey("InvestmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Invest.MVC.Investor", "Investor")
+                        .WithMany()
+                        .HasForeignKey("InvestorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Invest.MVC.Stock", "Stock")
+                        .WithMany()
+                        .HasForeignKey("StockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Investment");
+
+                    b.Navigation("Investor");
+
+                    b.Navigation("Stock");
+                });
+
             modelBuilder.Entity("Invest.MVC.StockHistory", b =>
                 {
                     b.HasOne("Invest.MVC.Stock", "Stock")
                         .WithMany("StockHistories")
                         .HasForeignKey("StockId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Stock");
@@ -322,9 +507,19 @@ namespace Invest.MVC.Migrations
                     b.Navigation("Stock");
                 });
 
+            modelBuilder.Entity("Invest.MVC.Forex", b =>
+                {
+                    b.Navigation("ForexHistories");
+                });
+
+            modelBuilder.Entity("Invest.MVC.Investment", b =>
+                {
+                    b.Navigation("InvestmentHistories");
+                });
+
             modelBuilder.Entity("Invest.MVC.Investor", b =>
                 {
-                    b.Navigation("Stocks");
+                    b.Navigation("Investments");
 
                     b.Navigation("Transactions");
                 });

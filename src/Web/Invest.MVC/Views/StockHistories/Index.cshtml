@@ -28,7 +28,7 @@
                 @Html.DisplayNameFor(model => model.Currency)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Created)
+                @Html.DisplayNameFor(model => model.CreatedUtc)
             </th>
             <th></th>
         </tr>
@@ -52,7 +52,7 @@
                 @Html.DisplayFor(modelItem => item.Currency)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Created)
+                @Html.DisplayFor(modelItem => item.CreatedUtc)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.StockHistoryId">Edit</a> |

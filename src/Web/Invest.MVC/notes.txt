@@ -1,2 +1,4 @@
-﻿dotnet ef migrations add InitialCreate
+﻿docker run --name sqlserver -d -p 1433:1433 -e 'SA_PASSWORD=P@ssword66' -e 'ACCEPT_EULA=Y' -e 'MSSQL_PID=Express' mcr.microsoft.com/mssql/server:2019-latest
+
+dotnet ef migrations add InitialCreate
 dotnet ef database update

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Invest.MVC;
+using System.ComponentModel;
 
 namespace Invest.MVC
 {
@@ -14,9 +15,15 @@ namespace Invest.MVC
 
         public DbSet<Investment> Investments { get; set; }
 
+        public DbSet<InvestmentHistory> InvestmentHistories { get; set; }
+
         public DbSet<Stock> Stocks { get; set; }
 
+        public DbSet<StockHistory> StockHistories { get; set; }
+
         public DbSet<Forex> Forexes { get; set; }
+
+        public DbSet<ForexHistory> ForexHistories { get; set; }
 
         public DbSet<Operation> Operations { get; set; }
 
@@ -32,16 +39,23 @@ namespace Invest.MVC
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Stock>().HasMany(c => c.StockHistories).WithOne(c => c.Stock).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Investment>().HasMany(c => c.InvestmentHistories).WithOne(c => c.Investment).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Forex>().HasMany(c => c.ForexHistories).WithOne(c => c.Forex).OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<Stock>()
                 .HasIndex(p => new { p.Symbol })
                 .IsUnique(true);
 
+            modelBuilder.Entity<StockHistory>()
+                .HasIndex(p => new { p.Symbol });
+
             var operations = new Operation[] {
-                new Operation { OperationId = Operation.Buy, Name = "Buy", Created = DateTime.UtcNow },
-                new Operation { OperationId = Operation.Dividend, Name = "Dividend", Created = DateTime.UtcNow },
-                new Operation { OperationId = Operation.Merge, Name = "Merge", Created = DateTime.UtcNow },
-                new Operation { OperationId = Operation.Sell, Name = "Sell", Created = DateTime.UtcNow },
-                new Operation { OperationId = Operation.Split, Name = "Split", Created = DateTime.UtcNow }
+                new Operation { OperationId = Operation.Buy, Name = "Buy" },
+                new Operation { OperationId = Operation.Dividend, Name = "Dividend" },
+                new Operation { OperationId = Operation.Merge, Name = "Merge" },
+                new Operation { OperationId = Operation.Sell, Name = "Sell" },
+                new Operation { OperationId = Operation.Split, Name = "Split" }
             };
 
             modelBuilder.Entity<Operation>().HasData(operations);
@@ -54,7 +68,11 @@ namespace Invest.MVC
 
     public interface IEntity
     {
-        DateTime Created { get; set; }
+        DateTime CreatedUtc { get; set; }
+
+        DateTime UpdatedUtc { get; set; }
+
+        bool Enable { get; set; }
     }
       
     public class Investor : IEntity
@@ -70,11 +88,15 @@ namespace Invest.MVC
         [MaxLength(255)]
         public string Email { get; set; }
 
-        public DateTime Created { get; set; }
-
         public List<Transaction> Transactions { get; } = new List<Transaction>();
 
-        public List<Investment> Stocks { get; } = new List<Investment>();
+        public List<Investment> Investments { get; } = new List<Investment>();
+
+        public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
+
+        public DateTime UpdatedUtc { get; set; } = DateTime.UtcNow;
+
+        public bool Enable { get; set; }
     }
 
     public class Stock : IEntity
@@ -99,9 +121,13 @@ namespace Invest.MVC
         [MaxLength(3)]
         public string Currency { get; set; }
 
-        public DateTime Created { get; set; }
-
         public List<StockHistory> StockHistories { get; } = new List<StockHistory>();
+
+        public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
+
+        public DateTime UpdatedUtc { get; set; } = DateTime.UtcNow;
+
+        public bool Enable { get; set; } = true;
     }
 
     public class StockHistory : IEntity
@@ -130,7 +156,29 @@ namespace Invest.MVC
         [MaxLength(3)]
         public string Currency { get; set; }
 
-        public DateTime Created { get; set; }
+        public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
+
+        public DateTime UpdatedUtc { get; set; } = DateTime.UtcNow;
+
+        public bool Enable { get; set; } = true;
+
+        public static StockHistory StockFrom(Stock stock)
+        {
+            var history = new StockHistory
+            {
+                StockId = stock.StockId,
+                Stock = stock,
+                Name = stock.Name,
+                Symbol = stock.Symbol,
+                Value = stock.Value,
+                Currency = stock.Currency,
+                CreatedUtc = stock.CreatedUtc,
+                UpdatedUtc = stock.UpdatedUtc,
+                Enable = stock.Enable
+            };
+
+            return history;
+        }
     }
 
     public class Investment : IEntity
@@ -149,7 +197,75 @@ namespace Invest.MVC
         [Range(0, Int32.MaxValue)]
         public decimal Quantity { get; set; }
 
-        public DateTime Created { get; set; }
+        // CAD, USD
+        [Required]
+        [MinLength(3)]
+        [MaxLength(3)]
+        public string Currency { get; set; }
+
+        public List<InvestmentHistory> InvestmentHistories { get; } = new List<InvestmentHistory>();
+
+        public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
+
+        public DateTime UpdatedUtc { get; set; } = DateTime.UtcNow;
+
+        public bool Enable { get; set; } = true;
+    }
+
+    public class InvestmentHistory : IEntity
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int InvestmentHistoryId { get; set; }
+
+        public int InvestmentId { get; set; }
+
+        public Investment Investment { get; set; }
+
+        public int StockId { get; set; }
+
+        public Stock Stock { get; set; }
+
+        public int InvestorId { get; set; }
+
+        public Investor Investor { get; set; }
+
+        [Range(0, Int32.MaxValue)]
+        public decimal Quantity { get; set; }
+
+        [Range(0, Int32.MaxValue)]
+        public decimal Value { get; set; }
+
+        [Required]
+        public string Currency { get; set; }
+
+        [Required]
+        public string ExchangeRate { get; set; }
+
+        public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
+
+        public DateTime UpdatedUtc { get; set; } = DateTime.UtcNow;
+
+        public bool Enable { get; set; } = true;
+
+        public static InvestmentHistory CreateFrom(Investment investment)
+        {
+            var history = new InvestmentHistory
+            {
+                InvestmentId = investment.InvestmentId,
+                Investment = investment,
+                StockId = investment.StockId,
+                Stock = investment.Stock,
+                InvestorId = investment.InvestorId,
+                Investor = investment.Investor,
+                Quantity = investment.Quantity,
+                Currency = investment.Currency,
+                CreatedUtc = investment.CreatedUtc,
+                UpdatedUtc = investment.UpdatedUtc,
+                Enable = investment.Enable
+            };
+
+            return history;
+        }
     }
 
     public class Forex : IEntity
@@ -163,7 +279,51 @@ namespace Invest.MVC
         [Required]
         public string ExchangeRate { get; set; }
 
-        public DateTime Created { get; set; }
+        public List<ForexHistory> ForexHistories { get; } = new List<ForexHistory>();
+
+        public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
+
+        public DateTime UpdatedUtc { get; set; } = DateTime.UtcNow;
+
+        public bool Enable { get; set; } = true;
+    }
+
+    public class ForexHistory : IEntity
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ForexHistoryId { get; set; }
+
+        public int ForexId { get; set; }
+
+        public Forex Forex { get; set; }
+
+        [Required]
+        public string Currency { get; set; }
+
+        [Required]
+        public string ExchangeRate { get; set; }
+
+        public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
+
+        public DateTime UpdatedUtc { get; set; } = DateTime.UtcNow;
+
+        public bool Enable { get; set; } = true;
+
+        public static ForexHistory CreateFrom(Forex forex)
+        {
+            var history = new ForexHistory
+            {
+                ForexId = forex.ForexId,
+                Forex = forex,
+                Currency = forex.Currency,
+                ExchangeRate = forex.ExchangeRate,
+                CreatedUtc = forex.CreatedUtc,
+                UpdatedUtc = forex.UpdatedUtc,
+                Enable = forex.Enable
+            };
+
+            return history;
+        }
     }
 
     public class Transaction : IEntity
@@ -184,6 +344,9 @@ namespace Invest.MVC
         public Investor Investor { get; set; }
 
         [Range(0, Int32.MaxValue)]
+        public decimal Quantity { get; set; }
+
+        [Range(0, Int32.MaxValue)]
         public decimal Amount { get; set; }
 
         [Required]
@@ -191,13 +354,17 @@ namespace Invest.MVC
         [MaxLength(3)]
         public string Currency { get; set; }
 
-        [Range(0, Int32.MaxValue)]
-        public decimal Quantity { get; set; }
+        [Required]
+        public string ExchangeRate { get; set; }
 
         [MaxLength(255)]
         public string Description { get; set; }
 
-        public DateTime Created { get; set; }
+        public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
+
+        public DateTime UpdatedUtc { get; set; } = DateTime.UtcNow;
+
+        public bool Enable { get; set; } = true;
     }
 
     public class Operation : IEntity
@@ -214,7 +381,11 @@ namespace Invest.MVC
         [MaxLength(255)]
         public string Name { get; set; }
 
-        public DateTime Created { get; set; }
+        public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
+
+        public DateTime UpdatedUtc { get; set; } = DateTime.UtcNow;
+
+        public bool Enable { get; set; } = true;
     }
 
 }

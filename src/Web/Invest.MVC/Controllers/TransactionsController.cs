@@ -39,7 +39,7 @@ namespace Invest.MVC.Controllers
                 .Include(t => t.Investor)
                 .Include(t => t.Operation)
                 .Include(t => t.Stock)
-                .FirstOrDefaultAsync(m => m.TransactionId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (transaction == null)
             {
                 return NotFound();
@@ -62,7 +62,7 @@ namespace Invest.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TransactionId,StockId,OperationId,InvestorId,Amount,Currency,Quantity,Description,Created")] Transaction transaction)
+        public async Task<IActionResult> Create([Bind("TransactionId,StockId,OperationId,InvestorId,Amount,Currency,Quantity,Description,CreatedUtc")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace Invest.MVC.Controllers
                 OperationId = entity.OperationId,
                 Quantity = entity.Quantity.ToString("N3"),
                 StockId = entity.StockId,
-                TransactionId = entity.TransactionId
+                TransactionId = entity.Id
             };
 
             ViewData["InvestorId"] = new SelectList(_context.Investors, "InvestorId", "Name", entity.InvestorId);
@@ -114,7 +114,7 @@ namespace Invest.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TransactionId,StockId,OperationId,InvestorId,Amount,Currency,Quantity,Description,Created")] TransactionEditViewModel model)
+        public async Task<IActionResult> Edit(int id, [Bind("TransactionId,StockId,OperationId,InvestorId,Amount,Currency,Quantity,Description,CreatedUtc")] TransactionEditViewModel model)
         {
             if (id != model.TransactionId)
             {
@@ -145,7 +145,7 @@ namespace Invest.MVC.Controllers
                 }
 
                 entity.StockId = model.StockId;
-                entity.TransactionId = model.TransactionId;
+                entity.Id = model.TransactionId;
 
                 try
                 {
@@ -186,7 +186,7 @@ namespace Invest.MVC.Controllers
                 .Include(t => t.Investor)
                 .Include(t => t.Operation)
                 .Include(t => t.Stock)
-                .FirstOrDefaultAsync(m => m.TransactionId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (transaction == null)
             {
                 return NotFound();
@@ -208,7 +208,7 @@ namespace Invest.MVC.Controllers
 
         private bool TransactionExists(int id)
         {
-            return _context.Transactions.Any(e => e.TransactionId == id);
+            return _context.Transactions.Any(e => e.Id == id);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Invest.MVC.Controllers
             }
 
             var stock = await _context.Stocks
-                .FirstOrDefaultAsync(m => m.StockId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (stock == null)
             {
                 return NotFound();
@@ -53,7 +53,7 @@ namespace Invest.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StockId,Name,Symbol,Value,Currency,Created")] Stock stock)
+        public async Task<IActionResult> Create([Bind("StockId,Name,Symbol,Value,Currency,CreatedUtc")] Stock stock)
         {
             if (ModelState.IsValid)
             {
@@ -85,9 +85,9 @@ namespace Invest.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StockId,Name,Symbol,Value,Currency,Created")] Stock stock)
+        public async Task<IActionResult> Edit(int id, [Bind("StockId,Name,Symbol,Value,Currency,CreatedUtc")] Stock stock)
         {
-            if (id != stock.StockId)
+            if (id != stock.Id)
             {
                 return NotFound();
             }
@@ -101,7 +101,7 @@ namespace Invest.MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StockExists(stock.StockId))
+                    if (!StockExists(stock.Id))
                     {
                         return NotFound();
                     }
@@ -124,7 +124,7 @@ namespace Invest.MVC.Controllers
             }
 
             var stock = await _context.Stocks
-                .FirstOrDefaultAsync(m => m.StockId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (stock == null)
             {
                 return NotFound();
@@ -146,7 +146,7 @@ namespace Invest.MVC.Controllers
 
         private bool StockExists(int id)
         {
-            return _context.Stocks.Any(e => e.StockId == id);
+            return _context.Stocks.Any(e => e.Id == id);
         }
     }
 }

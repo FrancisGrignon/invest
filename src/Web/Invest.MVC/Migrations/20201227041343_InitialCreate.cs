@@ -11,41 +11,41 @@ namespace Invest.MVC.Migrations
                 name: "Forexes",
                 columns: table => new
                 {
-                    ForexId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExchangeRate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    ExchangeRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Enable = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Forexes", x => x.ForexId);
+                    table.PrimaryKey("PK_Forexes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Investors",
                 columns: table => new
                 {
-                    InvestorId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Enable = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Investors", x => x.InvestorId);
+                    table.PrimaryKey("PK_Investors", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Operations",
                 columns: table => new
                 {
-                    OperationId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -54,14 +54,14 @@ namespace Invest.MVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Operations", x => x.OperationId);
+                    table.PrimaryKey("PK_Operations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Stocks",
                 columns: table => new
                 {
-                    StockId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Symbol = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
@@ -73,37 +73,37 @@ namespace Invest.MVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Stocks", x => x.StockId);
+                    table.PrimaryKey("PK_Stocks", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ForexHistories",
                 columns: table => new
                 {
-                    ForexHistoryId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ForexId = table.Column<int>(type: "int", nullable: false),
-                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExchangeRate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    ExchangeRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Enable = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ForexHistories", x => x.ForexHistoryId);
+                    table.PrimaryKey("PK_ForexHistories", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ForexHistories_Forexes_ForexId",
                         column: x => x.ForexId,
                         principalTable: "Forexes",
-                        principalColumn: "ForexId");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Investments",
                 columns: table => new
                 {
-                    InvestmentId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StockId = table.Column<int>(type: "int", nullable: false),
                     InvestorId = table.Column<int>(type: "int", nullable: false),
@@ -115,26 +115,26 @@ namespace Invest.MVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Investments", x => x.InvestmentId);
+                    table.PrimaryKey("PK_Investments", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Investments_Investors_InvestorId",
                         column: x => x.InvestorId,
                         principalTable: "Investors",
-                        principalColumn: "InvestorId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Investments_Stocks_StockId",
                         column: x => x.StockId,
                         principalTable: "Stocks",
-                        principalColumn: "StockId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "StockHistory",
+                name: "StockHistories",
                 columns: table => new
                 {
-                    StockHistoryId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StockId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
@@ -147,19 +147,19 @@ namespace Invest.MVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StockHistory", x => x.StockHistoryId);
+                    table.PrimaryKey("PK_StockHistories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StockHistory_Stocks_StockId",
+                        name: "FK_StockHistories_Stocks_StockId",
                         column: x => x.StockId,
                         principalTable: "Stocks",
-                        principalColumn: "StockId");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Transactions",
                 columns: table => new
                 {
-                    TransactionId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StockId = table.Column<int>(type: "int", nullable: false),
                     OperationId = table.Column<int>(type: "int", nullable: false),
@@ -167,7 +167,7 @@ namespace Invest.MVC.Migrations
                     Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
-                    ExchangeRate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExchangeRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -175,24 +175,24 @@ namespace Invest.MVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Transactions", x => x.TransactionId);
+                    table.PrimaryKey("PK_Transactions", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Transactions_Investors_InvestorId",
                         column: x => x.InvestorId,
                         principalTable: "Investors",
-                        principalColumn: "InvestorId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Transactions_Operations_OperationId",
                         column: x => x.OperationId,
                         principalTable: "Operations",
-                        principalColumn: "OperationId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Transactions_Stocks_StockId",
                         column: x => x.StockId,
                         principalTable: "Stocks",
-                        principalColumn: "StockId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -200,51 +200,51 @@ namespace Invest.MVC.Migrations
                 name: "InvestmentHistories",
                 columns: table => new
                 {
-                    InvestmentHistoryId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     InvestmentId = table.Column<int>(type: "int", nullable: false),
                     StockId = table.Column<int>(type: "int", nullable: false),
                     InvestorId = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExchangeRate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    ExchangeRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Enable = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InvestmentHistories", x => x.InvestmentHistoryId);
+                    table.PrimaryKey("PK_InvestmentHistories", x => x.Id);
                     table.ForeignKey(
                         name: "FK_InvestmentHistories_Investments_InvestmentId",
                         column: x => x.InvestmentId,
                         principalTable: "Investments",
-                        principalColumn: "InvestmentId");
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_InvestmentHistories_Investors_InvestorId",
                         column: x => x.InvestorId,
                         principalTable: "Investors",
-                        principalColumn: "InvestorId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_InvestmentHistories_Stocks_StockId",
                         column: x => x.StockId,
                         principalTable: "Stocks",
-                        principalColumn: "StockId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Operations",
-                columns: new[] { "OperationId", "CreatedUtc", "Enable", "Name", "UpdatedUtc" },
+                columns: new[] { "Id", "CreatedUtc", "Enable", "Name", "UpdatedUtc" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(8817), true, "Buy", new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(8830) },
-                    { 5, new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9423), true, "Dividend", new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9426) },
-                    { 4, new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9429), true, "Merge", new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9430) },
-                    { 2, new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9432), true, "Sell", new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9434) },
-                    { 3, new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9435), true, "Split", new DateTime(2020, 12, 27, 2, 22, 46, 342, DateTimeKind.Utc).AddTicks(9437) }
+                    { 1, new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7245), true, "Buy", new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7258) },
+                    { 5, new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7715), true, "Dividend", new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7717) },
+                    { 4, new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7719), true, "Merge", new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7720) },
+                    { 2, new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7721), true, "Sell", new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7723) },
+                    { 3, new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7724), true, "Split", new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7725) }
                 });
 
             migrationBuilder.CreateIndex(
@@ -278,13 +278,13 @@ namespace Invest.MVC.Migrations
                 column: "StockId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StockHistory_StockId",
-                table: "StockHistory",
+                name: "IX_StockHistories_StockId",
+                table: "StockHistories",
                 column: "StockId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StockHistory_Symbol",
-                table: "StockHistory",
+                name: "IX_StockHistories_Symbol",
+                table: "StockHistories",
                 column: "Symbol");
 
             migrationBuilder.CreateIndex(
@@ -318,7 +318,7 @@ namespace Invest.MVC.Migrations
                 name: "InvestmentHistories");
 
             migrationBuilder.DropTable(
-                name: "StockHistory");
+                name: "StockHistories");
 
             migrationBuilder.DropTable(
                 name: "Transactions");

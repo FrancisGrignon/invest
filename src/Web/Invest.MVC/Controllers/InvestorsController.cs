@@ -33,7 +33,7 @@ namespace Invest.MVC.Controllers
             }
 
             var investor = await _context.Investors
-                .FirstOrDefaultAsync(m => m.InvestorId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (investor == null)
             {
                 return NotFound();
@@ -53,7 +53,7 @@ namespace Invest.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("InvestorId,Name,Email,Created")] Investor investor)
+        public async Task<IActionResult> Create([Bind("InvestorId,Name,Email,CreatedUtc")] Investor investor)
         {
             if (ModelState.IsValid)
             {
@@ -85,9 +85,9 @@ namespace Invest.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("InvestorId,Name,Email,Created")] Investor investor)
+        public async Task<IActionResult> Edit(int id, [Bind("InvestorId,Name,Email,CreatedUtc")] Investor investor)
         {
-            if (id != investor.InvestorId)
+            if (id != investor.Id)
             {
                 return NotFound();
             }
@@ -101,7 +101,7 @@ namespace Invest.MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!InvestorExists(investor.InvestorId))
+                    if (!InvestorExists(investor.Id))
                     {
                         return NotFound();
                     }
@@ -124,7 +124,7 @@ namespace Invest.MVC.Controllers
             }
 
             var investor = await _context.Investors
-                .FirstOrDefaultAsync(m => m.InvestorId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (investor == null)
             {
                 return NotFound();
@@ -146,7 +146,7 @@ namespace Invest.MVC.Controllers
 
         private bool InvestorExists(int id)
         {
-            return _context.Investors.Any(e => e.InvestorId == id);
+            return _context.Investors.Any(e => e.Id == id);
         }
     }
 }

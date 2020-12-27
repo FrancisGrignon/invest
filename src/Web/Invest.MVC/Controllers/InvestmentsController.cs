@@ -36,7 +36,7 @@ namespace Invest.MVC.Controllers
             var investment = await _context.Investments
                 .Include(i => i.Investor)
                 .Include(i => i.Stock)
-                .FirstOrDefaultAsync(m => m.InvestmentId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (investment == null)
             {
                 return NotFound();
@@ -58,7 +58,7 @@ namespace Invest.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("InvestmentId,StockId,InvestorId,Quantity,Created")] Investment investment)
+        public async Task<IActionResult> Create([Bind("InvestmentId,StockId,InvestorId,Quantity,CreatedUtc")] Investment investment)
         {
             if (ModelState.IsValid)
             {
@@ -94,9 +94,9 @@ namespace Invest.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("InvestmentId,StockId,InvestorId,Quantity,Created")] Investment investment)
+        public async Task<IActionResult> Edit(int id, [Bind("InvestmentId,StockId,InvestorId,Quantity,CreatedUtc")] Investment investment)
         {
-            if (id != investment.InvestmentId)
+            if (id != investment.Id)
             {
                 return NotFound();
             }
@@ -110,7 +110,7 @@ namespace Invest.MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!InvestmentExists(investment.InvestmentId))
+                    if (!InvestmentExists(investment.Id))
                     {
                         return NotFound();
                     }
@@ -137,7 +137,7 @@ namespace Invest.MVC.Controllers
             var investment = await _context.Investments
                 .Include(i => i.Investor)
                 .Include(i => i.Stock)
-                .FirstOrDefaultAsync(m => m.InvestmentId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (investment == null)
             {
                 return NotFound();
@@ -159,7 +159,7 @@ namespace Invest.MVC.Controllers
 
         private bool InvestmentExists(int id)
         {
-            return _context.Investments.Any(e => e.InvestmentId == id);
+            return _context.Investments.Any(e => e.Id == id);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Invest.MVC.Controllers
         // GET: StockHistories
         public async Task<IActionResult> Index()
         {
-            var investContext = _context.StockHistory.Include(s => s.Stock);
+            var investContext = _context.StockHistories.Include(s => s.Stock);
             return View(await investContext.ToListAsync());
         }
 
@@ -33,9 +33,9 @@ namespace Invest.MVC.Controllers
                 return NotFound();
             }
 
-            var stockHistory = await _context.StockHistory
+            var stockHistory = await _context.StockHistories
                 .Include(s => s.Stock)
-                .FirstOrDefaultAsync(m => m.StockHistoryId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (stockHistory == null)
             {
                 return NotFound();
@@ -56,7 +56,7 @@ namespace Invest.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StockHistoryId,StockId,Name,Symbol,Value,Currency,Created")] StockHistory stockHistory)
+        public async Task<IActionResult> Create([Bind("StockHistoryId,StockId,Name,Symbol,Value,Currency,CreatedUtc")] StockHistory stockHistory)
         {
             if (ModelState.IsValid)
             {
@@ -76,7 +76,7 @@ namespace Invest.MVC.Controllers
                 return NotFound();
             }
 
-            var stockHistory = await _context.StockHistory.FindAsync(id);
+            var stockHistory = await _context.StockHistories.FindAsync(id);
             if (stockHistory == null)
             {
                 return NotFound();
@@ -90,9 +90,9 @@ namespace Invest.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StockHistoryId,StockId,Name,Symbol,Value,Currency,Created")] StockHistory stockHistory)
+        public async Task<IActionResult> Edit(int id, [Bind("StockHistoryId,StockId,Name,Symbol,Value,Currency,CreatedUtc")] StockHistory stockHistory)
         {
-            if (id != stockHistory.StockHistoryId)
+            if (id != stockHistory.Id)
             {
                 return NotFound();
             }
@@ -106,7 +106,7 @@ namespace Invest.MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StockHistoryExists(stockHistory.StockHistoryId))
+                    if (!StockHistoryExists(stockHistory.Id))
                     {
                         return NotFound();
                     }
@@ -129,9 +129,9 @@ namespace Invest.MVC.Controllers
                 return NotFound();
             }
 
-            var stockHistory = await _context.StockHistory
+            var stockHistory = await _context.StockHistories
                 .Include(s => s.Stock)
-                .FirstOrDefaultAsync(m => m.StockHistoryId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (stockHistory == null)
             {
                 return NotFound();
@@ -145,15 +145,15 @@ namespace Invest.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var stockHistory = await _context.StockHistory.FindAsync(id);
-            _context.StockHistory.Remove(stockHistory);
+            var stockHistory = await _context.StockHistories.FindAsync(id);
+            _context.StockHistories.Remove(stockHistory);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool StockHistoryExists(int id)
         {
-            return _context.StockHistory.Any(e => e.StockHistoryId == id);
+            return _context.StockHistories.Any(e => e.Id == id);
         }
     }
 }

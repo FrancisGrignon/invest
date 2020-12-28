@@ -4,14 +4,16 @@ using Invest.MVC;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Invest.MVC.Migrations
 {
     [DbContext(typeof(InvestContext))]
-    partial class InvestContextModelSnapshot : ModelSnapshot
+    [Migration("20201228235257_PrecisionOfFive")]
+    partial class PrecisionOfFive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

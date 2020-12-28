@@ -61,6 +61,10 @@ namespace Invest.MVC
             modelBuilder.Entity<Forex>()
                 .HasIndex(p => new { p.Currency });
 
+            modelBuilder.Entity<Investment>().Property(m => m.Quantity).HasPrecision(18, 5);
+            modelBuilder.Entity<InvestmentHistory>().Property(m => m.Quantity).HasPrecision(18, 5);
+            modelBuilder.Entity<InvestmentHistory>().Property(m => m.ExchangeRate).HasPrecision(18, 5);
+
             var operations = new Operation[] {
                 new Operation { Id = Operation.Buy, Name = "Buy" },
                 new Operation { Id = Operation.Dividend, Name = "Dividend" },

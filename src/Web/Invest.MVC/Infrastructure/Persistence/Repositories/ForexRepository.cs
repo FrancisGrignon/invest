@@ -23,9 +23,9 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
             return Context.Set<Forex>().Where(p => p.Enable && currency == p.Currency).SingleOrDefaultAsync();
         }
 
-        public void TakeSnapshot(Forex forex, DateTime dateUtc)
+        public void TakeSnapshot(Forex forex, DateTime date)
         {
-            dateUtc = dateUtc.Date;
+            var dateUtc = date.ToUniversalTime().Date;
 
             var history = this.Context
                 .ForexHistories

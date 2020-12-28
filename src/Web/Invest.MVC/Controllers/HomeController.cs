@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Invest.MVC.Models;
 using Highsoft.Web.Mvc.Charts;
+using Invest.MVC.Infrastructure.Services;
+using Invest.MVC.Infrastructure;
 
 namespace Invest.MVC.Controllers
 {

@@ -85,6 +85,7 @@ namespace Invest.MVC.Migrations
                     ForexId = table.Column<int>(type: "int", nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     ExchangeRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DateUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Enable = table.Column<bool>(type: "bit", nullable: false)
@@ -141,6 +142,7 @@ namespace Invest.MVC.Migrations
                     Symbol = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    DateUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Enable = table.Column<bool>(type: "bit", nullable: false)
@@ -209,6 +211,7 @@ namespace Invest.MVC.Migrations
                     Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     ExchangeRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DateUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Enable = table.Column<bool>(type: "bit", nullable: false)
@@ -240,12 +243,20 @@ namespace Invest.MVC.Migrations
                 columns: new[] { "Id", "CreatedUtc", "Enable", "Name", "UpdatedUtc" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7245), true, "Buy", new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7258) },
-                    { 5, new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7715), true, "Dividend", new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7717) },
-                    { 4, new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7719), true, "Merge", new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7720) },
-                    { 2, new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7721), true, "Sell", new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7723) },
-                    { 3, new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7724), true, "Split", new DateTime(2020, 12, 27, 4, 13, 43, 618, DateTimeKind.Utc).AddTicks(7725) }
+                    { 1, new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(1548), true, "Buy", new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(1565) },
+                    { 5, new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(2271), true, "Dividend", new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(2276) },
+                    { 4, new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(2279), true, "Merge", new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(2280) },
+                    { 2, new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(2282), true, "Sell", new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(2283) },
+                    { 3, new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(2285), true, "Split", new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(2286) },
+                    { 6, new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(2288), true, "Deposit", new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(2289) },
+                    { 7, new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(2291), true, "Withdraw", new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(2292) },
+                    { 8, new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(2294), true, "Transfer", new DateTime(2020, 12, 28, 16, 39, 44, 283, DateTimeKind.Utc).AddTicks(2296) }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Forexes_Currency",
+                table: "Forexes",
+                column: "Currency");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ForexHistories_ForexId",

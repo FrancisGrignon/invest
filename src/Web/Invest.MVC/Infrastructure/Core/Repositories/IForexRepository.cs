@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Invest.MVC.Infrastructure.Core.Repositories
 {
@@ -7,5 +8,7 @@ namespace Invest.MVC.Infrastructure.Core.Repositories
         Forex GetByCurrency(string currency);
 
         Task<Forex> GetByCurrencyAsync(string currency);
+
+        void TakeSnapshot(Forex forex, DateTime date);
     }
 }

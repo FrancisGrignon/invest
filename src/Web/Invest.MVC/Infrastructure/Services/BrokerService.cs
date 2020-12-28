@@ -11,11 +11,19 @@ namespace Invest.MVC.Infrastructure.Services
             _unitOfWork = new UnitOfWork(context);
         }
 
-        public void Buy(Investor investor, Stock stock, decimal quantity)
+        public BrokerService(UnitOfWork unitOfWork)
         {
-            // Check if enough money!
+            _unitOfWork = unitOfWork;
+        }
 
-            var amount = quantity * stock.Value;
+        public Investment Buy(Investor investor, Stock stock, decimal quantity, DateTime? date = null)
+        {
+            var dateUtc = ConvertDateToUtc(date);
+
+            // Check if enough money!
+            var value = _unitOfWork.StockRepository.GetValue(stock, dateUtc);
+
+            var amount = quantity * value;
 
             var transaction = new Transaction
             {
@@ -24,7 +32,8 @@ namespace Invest.MVC.Infrastructure.Services
                 Stock = stock,
                 Quantity = quantity,
                 Amount = amount,
-                Currency = stock.Currency
+                Currency = stock.Currency,
+                DateUtc = dateUtc
             };
 
             _unitOfWork.TransactionRepository.Add(transaction);
@@ -43,15 +52,23 @@ namespace Invest.MVC.Infrastructure.Services
                     Quantity = quantity,
                     Stock = stock
                 };
+
+                _unitOfWork.InvestmentRepository.Add(investment);
+            }
+            else
+            {
+                investment.Quantity = investment.Quantity + quantity;
+
+                _unitOfWork.InvestmentRepository.Update(investment);
             }
 
-            investment.Quantity = investment.Quantity + quantity;
-
-            _unitOfWork.InvestmentRepository.Update(investment);            
+            return investment;
         }
 
-        public void Sell(Investor investor, Stock stock, decimal quantity)
+        public void Sell(Investor investor, Stock stock, decimal quantity, DateTime? date = null)
         {
+            var dateUtc = ConvertDateToUtc(date);
+
             var investment = _unitOfWork.InvestmentRepository.GetByStock(stock);
 
             if (null == investment)
@@ -75,7 +92,8 @@ namespace Invest.MVC.Infrastructure.Services
                 Stock = stock,
                 Quantity = quantity,
                 Amount = amount,
-                Currency = stock.Currency
+                Currency = stock.Currency,
+                DateUtc = dateUtc
             };            
 
             _unitOfWork.TransactionRepository.Add(transaction);
@@ -86,21 +104,26 @@ namespace Invest.MVC.Infrastructure.Services
             _unitOfWork.InvestmentRepository.Update(investment);
         }
 
-        public void Deposit(Investor investor, decimal amount, string currency)
+        public void Deposit(Investor investor, decimal amount, string currency, DateTime? date = null)
         {
+            var dateUtc = ConvertDateToUtc(date);
+
             var transaction = new Transaction
             {
                 Investor = investor,
                 OperationId = Operation.Deposit,
                 Amount = amount,
-                Currency = currency
+                Currency = currency,
+                DateUtc = dateUtc
             };
 
             _unitOfWork.TransactionRepository.Add(transaction);
         }
 
-        public void Withdraw(Investor investor, decimal amount, string currency)
+        public void Withdraw(Investor investor, decimal amount, string currency, DateTime? date = null)
         {
+            var dateUtc = ConvertDateToUtc(date);
+
             // Check if enough money
 
             var transaction = new Transaction
@@ -108,45 +131,69 @@ namespace Invest.MVC.Infrastructure.Services
                 Investor = investor,
                 OperationId = Operation.Withdraw,
                 Amount = amount,
-                Currency = currency
+                Currency = currency,
+                DateUtc = dateUtc
             };
 
             _unitOfWork.TransactionRepository.Add(transaction);
         }
 
-        public void Dividend(Investor investor, Stock stock, decimal amount)
+        public void Dividend(Investor investor, Stock stock, decimal amount, DateTime? date = null)
         {
+            var dateUtc = ConvertDateToUtc(date);
+
             var transaction = new Transaction
             {
                 Investor = investor,
                 OperationId = Operation.Dividend,
                 Stock = stock,
                 Amount = amount,
-                Currency = stock.Currency
+                Currency = stock.Currency,
+                DateUtc = dateUtc
             };
 
             _unitOfWork.TransactionRepository.Add(transaction);
         }
 
-        public void Split(Investor investor, Stock stock, int ratio)
+        public void Split(Investor investor, Stock stock, int ratio, DateTime? date = null)
         {
 
         }
 
-        public void Merge(Investor investor, Stock stock, int ratio)
+        public void Merge(Investor investor, Stock stock, int ratio, DateTime? date = null)
         {
 
         }
 
-        public void Transfer(Investor investor, decimal amount, string fromCurrency, string toDestination)
+        public decimal Transfer(Investor investor, decimal amount, string fromCurrency, string toDestination, DateTime? date = null)
         {
-            Withdraw(investor, amount, fromCurrency);
+            var dateUtc = ConvertDateToUtc(date);
 
-            var forex = _unitOfWork.ForexRepository.GetByCurrency(fromCurrency);
+            Withdraw(investor, amount, fromCurrency, date);
 
-            amount = amount * forex.ExchangeRate;
+            var exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(fromCurrency, toDestination, dateUtc);
 
-            Deposit(investor, amount, toDestination);
+            amount = amount * exchangeRate;
+
+            Deposit(investor, amount, toDestination, date);
+
+            return amount;
+        }
+
+        private DateTime ConvertDateToUtc(DateTime? date)
+        {
+            DateTime dateUtc;
+
+            if (null == date || DateTime.MinValue == date.Value)
+            {
+                dateUtc = DateTime.Now;
+            }
+            else
+            {
+                dateUtc = date.Value;
+            }
+
+            return dateUtc.ToUniversalTime();
         }
     }
 }

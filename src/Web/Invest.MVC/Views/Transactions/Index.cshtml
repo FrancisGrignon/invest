@@ -34,7 +34,7 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedUtc)
+                @Html.DisplayNameFor(model => model.DateUtc)
             </th>
             <th></th>
         </tr>
@@ -43,13 +43,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Stock.Currency)
+                @Html.DisplayFor(modelItem => item.Stock.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Operation.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Investor.Email)
+                @Html.DisplayFor(modelItem => item.Investor.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Amount)
@@ -64,7 +64,7 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CreatedUtc)
+                @Html.DisplayFor(modelItem => item.DateUtc)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

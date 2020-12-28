@@ -53,5 +53,12 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
             history.UpdatedUtc = DateTime.UtcNow;
             history.Enable = stock.Enable;
         }
+
+        public decimal GetValue(Stock stock, DateTime date)
+        {
+            var dateUtc = date.ToUniversalTime().Date;
+
+            return Context.Set<StockHistory>().Where(p => p.Enable && stock.Id == p.StockId && dateUtc == p.DateUtc).Select(p => p.Value).SingleOrDefault();
+        }
     }
 }

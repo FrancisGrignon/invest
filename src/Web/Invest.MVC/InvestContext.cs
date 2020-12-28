@@ -334,7 +334,7 @@ namespace Invest.MVC
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public int StockId { get; set; }
+        public int? StockId { get; set; }
 
         public Stock Stock { get; set; }
 
@@ -361,6 +361,8 @@ namespace Invest.MVC
 
         [StringLength(255)]
         public string Description { get; set; }
+
+        public DateTime DateUtc { get; set; } = DateTime.UtcNow.Date;
 
         public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
 

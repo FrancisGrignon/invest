@@ -10,5 +10,7 @@ namespace Invest.MVC.Infrastructure.Core.Repositories
         Task<Forex> GetByCurrencyAsync(string currency);
 
         void TakeSnapshot(Forex forex, DateTime date);
+
+        decimal GetExchangeRate(string fromCurrency, string toCurrency, DateTime date);
     }
 }

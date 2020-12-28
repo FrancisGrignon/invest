@@ -23,9 +23,9 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
             return Context.Set<Investment>().Where(p => p.Enable && p.StockId == stock.Id).SingleOrDefaultAsync();
         }
 
-        public void TakeSnapshot(Investment entity, DateTime dateUtc, decimal stockValue, decimal exchangeRate)
+        public void TakeSnapshot(Investment entity, DateTime date, decimal stockValue, decimal exchangeRate)
         {
-            dateUtc = dateUtc.Date;
+            var dateUtc = date.ToUniversalTime().Date;
 
             var history = this.Context
                 .InvestmentHistories

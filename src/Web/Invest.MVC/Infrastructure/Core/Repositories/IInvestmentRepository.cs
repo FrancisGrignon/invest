@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Invest.MVC.Infrastructure.Core.Repositories
 {
@@ -7,5 +8,7 @@ namespace Invest.MVC.Infrastructure.Core.Repositories
         Investment GetByStock(Stock stock);
 
         Task<Investment> GetByStockAsync(Stock stock);
+
+        void TakeSnapshot(Investment entity, DateTime date, decimal stockValue, decimal exchangeRate);
     }
 }

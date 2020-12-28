@@ -10,5 +10,7 @@ namespace Invest.MVC.Infrastructure.Core.Repositories
         public Task<Stock> GetBySymbolAsync(string symbol);
 
         public void TakeSnapshot(Stock stock, DateTime date);
+
+        public decimal GetValue(Stock stock, DateTime date);
     }
 }

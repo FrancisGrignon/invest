@@ -4,14 +4,16 @@ using Invest.MVC;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Invest.MVC.Migrations
 {
     [DbContext(typeof(InvestContext))]
-    partial class InvestContextModelSnapshot : ModelSnapshot
+    [Migration("20201228175340_TransationDate")]
+    partial class TransationDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,66 +240,66 @@ namespace Invest.MVC.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(2834),
+                            CreatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1282),
                             Enable = true,
                             Name = "Buy",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(2850)
+                            UpdatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1297)
                         },
                         new
                         {
                             Id = 5,
-                            CreatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(3419),
+                            CreatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1748),
                             Enable = true,
                             Name = "Dividend",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(3422)
+                            UpdatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1750)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(3424),
+                            CreatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1752),
                             Enable = true,
                             Name = "Merge",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(3425)
+                            UpdatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1753)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(3427),
+                            CreatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1755),
                             Enable = true,
                             Name = "Sell",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(3429)
+                            UpdatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1756)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(3431),
+                            CreatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1758),
                             Enable = true,
                             Name = "Split",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(3432)
+                            UpdatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1759)
                         },
                         new
                         {
                             Id = 6,
-                            CreatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(3434),
+                            CreatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1760),
                             Enable = true,
                             Name = "Deposit",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(3436)
+                            UpdatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1761)
                         },
                         new
                         {
                             Id = 7,
-                            CreatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(3437),
+                            CreatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1763),
                             Enable = true,
                             Name = "Withdraw",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(3439)
+                            UpdatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1764)
                         },
                         new
                         {
                             Id = 8,
-                            CreatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(3441),
+                            CreatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1766),
                             Enable = true,
                             Name = "Transfer",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 18, 38, 7, 456, DateTimeKind.Utc).AddTicks(3442)
+                            UpdatedUtc = new DateTime(2020, 12, 28, 17, 53, 40, 260, DateTimeKind.Utc).AddTicks(1767)
                         });
                 });
 
@@ -432,7 +434,7 @@ namespace Invest.MVC.Migrations
                     b.Property<decimal>("Quantity")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("StockId")
+                    b.Property<int>("StockId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedUtc")
@@ -533,7 +535,9 @@ namespace Invest.MVC.Migrations
 
                     b.HasOne("Invest.MVC.Stock", "Stock")
                         .WithMany()
-                        .HasForeignKey("StockId");
+                        .HasForeignKey("StockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Investor");
 

@@ -51,5 +51,35 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
             history.UpdatedUtc = DateTime.UtcNow;
             history.Enable = forex.Enable;
         }
+
+
+        public decimal GetExchangeRate(string fromCurrency, string toCurrency, DateTime date)
+        {
+            var dateUtc = date.ToUniversalTime().Date;
+
+            decimal exchangeRate = Context.Set<ForexHistory>()
+                .Where(p => p.Enable && toCurrency == p.Currency && p.DateUtc == dateUtc)
+                .Select(p => p.ExchangeRate)
+                .SingleOrDefault();
+
+            if (fromCurrency == toCurrency)
+            {
+                exchangeRate = 1M;
+            }
+            else if (Forex.CAD == fromCurrency)
+            {
+                exchangeRate = 1 / exchangeRate;
+            }
+            else if (Forex.USD == fromCurrency)
+            {
+                // No chang required
+            }
+            else
+            {
+                throw new Exception($"Can't found exchange rate from {fromCurrency} to {toCurrency}");
+            }
+
+            return exchangeRate;
+        }
     }
 }

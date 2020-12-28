@@ -1,4 +1,5 @@
 ﻿using Invest.MVC.Infrastructure;
+using Invest.MVC.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,69 @@ namespace Invest.MVC.Controllers
             _unitOfWork = new UnitOfWork(_context);
         }
 
-        public IActionResult Stock(string id)
+        public IActionResult Investors()
+        {
+            var names = new string[] { "Aglaé", "Pénélope", "Étienne", "Cédric", "Anabelle", "Aaricia", "Marco", "Geneviève" };
+
+            foreach (var name in names)
+            {
+                var investor = _unitOfWork.InvestorRepository.GetByName(name);
+
+                if (null == investor)
+                {
+                    investor = new Investor
+                    {
+                        Name = name
+                    };
+
+                    _unitOfWork.InvestorRepository.Add(investor);
+                }
+            }
+
+            _unitOfWork.SaveChanges();
+
+            return View("Index");
+        }
+
+        public IActionResult Transactions()
+        {
+            var broker = new BrokerService(_unitOfWork);
+            var investor = _unitOfWork.InvestorRepository.GetByName("Pénélope");
+
+            var date = new DateTime(2019, 06, 07);
+
+            broker.Deposit(investor, 100, Forex.CAD, date);
+
+            var amount = broker.Transfer(investor, 100, Forex.CAD, Forex.USD, date);
+
+            var stock = _unitOfWork.StockRepository.GetBySymbol("COST");
+            var value = _unitOfWork.StockRepository.GetValue(stock, date);
+            var quantity = amount / value;
+
+            var investment = broker.Buy(investor, stock, quantity, date);
+
+            _unitOfWork.SaveChanges();
+
+            // Snapshot
+            decimal exchangeRate;
+            DateTime max = new DateTime(2020, 12, 25);
+
+            while (date <= max)
+            {
+                value = _unitOfWork.StockRepository.GetValue(stock, date);
+                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(Forex.CAD, Forex.USD, date);
+
+                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
+
+                date = date.AddDays(7);
+            }
+
+            _unitOfWork.SaveChanges();
+
+            return View("Index");
+        }
+
+        public IActionResult Stocks(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -42,39 +105,39 @@ namespace Invest.MVC.Controllers
                 {
                     case "ABNB":
                         stock.Name = "Airbnb";
-                        stock.Currency = Invest.MVC.Forex.USD;
+                        stock.Currency = Forex.USD;
                         break;
                     case "COST":
                         stock.Name = "Costco";
-                        stock.Currency = Invest.MVC.Forex.USD;
+                        stock.Currency = Forex.USD;
                         break;
                     case "EMP.A":
                         stock.Name = "Empire";
-                        stock.Currency = Invest.MVC.Forex.CAD;
+                        stock.Currency = Forex.CAD;
                         break;
                     case "GOOGL":
                         stock.Name = "Alphabet";
-                        stock.Currency = Invest.MVC.Forex.USD;
+                        stock.Currency = Forex.USD;
                         break;
                     case "L":
                         stock.Name = "Loblaw";
-                        stock.Currency = Invest.MVC.Forex.CAD;
+                        stock.Currency = Forex.CAD;
                         break;
                     case "MSFT":
                         stock.Name = "Microsoft";
-                        stock.Currency = Invest.MVC.Forex.USD;
+                        stock.Currency = Forex.USD;
                         break;
                     case "NSDOY":
                         stock.Name = "Nintendo";
-                        stock.Currency = Invest.MVC.Forex.USD;
+                        stock.Currency = Forex.USD;
                         break;
                     case "SHOP":
                         stock.Name = "Shopify";
-                        stock.Currency = Invest.MVC.Forex.CAD;
+                        stock.Currency = Forex.CAD;
                         break;
                     case "TSLA":
                         stock.Name = "Tesla";
-                        stock.Currency = Invest.MVC.Forex.USD;
+                        stock.Currency = Forex.USD;
                         break;
                     default:
                         return NotFound();
@@ -126,8 +189,7 @@ namespace Invest.MVC.Controllers
             return View("Index");
         }
 
-
-        public IActionResult Forex(string id)
+        public IActionResult Forexes(string id)
         {
             if (string.IsNullOrEmpty(id))
             {

@@ -7,7 +7,7 @@ namespace Invest.MVC.ViewModels
     {
         public int TransactionId { get; set; }
 
-        public int StockId { get; set; }
+        public int? StockId { get; set; }
 
         public int OperationId { get; set; }
 

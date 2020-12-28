@@ -65,7 +65,7 @@ namespace Invest.MVC.Infrastructure.Services
             return investment;
         }
 
-        public void Sell(Investor investor, Stock stock, decimal quantity, DateTime? date = null)
+        public decimal Sell(Investor investor, Stock stock, decimal quantity, DateTime? date = null)
         {
             var dateUtc = ConvertDateToUtc(date);
 
@@ -102,6 +102,8 @@ namespace Invest.MVC.Infrastructure.Services
             investment.Quantity = investment.Quantity - quantity;
 
             _unitOfWork.InvestmentRepository.Update(investment);
+
+            return amount;
         }
 
         public void Deposit(Investor investor, decimal amount, string currency, DateTime? date = null)

@@ -57,20 +57,20 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
         {
             var dateUtc = date.ToUniversalTime().Date;
 
-            decimal exchangeRate = Context.Set<ForexHistory>()
-                .Where(p => p.Enable && toCurrency == p.Currency && p.DateUtc == dateUtc)
+            var exchangeRate = Context.Set<ForexHistory>()
+                .Where(p => p.Enable && p.Currency == Forex.USD && p.DateUtc == dateUtc)
                 .Select(p => p.ExchangeRate)
-                .SingleOrDefault();
+                .FirstOrDefault();
 
             if (fromCurrency == toCurrency)
             {
                 exchangeRate = 1M;
             }
-            else if (Forex.CAD == fromCurrency)
+            else if (Forex.CAD == fromCurrency && Forex.USD == toCurrency)
             {
                 exchangeRate = 1 / exchangeRate;
             }
-            else if (Forex.USD == fromCurrency)
+            else if (Forex.USD == fromCurrency && Forex.CAD == toCurrency)
             {
                 // No chang required
             }

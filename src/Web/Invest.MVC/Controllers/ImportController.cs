@@ -47,8 +47,163 @@ namespace Invest.MVC.Controllers
 
         public IActionResult Transactions()
         {
+            ImportOlderTransactions("Aglaé", "GOOGL");
+            ImportOlderTransactions("Pénélope", "COST");
+            ImportOlderTransactions("Geneviève", "SHOP");
+
+            //ImportPenelopeTransactions();
+            //ImportAglaeTransactions();
+            //ImportGenevieveTransactions();s
+            ImportEtienneTransactions();
+            
+            ImportOtherTransactions("Aaricia", "ABNB");
+            ImportOtherTransactions("Anabelle", "L");
+            ImportOtherTransactions("Cédric", "TSLA");
+            ImportOtherTransactions("Marco", "NTDOY");
+
+            return View("Index");
+        }
+
+        public void ImportOlderTransactions(string investorName, string stockName)
+        {
+            var broker = new BrokerService(_unitOfWork);
+            var investor = _unitOfWork.InvestorRepository.GetByName(investorName);
+            var stock = _unitOfWork.StockRepository.GetBySymbol(stockName);
+            decimal amount = 100M;
+
+            var date = new DateTime(2019, 06, 07);
+
+            // 100 Deposit
+            broker.Deposit(investor, amount, Forex.CAD, date);
+
+            // CAD to USD
+            if (Forex.USD == stock.Currency)
+            {
+                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            }            
+
+            // Buy            
+            var value = _unitOfWork.StockRepository.GetValue(stock, date);
+            var quantity = amount / value;
+            var investment = broker.Buy(investor, stock, quantity, date);
+
+            _unitOfWork.SaveChanges();
+
+            // Snapshot
+            decimal exchangeRate;
+            DateTime max = new DateTime(2020, 06, 05);
+
+            // Take snapshot
+            while (date <= max)
+            {
+                value = _unitOfWork.StockRepository.GetValue(stock, date);
+                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
+
+                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
+
+                date = date.AddDays(7);
+            }
+
+            amount = 100M;
+
+            // 100 Deposit
+            broker.Deposit(investor, amount, Forex.CAD, date);
+
+            // CAD to USD
+            if (Forex.USD == stock.Currency)
+            {
+                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            }
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            max = new DateTime(2020, 12, 25);
+
+            while (date <= max)
+            {
+                value = _unitOfWork.StockRepository.GetValue(stock, date);
+                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
+
+                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
+
+                date = date.AddDays(7);
+            }
+
+            _unitOfWork.SaveChanges();
+        }
+
+        public void ImportPenelopeTransactions()
+        {
             var broker = new BrokerService(_unitOfWork);
             var investor = _unitOfWork.InvestorRepository.GetByName("Pénélope");
+
+            var date = new DateTime(2019, 06, 07);
+
+            // 100 Deposit
+            broker.Deposit(investor, 100, Forex.CAD, date);
+
+            // CAD to USD
+            var amount = broker.Transfer(investor, 100, Forex.CAD, Forex.USD, date);
+
+            // Buy
+            var stock = _unitOfWork.StockRepository.GetBySymbol("COST");
+            var value = _unitOfWork.StockRepository.GetValue(stock, date);
+            var quantity = amount / value;
+            var investment = broker.Buy(investor, stock, quantity, date);
+
+            _unitOfWork.SaveChanges();
+
+            // Snapshot
+            decimal exchangeRate;
+            DateTime max = new DateTime(2020, 06, 05);
+
+            // Take snapshot
+            while (date <= max)
+            {
+                value = _unitOfWork.StockRepository.GetValue(stock, date);
+                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
+
+                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
+
+                date = date.AddDays(7);
+            }
+
+            // 100 Deposit
+            broker.Deposit(investor, 100, Forex.CAD, date);
+
+            // CAD to USD
+            amount = broker.Transfer(investor, 100, Forex.CAD, Forex.USD, date);
+
+            // Buy
+            stock = _unitOfWork.StockRepository.GetBySymbol("COST");
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            max = new DateTime(2020, 12, 25);
+
+            while (date <= max)
+            {
+                value = _unitOfWork.StockRepository.GetValue(stock, date);
+                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
+
+                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
+
+                date = date.AddDays(7);
+            }
+
+            _unitOfWork.SaveChanges();
+        }
+
+        public void ImportAglaeTransactions()
+        {
+            var broker = new BrokerService(_unitOfWork);
+            var investor = _unitOfWork.InvestorRepository.GetByName("Aglaé");
 
             var date = new DateTime(2019, 06, 07);
 
@@ -56,7 +211,7 @@ namespace Invest.MVC.Controllers
 
             var amount = broker.Transfer(investor, 100, Forex.CAD, Forex.USD, date);
 
-            var stock = _unitOfWork.StockRepository.GetBySymbol("COST");
+            var stock = _unitOfWork.StockRepository.GetBySymbol("GOOGL");
             var value = _unitOfWork.StockRepository.GetValue(stock, date);
             var quantity = amount / value;
 
@@ -71,7 +226,7 @@ namespace Invest.MVC.Controllers
             while (date <= max)
             {
                 value = _unitOfWork.StockRepository.GetValue(stock, date);
-                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(Forex.CAD, Forex.USD, date);
+                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
 
                 _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
 
@@ -79,8 +234,146 @@ namespace Invest.MVC.Controllers
             }
 
             _unitOfWork.SaveChanges();
+        }
 
-            return View("Index");
+        public void ImportGenevieveTransactions()
+        {
+            var broker = new BrokerService(_unitOfWork);
+            var investor = _unitOfWork.InvestorRepository.GetByName("Geneviève");
+
+            var date = new DateTime(2019, 06, 07);
+            var amount = 100M;
+
+            broker.Deposit(investor, amount, Forex.CAD, date);
+
+            var stock = _unitOfWork.StockRepository.GetBySymbol("SHOP");
+            var value = _unitOfWork.StockRepository.GetValue(stock, date);
+            var quantity = amount / value;
+
+            var investment = broker.Buy(investor, stock, quantity, date);
+
+            _unitOfWork.SaveChanges();
+
+            // Snapshot
+            decimal exchangeRate;
+            DateTime max = new DateTime(2020, 12, 25);
+
+            while (date <= max)
+            {
+                value = _unitOfWork.StockRepository.GetValue(stock, date);
+                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
+
+                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
+
+                date = date.AddDays(7);
+            }
+
+            _unitOfWork.SaveChanges();
+        }
+
+
+        public void ImportEtienneTransactions()
+        {
+            var broker = new BrokerService(_unitOfWork);
+            var investor = _unitOfWork.InvestorRepository.GetByName("Étienne");
+
+            // Deposit 100 CAD
+            var date = new DateTime(2019, 06, 07);
+            var amount = 100M;
+
+            broker.Deposit(investor, amount, Forex.CAD, date);
+
+            // Buy IGA
+            var stock = _unitOfWork.StockRepository.GetBySymbol("EMP.A");
+            var value = _unitOfWork.StockRepository.GetValue(stock, date);
+            var quantity = amount / value;
+
+            var investment = broker.Buy(investor, stock, quantity, date);
+
+            _unitOfWork.SaveChanges();
+
+            // Take snapshots
+            decimal exchangeRate;
+            DateTime max = new DateTime(2020, 06, 05);
+
+            while (date <= max)
+            {
+                value = _unitOfWork.StockRepository.GetValue(stock, date);
+                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
+
+                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
+
+                date = date.AddDays(7);
+            }
+
+            // Sell IGA
+            amount = broker.Sell(investor, stock, quantity, date);
+            
+            // Deposit 100$
+            broker.Deposit(investor, 100M, Forex.CAD, date);
+
+            amount = amount + 100M;
+
+            // Transfer CAD to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+
+            // Buy Microsoft
+            stock = _unitOfWork.StockRepository.GetBySymbol("MSFT");
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            max = new DateTime(2020, 12, 25);
+
+            // Take snapshots
+            while (date <= max)
+            {
+                value = _unitOfWork.StockRepository.GetValue(stock, date);
+                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
+
+                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
+
+                date = date.AddDays(7);
+            }
+
+            _unitOfWork.SaveChanges();
+        }
+
+        public void ImportOtherTransactions(string investorName, string symbol)
+        {
+            var broker = new BrokerService(_unitOfWork);
+            var investor = _unitOfWork.InvestorRepository.GetByName(investorName);
+
+            var date = new DateTime(2020, 12, 25);
+
+            decimal amount = 100M;
+
+            broker.Deposit(investor, amount, Forex.CAD, date);
+
+            var stock = _unitOfWork.StockRepository.GetBySymbol(symbol);
+
+            if (Forex.USD == stock.Currency)
+            {
+                amount = broker.Transfer(investor, 100, Forex.CAD, Forex.USD, date);
+            }
+
+            var value = _unitOfWork.StockRepository.GetValue(stock, date);
+            var quantity = amount / value;
+
+            var investment = broker.Buy(investor, stock, quantity, date);
+
+            _unitOfWork.SaveChanges();
+
+            // Snapshot
+            decimal exchangeRate;
+
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
+
+            _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
+
+            _unitOfWork.SaveChanges();
         }
 
         public IActionResult Stocks(string id)
@@ -127,7 +420,7 @@ namespace Invest.MVC.Controllers
                         stock.Name = "Microsoft";
                         stock.Currency = Forex.USD;
                         break;
-                    case "NSDOY":
+                    case "NTDOY":
                         stock.Name = "Nintendo";
                         stock.Currency = Forex.USD;
                         break;

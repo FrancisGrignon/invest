@@ -119,7 +119,7 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
             }
         }
 
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
             entity.UpdatedUtc = DateTime.UtcNow;
 

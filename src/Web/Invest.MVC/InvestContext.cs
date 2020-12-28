@@ -58,12 +58,18 @@ namespace Invest.MVC
             modelBuilder.Entity<StockHistory>()
                 .HasIndex(p => new { p.Symbol });
 
+            modelBuilder.Entity<Forex>()
+                .HasIndex(p => new { p.Currency });
+
             var operations = new Operation[] {
                 new Operation { Id = Operation.Buy, Name = "Buy" },
                 new Operation { Id = Operation.Dividend, Name = "Dividend" },
                 new Operation { Id = Operation.Merge, Name = "Merge" },
                 new Operation { Id = Operation.Sell, Name = "Sell" },
-                new Operation { Id = Operation.Split, Name = "Split" }
+                new Operation { Id = Operation.Split, Name = "Split" },
+                new Operation { Id = Operation.Deposit, Name = "Deposit" },
+                new Operation { Id = Operation.Withdraw, Name = "Withdraw" },
+                new Operation { Id = Operation.Transfer, Name = "Transfer" }
             };
 
             modelBuilder.Entity<Operation>().HasData(operations);
@@ -162,6 +168,8 @@ namespace Invest.MVC
         [StringLength(3)]
         public string Currency { get; set; }
 
+        public DateTime DateUtc { get; set; } = DateTime.UtcNow.Date;
+
         public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
 
         public DateTime UpdatedUtc { get; set; } = DateTime.UtcNow;
@@ -247,35 +255,20 @@ namespace Invest.MVC
         [Required]
         public decimal ExchangeRate { get; set; }
 
+        public DateTime DateUtc { get; set; } = DateTime.UtcNow.Date;
+
         public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
 
         public DateTime UpdatedUtc { get; set; } = DateTime.UtcNow;
 
         public bool Enable { get; set; } = true;
-
-        public static InvestmentHistory CreateFrom(Investment investment)
-        {
-            var history = new InvestmentHistory
-            {
-                InvestmentId = investment.Id,
-                Investment = investment,
-                StockId = investment.StockId,
-                Stock = investment.Stock,
-                InvestorId = investment.InvestorId,
-                Investor = investment.Investor,
-                Quantity = investment.Quantity,
-                Currency = investment.Currency,
-                CreatedUtc = investment.CreatedUtc,
-                UpdatedUtc = investment.UpdatedUtc,
-                Enable = investment.Enable
-            };
-
-            return history;
-        }
     }
 
     public class Forex : IEntity
     {
+        public const string CAD = "CAD";
+        public const string USD = "USD";
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
@@ -310,6 +303,8 @@ namespace Invest.MVC
 
         [Required]
         public decimal ExchangeRate { get; set; }
+
+        public DateTime DateUtc { get; set; } = DateTime.UtcNow.Date;
 
         public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
 
@@ -381,6 +376,9 @@ namespace Invest.MVC
         public const int Split = 3;
         public const int Merge = 4;
         public const int Dividend = 5;
+        public const int Deposit = 6;
+        public const int Withdraw = 7;
+        public const int Transfer = 8;
 
         public int Id { get; set; }
 

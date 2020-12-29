@@ -21,7 +21,7 @@ namespace Invest.MVC.Controllers
         // GET: Investments
         public async Task<IActionResult> Index()
         {
-            var investContext = _context.Investments.Include(i => i.Investor).Include(i => i.Stock);
+            var investContext = _context.Investments.Include(i => i.Investor).Include(i => i.Stock).OrderBy(p => p.Investor.Name);
             return View(await investContext.ToListAsync());
         }
 

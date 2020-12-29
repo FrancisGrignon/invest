@@ -155,7 +155,7 @@ namespace Invest.MVC.Controllers
                 names = id.ToUpper().Split(',').ToList();
             }
 
-            names = names.Where(p => p != "GENEVIÈVE").ToList();
+           // names = names.Where(p => p != "GENEVIÈVE").ToList();
 
             var query = _context.InvestmentHistories
                 .Where(m => names.Contains(m.Investor.Name));
@@ -266,6 +266,86 @@ namespace Invest.MVC.Controllers
 
             ViewData["XAxis"] = new List<XAxis>() { xAxis };
             ViewData["Series"] = series;
+
+            return View();
+        }
+
+        public IActionResult Average(string id, DateTime? from, DateTime? to)
+        {
+            List<string> names;
+
+            if (true == string.IsNullOrEmpty(id))
+            {
+                names = _context.Investors.Select(p => p.Name.ToUpper()).ToList();
+            }
+            else
+            {
+                names = id.ToUpper().Split(',').ToList();
+            }
+
+            //names = names.Where(p => p != "GENEVIÈVE").ToList();
+
+            DateTime dateUtc;
+           
+            var query = _context.InvestmentHistories
+                .Where(m => names.Contains(m.Investor.Name));
+
+            if (from.HasValue)
+            {
+                dateUtc = from.Value.ToUniversalTime().Date;
+                query = query.Where(p => dateUtc <= p.DateUtc);
+            }
+
+            if (to.HasValue)
+            {
+                dateUtc = from.Value.ToUniversalTime().Date;
+                query = query.Where(p => p.DateUtc <= dateUtc);
+            }
+
+            var histories = query
+                .GroupBy(p => p.DateUtc)
+                .Select(p => new { 
+                    DateUtc = p.Key, 
+                    Count = p.Count(), 
+                    Value = p.Sum(y => y.Quantity * y.Value * y.ExchangeRate) 
+                })
+                .OrderBy(p => p.DateUtc)
+                .ToList();
+
+            if (histories == null || false == histories.Any())
+            {
+                return NotFound();
+            }
+
+            var values = new List<decimal>();
+            var categories = new List<string>();
+
+            foreach (var history in histories)
+            {
+                categories.Add(history.DateUtc.ToString("yyyy-MM-dd"));
+                values.Add(Math.Round(history.Value / history.Count, 2));
+            }
+
+            var xAxis = new XAxis
+            {
+                Categories = categories
+            };
+
+            var data = new List<LineSeriesData>();
+
+            values.ForEach(p =>
+            {
+                data.Add(new LineSeriesData { Y = Convert.ToDouble(p) });
+            });
+
+            var serie = new LineSeries
+            {
+                Name = "Moyenne",
+                Data = data
+            };
+
+            ViewData["XAxis"] = new List<XAxis>() { xAxis };
+            ViewData["Series"] = new List<Series> { serie };
 
             return View();
         }

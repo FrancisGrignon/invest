@@ -1,7 +1,7 @@
 ﻿@using Highsoft.Web.Mvc.Charts
 @using Highsoft.Web.Mvc.Charts.Rendering
 @{
-    ViewData["Title"] = "Vos investeurs";
+    ViewData["Title"] = "La moyenne";
 }
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -11,7 +11,7 @@
     {
         Title = new Title
         {
-            Text = "Valeur des investissements",
+            Text = "Valeur moyenne des investissements",
             X = -20
         },
         XAxis = (@ViewData["XAxis"] as List<XAxis>),

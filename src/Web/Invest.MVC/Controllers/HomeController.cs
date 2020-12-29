@@ -27,7 +27,7 @@ namespace Invest.MVC.Controllers
 
         public IActionResult Total()
         {
-            var investments = _context.Investments.Include(prop=> prop.Stock);
+            var investments = _context.Investments.Include(prop => prop.Stock);
             var exchangeRate = 1.38M;
             decimal total = 0M;
 
@@ -36,6 +36,10 @@ namespace Invest.MVC.Controllers
                 if (Forex.USD == investment.Currency)
                 {
                     total += investment.Quantity * investment.Stock.Value * exchangeRate;
+                }
+                else
+                {
+                    total += investment.Quantity * investment.Stock.Value;
                 }
             }
 

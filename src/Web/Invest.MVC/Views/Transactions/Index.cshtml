@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Index";
 }
-
 <h1>Index</h1>
 
 <p>
@@ -13,28 +12,25 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Stock)
+                @Html.DisplayNameFor(model => model.DateUtc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Investor)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Operation)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Investor)
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Amount)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Currency)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateUtc)
             </th>
             <th></th>
         </tr>
@@ -43,28 +39,25 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Stock.Name)
+                @Html.DisplayFor(modelItem => item.DateUtc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Investor.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Operation.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Investor.Name)
+                @Html.DisplayFor(modelItem => item.Stock.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Currency)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateUtc)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

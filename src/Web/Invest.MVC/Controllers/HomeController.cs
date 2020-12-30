@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Invest.MVC.Controllers
 {
@@ -27,8 +28,9 @@ namespace Invest.MVC.Controllers
 
         public IActionResult Total()
         {
-            var investments = _context.Investments.Include(prop => prop.Stock);
-            var exchangeRate = 1.38M;
+            var investments = _context.Investments.Include(prop => prop.Stock).Where(prop => prop.Investor.Name != "GENEVIÈVE");
+
+            var exchangeRate = 1.31M;
             decimal total = 0M;
 
             foreach (var investment in investments)
@@ -44,7 +46,24 @@ namespace Invest.MVC.Controllers
             }
 
             ViewData["Total"] = total.ToString("C0");
+            ViewData["From"] = 700.ToString("C0");
+            ViewData["Increase"] = (total-700).ToString("C0");
 
+            return View();
+        }
+
+        public IActionResult Help()
+        {
+            return View();
+        }
+
+        public IActionResult Bug()
+        {
+            return View();
+        }
+
+        public IActionResult Progress()
+        {
             return View();
         }
 

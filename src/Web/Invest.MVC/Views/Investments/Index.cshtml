@@ -1,36 +1,26 @@
-﻿@model IEnumerable<Invest.MVC.Investment>
+﻿@model IEnumerable<Invest.MVC.InvestmentHistory>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Portefeuille";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Investor.Name)
+                Investisseur
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Stock.Symbol)
+                Action (symbol)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Stock.Name)
+                Part
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Quantity)
+                Valeur
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stock.Value)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stock.Currency)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -40,25 +30,13 @@
                 @Html.DisplayFor(modelItem => item.Investor.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Stock.Symbol)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock.Name)
+                @Html.DisplayFor(modelItem => item.Stock.Name) (@Html.DisplayFor(modelItem => item.Stock.Symbol))
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock.Value)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock.Currency)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            <td class="">
+                @((item.Value * item.Quantity * item.ExchangeRate).ToString("C2"))
             </td>
         </tr>
 }

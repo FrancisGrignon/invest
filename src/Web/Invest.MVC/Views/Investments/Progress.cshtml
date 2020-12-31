@@ -1,0 +1,65 @@
+﻿@model Invest.MVC.Controllers.ProgressListViewModel
+@{
+    ViewData["Title"] = "Progrès";
+}
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Investisseur
+            </th>
+            <th>
+                Action (symbol)
+            </th>
+            <th>
+                Valeur
+            </th>
+            <th>
+                Variation sur 1 semaine
+            </th>
+            <th>
+                Variation sur 1 mois
+            </th>
+            <th>
+                Variation sur 6 mois
+            </th>
+            <th>
+                Variation sur 1 an
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Progresses)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Investor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.A)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.B1) /
+                @Html.DisplayFor(modelItem => item.B2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C1) /
+                @Html.DisplayFor(modelItem => item.C2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.D1) /
+                @Html.DisplayFor(modelItem => item.D2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.E1) /
+                @Html.DisplayFor(modelItem => item.E2)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

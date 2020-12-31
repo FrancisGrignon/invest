@@ -121,7 +121,7 @@ namespace Invest.MVC.Controllers
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot
-            max = new DateTime(2020, 12, 25);
+            max = new DateTime(2021, 01, 01);
 
             while (date <= max)
             {
@@ -185,7 +185,7 @@ namespace Invest.MVC.Controllers
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot
-            max = new DateTime(2020, 12, 25);
+            max = new DateTime(2021, 01, 01);
 
             while (date <= max)
             {
@@ -221,7 +221,7 @@ namespace Invest.MVC.Controllers
 
             // Snapshot
             decimal exchangeRate;
-            DateTime max = new DateTime(2020, 12, 25);
+            DateTime max = new DateTime(2021, 01, 01);
 
             while (date <= max)
             {
@@ -256,7 +256,7 @@ namespace Invest.MVC.Controllers
 
             // Snapshot
             decimal exchangeRate;
-            DateTime max = new DateTime(2020, 12, 25);
+            DateTime max = new DateTime(2021, 01, 01);
 
             while (date <= max)
             {
@@ -324,7 +324,7 @@ namespace Invest.MVC.Controllers
 
             investment = broker.Buy(investor, stock, quantity, date);
 
-            max = new DateTime(2020, 12, 25);
+            max = new DateTime(2021, 01, 01);
 
             // Take snapshots
             while (date <= max)
@@ -368,19 +368,42 @@ namespace Invest.MVC.Controllers
             // Snapshot
             decimal exchangeRate;
 
-            value = _unitOfWork.StockRepository.GetValue(stock, date);
-            exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
+            var max = new DateTime(2021, 01, 01);
 
-            _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
+            // Take snapshots
+            while (date <= max)
+            {
+                value = _unitOfWork.StockRepository.GetValue(stock, date);
+                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
+
+                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
+
+                date = date.AddDays(7);
+            }
 
             _unitOfWork.SaveChanges();
         }
 
         public IActionResult Stocks(string id)
         {
+            ImportStock("ABNB");           
+            ImportStock("COST");
+            ImportStock("EMP.A");
+            ImportStock("GOOGL");
+            ImportStock("L");
+            ImportStock("MSFT");
+            ImportStock("NTDOY");
+            ImportStock("SHOP");
+            ImportStock("TSLA");
+
+            return View("Index");
+        }
+
+        public void ImportStock(string id)
+        {
             if (string.IsNullOrEmpty(id))
             {
-                return NotFound();
+                return;
             }
 
             id = id.ToUpper();
@@ -433,7 +456,7 @@ namespace Invest.MVC.Controllers
                         stock.Currency = Forex.USD;
                         break;
                     default:
-                        return NotFound();
+                        return;
                 }
 
                 _unitOfWork.StockRepository.Add(stock);
@@ -478,15 +501,21 @@ namespace Invest.MVC.Controllers
             }
 
             _unitOfWork.SaveChanges();
+        }
+
+        public IActionResult Forexes()
+        {
+            ImportForex(Forex.CAD);
+            ImportForex(Forex.USD);
 
             return View("Index");
         }
 
-        public IActionResult Forexes(string id)
+        public void ImportForex(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
-                return NotFound();
+                return;
             }
 
             id = id.ToUpper();
@@ -550,8 +579,6 @@ namespace Invest.MVC.Controllers
             }
 
             _unitOfWork.SaveChanges();
-
-            return View("Index");
         }
     }
 }

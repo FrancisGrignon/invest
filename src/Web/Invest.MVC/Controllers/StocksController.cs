@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Invest.MVC;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Invest.MVC.Controllers
 {
+    [Authorize]
     public class StocksController : Controller
     {
         private readonly InvestContext _context;

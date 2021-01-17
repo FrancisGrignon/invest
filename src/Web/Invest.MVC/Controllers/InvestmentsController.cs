@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Invest.MVC.Controllers
-{
+{    
     public class InvestmentsController : Controller
     {
         private readonly InvestContext _context;
@@ -20,18 +20,27 @@ namespace Invest.MVC.Controllers
         }
 
         // GET: Investments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(DateTime? from)
         {
-            var dateUtc = await _context
-                .InvestmentHistories
-                .OrderByDescending(p => p.Id)
-                .Select(p => p.DateUtc)
-                .FirstOrDefaultAsync();
+            DateTime dateUtc;
+
+            if (from.HasValue)
+            {
+                dateUtc = from.Value.ToUniversalTime().Date;
+            }
+            else
+            {
+                dateUtc = await _context
+                    .InvestmentHistories
+                    .Where(p => p.Investor.Name != "GENEVIÈVE")
+                    .MaxAsync(p => p.DateUtc);
+            }            
 
             var history = _context
                 .InvestmentHistories
                 .Include(p => p.Investor)
                 .Include(p => p.Stock)
+                .Where(p => p.Investor.Name != "GENEVIÈVE")
                 .Where(p => p.DateUtc == dateUtc)
                 .OrderBy(p => p.Investor.Name);
 
@@ -42,9 +51,8 @@ namespace Invest.MVC.Controllers
         {
             var currentDateUtc = await _context
                 .InvestmentHistories
-                .OrderByDescending(p => p.Id)
-                .Select(p => p.DateUtc)
-                .FirstOrDefaultAsync();
+                .Where(p => p.Investor.Name != "GENEVIÈVE")
+                .MaxAsync(p => p.DateUtc);
 
             var lastWeekDateUtc = currentDateUtc.AddDays(-7);
             var lastMonthDateUtc = currentDateUtc.AddDays(-7 * 4);
@@ -56,11 +64,14 @@ namespace Invest.MVC.Controllers
                 .Include(p => p.Investor)
                 .Include(p => p.Stock)
                 .Where(p =>
-                     p.DateUtc == currentDateUtc ||
-                     p.DateUtc == lastWeekDateUtc ||
-                     p.DateUtc == lastMonthDateUtc ||
-                     p.DateUtc == sixMonthDateUtc ||
-                     p.DateUtc == lastYearDateUtc)
+                    p.Investor.Name != "GENEVIÈVE" &&
+              (
+                        p.DateUtc == currentDateUtc ||
+                        p.DateUtc == lastWeekDateUtc ||
+                        p.DateUtc == lastMonthDateUtc ||
+                        p.DateUtc == sixMonthDateUtc ||
+                        p.DateUtc == lastYearDateUtc)
+                    )
                 .OrderByDescending(p => p.Id)
                 .OrderByDescending(p => p.DateUtc)
                 .ThenBy(p => p.Investor.Name)
@@ -149,6 +160,5 @@ namespace Invest.MVC.Controllers
         public string D2 { get { return Values[7].ToString("P2"); } }
         public string E1 { get { return Values[4].ToString("C2"); } }
         public string E2 { get { return Values[8].ToString("P2"); } }
-
     }
 }

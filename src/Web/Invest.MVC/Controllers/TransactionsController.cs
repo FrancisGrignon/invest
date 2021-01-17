@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Invest.MVC;
 using static Invest.MVC.ViewModels.TransactionEditViewModel;
 using Invest.MVC.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Invest.MVC.Controllers
 {
+    [Authorize]
     public class TransactionsController : Controller
     {
         private readonly InvestContext _context;

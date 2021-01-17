@@ -1,5 +1,6 @@
 ﻿using Invest.MVC.Infrastructure;
 using Invest.MVC.Models;
+using Invest.MVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -78,5 +79,17 @@ namespace Invest.MVC.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+
+        [Route("profile")]
+        public IActionResult Profile()
+        {
+            var model = new ProfileViewModel
+            {
+                Name = User.Identity.Name,
+                Claims = User.Claims
+            };
+
+            return View(model);
+        }
     }
 }

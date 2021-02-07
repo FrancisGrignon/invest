@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Invest.MVC.Controllers
 {
@@ -155,7 +154,7 @@ namespace Invest.MVC.Controllers
                 names = id.ToUpper().Split(',').ToList();
             }
 
-           names = names.Where(p => p != "GENEVIÈVE").ToList();
+           //names = names.Where(p => p != "GENEVIÈVE").ToList();
 
             var query = _context.InvestmentHistories
                 .Where(m => names.Contains(m.Investor.Name));
@@ -283,7 +282,7 @@ namespace Invest.MVC.Controllers
                 names = id.ToUpper().Split(',').ToList();
             }
 
-          names = names.Where(p => p != "GENEVIÈVE").ToList();
+          //names = names.Where(p => p != "GENEVIÈVE").ToList();
 
             DateTime dateUtc;
            

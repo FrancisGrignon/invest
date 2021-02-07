@@ -1,28 +1,25 @@
-﻿using Invest.MVC.Infrastructure;
-using Invest.MVC.Infrastructure.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Globalization;
 using System.IO;
 
-namespace Invest.MVC.Controllers
+namespace Invest.MVC.Infrastructure.Services
 {
-    //[Authorize]
-    public class ImportController : Controller
+    public class ImportService
     {
+        private UnitOfWork _unitOfWork;
         private DateTime _until { get; }
 
-        private readonly InvestContext _context;
-        private readonly UnitOfWork _unitOfWork;
-
-        public ImportController(InvestContext context)
+        public ImportService(InvestContext context) : this(new UnitOfWork(context)) 
         {
-            _context = context;
-            _unitOfWork = new UnitOfWork(_context);
+
+        }
+
+        public ImportService(UnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
             _until = FindLastFriday();
         }
-                
+
         private DateTime FindLastFriday()
         {
             var now = DateTime.Now.ToUniversalTime().Date;
@@ -48,7 +45,7 @@ namespace Invest.MVC.Controllers
             return friday;
         }
 
-        public IActionResult Index()
+        public void Execute()
         {
             ImportForex(Forex.CAD);
             ImportForex(Forex.USD);
@@ -73,8 +70,6 @@ namespace Invest.MVC.Controllers
             ImportOtherTransactions("Annabelle", "L");
             ImportOtherTransactions("Cédrik", "TSLA");
             ImportOtherTransactions("Marco", "NTDOY");
-
-            return View("Index");
         }
 
         public void ImportInvestors()

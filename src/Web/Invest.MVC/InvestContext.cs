@@ -29,7 +29,7 @@ namespace Invest.MVC
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             //options.UseSqlServer(@"Server =.\SQLExpress; AttachDbFilename=C:\Temp\Invest.mdf;Database=dbname;Trusted_Connection=Yes;");
-            options.UseSqlServer(@"Server = localhost; Database = invest; User Id = sa; Password = P@ssword66");
+            options.UseSqlServer(@"Server = localhost,11433; Database = invest; User Id = sa; Password = P@ssword66");
 
             options.EnableSensitiveDataLogging();
         }

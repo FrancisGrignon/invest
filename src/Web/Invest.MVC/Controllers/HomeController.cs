@@ -29,9 +29,10 @@ namespace Invest.MVC.Controllers
 
         public IActionResult Total()
         {
-            var investments = _context.Investments.Include(prop => prop.Stock).Where(prop => prop.Investor.Name != "GENEVIÈVE");
+            var investments = _context.Investments.Include(prop => prop.Stock)
+               ;// .Where(prop => prop.Investor.Name != "GENEVIÈVE");
 
-            var exchangeRate = 1.31M;
+            var exchangeRate = 1.27M;
             decimal total = 0M;
 
             foreach (var investment in investments)

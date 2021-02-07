@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using Microsoft.Extensions.Configuration.UserSecrets;
+using System.Reflection;
 
 namespace Invest.MVC
 {
@@ -80,7 +82,6 @@ namespace Invest.MVC
 
             app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.UseEndpoints(endpoints =>
             {

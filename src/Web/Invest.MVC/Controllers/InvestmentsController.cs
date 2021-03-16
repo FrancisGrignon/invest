@@ -32,7 +32,7 @@ namespace Invest.MVC.Controllers
             {
                 dateUtc = await _context
                     .InvestmentHistories
-               //     .Where(p => p.Investor.Name != "GENEVIÈVE")
+                    .Where(p => p.Investor.Name != "GENEVIÈVE")
                     .MaxAsync(p => p.DateUtc);
             }            
 
@@ -40,7 +40,7 @@ namespace Invest.MVC.Controllers
                 .InvestmentHistories
                 .Include(p => p.Investor)
                 .Include(p => p.Stock)
-             //   .Where(p => p.Investor.Name != "GENEVIÈVE")
+               .Where(p => p.Investor.Name != "GENEVIÈVE")
                 .Where(p => p.DateUtc == dateUtc)
                 .OrderBy(p => p.Investor.Name);
 
@@ -51,7 +51,7 @@ namespace Invest.MVC.Controllers
         {
             var currentDateUtc = await _context
                 .InvestmentHistories
-          //      .Where(p => p.Investor.Name != "GENEVIÈVE")
+                .Where(p => p.Investor.Name != "GENEVIÈVE")
                 .MaxAsync(p => p.DateUtc);
 
             var lastWeekDateUtc = currentDateUtc.AddDays(-7);
@@ -64,7 +64,7 @@ namespace Invest.MVC.Controllers
                 .Include(p => p.Investor)
                 .Include(p => p.Stock)
                 .Where(p =>
-           //         p.Investor.Name != "GENEVIÈVE" &&
+                   p.Investor.Name != "GENEVIÈVE" &&
               (
                         p.DateUtc == currentDateUtc ||
                         p.DateUtc == lastWeekDateUtc ||

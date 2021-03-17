@@ -15,6 +15,18 @@ namespace Invest.MVC.Controllers
         private readonly InvestContext _context;
         private readonly UnitOfWork _unitOfWork;
 
+        private bool ExcludeGenevieve 
+        {
+            get 
+            {
+                return HttpContext.Session.Get<bool>("ExcludeGenevieve");
+            }
+            set
+            {
+                HttpContext.Session.Set<bool>("ExcludeGenevieve", value);
+            }
+        }
+
         public HomeController(ILogger<HomeController> logger, InvestContext context)
         {
             _logger = logger;
@@ -27,10 +39,17 @@ namespace Invest.MVC.Controllers
             return View();
         }
 
+        public IActionResult Genevieve()
+        {
+            ExcludeGenevieve = !ExcludeGenevieve;
+
+            return View();
+        }
+
         public IActionResult Total()
         {
             var investments = _context.Investments.Include(prop => prop.Stock)
-              .Where(prop => prop.Investor.Name != "GENEVIÈVE");
+              .Where(p => false == ExcludeGenevieve || ExcludeGenevieve && p.Investor.Name != "GENEVIÈVE");
 
             var exchangeRate = 1.27M;
             decimal total = 0M;

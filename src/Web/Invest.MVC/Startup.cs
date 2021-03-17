@@ -60,6 +60,16 @@ namespace Invest.MVC
             //{
             //    options.AddPolicy("EmployeeOnly", policy => policy.RequireClaim("EmployeeNumber"));
             //});
+
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = "c58cf3f3-3cbd-43e9-b542-0f9630cf0d09";
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = false;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +92,7 @@ namespace Invest.MVC
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

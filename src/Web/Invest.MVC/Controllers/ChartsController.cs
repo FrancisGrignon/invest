@@ -12,6 +12,14 @@ namespace Invest.MVC.Controllers
         private readonly ILogger<ChartsController> _logger;
         private readonly InvestContext _context;
 
+        private bool ExcludeGenevieve
+        {
+            get
+            {
+                return HttpContext.Session.Get<bool>("ExcludeGenevieve");
+            }
+        }
+
         public ChartsController(ILogger<ChartsController> logger, InvestContext context)
         {
             _logger = logger;
@@ -154,7 +162,7 @@ namespace Invest.MVC.Controllers
                 names = id.ToUpper().Split(',').ToList();
             }
 
-            names = names.Where(p => p != "GENEVIÈVE").ToList();
+            names = names.Where(p => false == ExcludeGenevieve || ExcludeGenevieve && p != "GENEVIÈVE").ToList();
 
             var query = _context.InvestmentHistories
                 .Where(m => names.Contains(m.Investor.Name));
@@ -282,7 +290,7 @@ namespace Invest.MVC.Controllers
                 names = id.ToUpper().Split(',').ToList();
             }
 
-            names = names.Where(p => p != "GENEVIÈVE").ToList();
+            names = names.Where(p => false == ExcludeGenevieve || ExcludeGenevieve && p != "GENEVIÈVE").ToList();
 
             DateTime dateUtc;
 

@@ -49,7 +49,7 @@ namespace Invest.MVC.Controllers
 
             ViewData["Total"] = total.ToString("C0");
             ViewData["From"] = 700.ToString("C0");
-            ViewData["Increase"] = (total-700).ToString("C0");
+            ViewData["Increase"] = (total - 700).ToString("C0");
 
             return View();
         }

@@ -154,7 +154,7 @@ namespace Invest.MVC.Controllers
                 names = id.ToUpper().Split(',').ToList();
             }
 
-           names = names.Where(p => p != "GENEVIÈVE").ToList();
+            names = names.Where(p => p != "GENEVIÈVE").ToList();
 
             var query = _context.InvestmentHistories
                 .Where(m => names.Contains(m.Investor.Name));
@@ -282,10 +282,10 @@ namespace Invest.MVC.Controllers
                 names = id.ToUpper().Split(',').ToList();
             }
 
-          names = names.Where(p => p != "GENEVIÈVE").ToList();
+            names = names.Where(p => p != "GENEVIÈVE").ToList();
 
             DateTime dateUtc;
-           
+
             var query = _context.InvestmentHistories
                 .Where(m => names.Contains(m.Investor.Name));
 
@@ -303,10 +303,11 @@ namespace Invest.MVC.Controllers
 
             var histories = query
                 .GroupBy(p => p.DateUtc)
-                .Select(p => new { 
-                    DateUtc = p.Key, 
-                    Count = p.Count(), 
-                    Value = p.Sum(y => y.Quantity * y.Value * y.ExchangeRate) 
+                .Select(p => new
+                {
+                    DateUtc = p.Key,
+                    Count = p.Count(),
+                    Value = p.Sum(y => y.Quantity * y.Value * y.ExchangeRate)
                 })
                 .OrderBy(p => p.DateUtc)
                 .ToList();

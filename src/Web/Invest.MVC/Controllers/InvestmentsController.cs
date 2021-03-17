@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Invest.MVC.Controllers
-{    
+{
     public class InvestmentsController : Controller
     {
         private readonly InvestContext _context;
@@ -34,13 +34,13 @@ namespace Invest.MVC.Controllers
                     .InvestmentHistories
                     .Where(p => p.Investor.Name != "GENEVIÈVE")
                     .MaxAsync(p => p.DateUtc);
-            }            
+            }
 
             var history = _context
                 .InvestmentHistories
                 .Include(p => p.Investor)
                 .Include(p => p.Stock)
-               .Where(p => p.Investor.Name != "GENEVIÈVE")
+                .Where(p => p.Investor.Name != "GENEVIÈVE")
                 .Where(p => p.DateUtc == dateUtc)
                 .OrderBy(p => p.Investor.Name);
 
@@ -64,8 +64,8 @@ namespace Invest.MVC.Controllers
                 .Include(p => p.Investor)
                 .Include(p => p.Stock)
                 .Where(p =>
-                   p.Investor.Name != "GENEVIÈVE" &&
-              (
+                    p.Investor.Name != "GENEVIÈVE" &&
+                    (
                         p.DateUtc == currentDateUtc ||
                         p.DateUtc == lastWeekDateUtc ||
                         p.DateUtc == lastMonthDateUtc ||
@@ -145,20 +145,43 @@ namespace Invest.MVC.Controllers
 
     public class ProgressViewModel
     {
+        private const string FORMAT_MONEY = "0.00$;-0.00$";
+        private const string FORMAT_PERCENT = "0.00%;-0.00%";
+
+        private string Style(decimal value)
+        {
+            if (value < 0m)
+            {
+                return "fw-price-dn";
+            } 
+            else if (0m < value)
+            {
+                return "fw-price-up";
+            }
+            else
+            {
+                return "fw-price-eq";
+            }            
+        }
+
         public string Investor { get; set; }
 
         public string Stock { get; set; }
 
         public decimal[] Values { get; set; }
 
-        public string A { get { return Values[0].ToString("C2"); } }
-        public string B1 { get { return Values[1].ToString("C2"); } }
-        public string B2 { get { return Values[5].ToString("P2"); } }
-        public string C1 { get { return Values[2].ToString("C2"); } }
-        public string C2 { get { return Values[6].ToString("P2"); } }
-        public string D1 { get { return Values[3].ToString("C2"); } }
-        public string D2 { get { return Values[7].ToString("P2"); } }
-        public string E1 { get { return Values[4].ToString("C2"); } }
-        public string E2 { get { return Values[8].ToString("P2"); } }
+        public string A { get { return Values[0].ToString(FORMAT_MONEY); } }
+        public string B1 { get { return Values[1].ToString(FORMAT_MONEY); } }
+        public string B2 { get { return Values[5].ToString(FORMAT_PERCENT); } }
+        public string B3 { get { return Style(Values[1]); } }
+        public string C1 { get { return Values[2].ToString(FORMAT_MONEY); } }
+        public string C2 { get { return Values[6].ToString(FORMAT_PERCENT); } }
+        public string C3 { get { return Style(Values[2]); } }
+        public string D1 { get { return Values[3].ToString(FORMAT_MONEY); } }
+        public string D2 { get { return Values[7].ToString(FORMAT_PERCENT); } }
+        public string D3 { get { return Style(Values[3]); } }
+        public string E1 { get { return Values[4].ToString(FORMAT_MONEY); } }
+        public string E2 { get { return Values[8].ToString(FORMAT_PERCENT); } }
+        public string E3 { get { return Style(Values[4]); } }
     }
 }

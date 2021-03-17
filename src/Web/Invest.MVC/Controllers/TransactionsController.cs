@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Invest.MVC.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Invest.MVC;
-using static Invest.MVC.ViewModels.TransactionEditViewModel;
-using Invest.MVC.ViewModels;
-using Microsoft.AspNetCore.Authorization;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Invest.MVC.Controllers
 {
@@ -113,7 +109,7 @@ namespace Invest.MVC.Controllers
             ViewData["InvestorId"] = new SelectList(_context.Investors, "InvestorId", "Name", entity.InvestorId);
             ViewData["OperationId"] = new SelectList(_context.Operations, "OperationId", "Name", entity.OperationId);
             ViewData["StockId"] = new SelectList(_context.Stocks, "StockId", "Name", entity.StockId);
-            
+
             return View(model);
         }
 
@@ -178,7 +174,7 @@ namespace Invest.MVC.Controllers
             ViewData["InvestorId"] = new SelectList(_context.Investors, "InvestorId", "Name", model.InvestorId);
             ViewData["OperationId"] = new SelectList(_context.Operations, "OperationId", "Name", model.OperationId);
             ViewData["StockId"] = new SelectList(_context.Stocks, "StockId", "Name", model.StockId);
-            
+
             return View(model);
         }
 

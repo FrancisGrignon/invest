@@ -1,9 +1,10 @@
 ﻿using Invest.MVC.Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Invest.MVC.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ImportController : Controller
     {
         private readonly ImportService _importService;
@@ -21,4 +22,3 @@ namespace Invest.MVC.Controllers
         }
     }
 }
- 

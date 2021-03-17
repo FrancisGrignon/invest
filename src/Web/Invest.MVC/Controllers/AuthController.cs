@@ -87,11 +87,6 @@ namespace Invest.MVC.Controllers
                 // Setting  
                 claims.Add(new Claim(ClaimTypes.Name, username));
 
-                //var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                //var principal = new ClaimsPrincipal(identity);
-
-                // await HttpContext.SignInAsync(principal,);
-
                 var claimIdenties = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var claimPrincipal = new ClaimsPrincipal(claimIdenties);
                 var authenticationManager = Request.HttpContext;

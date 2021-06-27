@@ -1,0 +1,22 @@
+﻿date;investor;action;amount/stock
+2019-06-07;Aglaé;Deposit;100
+2019-06-07;Aglaé;Buy;GOOGL
+
+
+
+
+2020-06-05;Aglaé;Deposit;;100;CAD;
+2020-06-05;Aglaé;Buy;USD;100;USD
+2020-06-05;Aglaé;Buy;GOOGL;*;USD
+
+2021-06-26;Aglaé;Deposit;;100;CAD;
+2021-06-26;Aglaé;Buy;USD;*;CAD;USD
+2021-06-26;Aglaé;Buy;GOOGL;100;USD;
+
+deposit X CAD
+convert x CAD en y USD
+buy     X actions GOOGL pour y USD
+sell    X actions GOOGL pour y USD
+
+buy     X USD de y actions GOOGL
+sell    X USD de y actions GOOGL

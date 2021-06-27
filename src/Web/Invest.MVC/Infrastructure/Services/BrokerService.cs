@@ -182,6 +182,17 @@ namespace Invest.MVC.Infrastructure.Services
             return amount;
         }
 
+        public decimal Balance(Investor investor, DateTime date)
+        {
+            var dateUtc = ConvertDateToUtc(date);
+
+            // deposit - buy + sell - withdraw
+
+            //     _unitOfWork.TransactionRepository.
+
+            return 0M;
+        }
+
         private DateTime ConvertDateToUtc(DateTime? date)
         {
             DateTime dateUtc;

@@ -134,7 +134,7 @@ namespace Invest.MVC.Controllers
                     return NotFound();
                 }
 
-                if (decimal.TryParse(model.Amount, out decimal amount))
+                if (float.TryParse(model.Amount, out float amount))
                 {
                     entity.Amount = amount;
                 }
@@ -143,7 +143,7 @@ namespace Invest.MVC.Controllers
                 entity.Description = model.Description;
                 entity.OperationId = model.OperationId;
 
-                if (decimal.TryParse(model.Quantity, out decimal quantity))
+                if (float.TryParse(model.Quantity, out float quantity))
                 {
                     entity.Quantity = quantity;
                 }

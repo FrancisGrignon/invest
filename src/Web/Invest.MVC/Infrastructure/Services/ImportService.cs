@@ -79,7 +79,7 @@ namespace Invest.MVC.Infrastructure.Services
         //    string path = $"data/journal.csv";
         //    string[] data;
         //    DateTime date;
-        //    decimal quantity, amount = 0M, value;
+        //    float quantity, amount = 0M, value;
         //    string action, name, extra, symbol, forex = Forex.CAD;
         //    Investor investor;
         //    Stock stock;
@@ -178,7 +178,7 @@ namespace Invest.MVC.Infrastructure.Services
             var broker = new BrokerService(_unitOfWork);
             var investor = _unitOfWork.InvestorRepository.GetByName(investorName);
             var stock = _unitOfWork.StockRepository.GetBySymbol(stockName);
-            decimal amount = 100M;
+            float amount = 100f;
 
             var date = new DateTime(2019, 06, 07);
 
@@ -203,7 +203,7 @@ namespace Invest.MVC.Infrastructure.Services
             _unitOfWork.SaveChanges();
 
             // Snapshot
-            decimal exchangeRate;
+            float exchangeRate;
             DateTime max = new DateTime(2020, 06, 05);
 
             // Take snapshot
@@ -217,7 +217,7 @@ namespace Invest.MVC.Infrastructure.Services
                 date = date.AddDays(7);
             }
 
-            amount = 100M;
+            amount = 100f;
 
             _unitOfWork.SaveChanges();
 
@@ -255,7 +255,7 @@ namespace Invest.MVC.Infrastructure.Services
             _unitOfWork.SaveChanges();
 
             // 100$ more
-            amount = 100M;
+            amount = 100f;
 
             broker.Deposit(investor, amount, Forex.CAD, date);
 
@@ -297,7 +297,7 @@ namespace Invest.MVC.Infrastructure.Services
 
             // Deposit 100 CAD
             var date = new DateTime(2019, 06, 07);
-            var amount = 100M;
+            var amount = 100f;
 
             broker.Deposit(investor, amount, Forex.CAD, date);
 
@@ -313,7 +313,7 @@ namespace Invest.MVC.Infrastructure.Services
             _unitOfWork.SaveChanges();
 
             // Take snapshots
-            decimal exchangeRate;
+            float exchangeRate;
             DateTime max = new DateTime(2020, 06, 05);
 
             while (date <= max)
@@ -334,11 +334,11 @@ namespace Invest.MVC.Infrastructure.Services
             _unitOfWork.SaveChanges();
 
             // Deposit 100$
-            broker.Deposit(investor, 100M, Forex.CAD, date);
+            broker.Deposit(investor, 100f, Forex.CAD, date);
 
             _unitOfWork.SaveChanges();
 
-            amount = amount + 100M;
+            amount = amount + 100f;
 
             // Transfer CAD to USD
             amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
@@ -371,7 +371,7 @@ namespace Invest.MVC.Infrastructure.Services
 
 
             // 100$ more
-            amount = 100M;
+            amount = 100f;
 
             // 100 Deposit
             broker.Deposit(investor, amount, Forex.CAD, date);
@@ -414,7 +414,7 @@ namespace Invest.MVC.Infrastructure.Services
 
             var date = new DateTime(2020, 12, 25);
 
-            decimal amount = 100M;
+            float amount = 100f;
 
             broker.Deposit(investor, amount, Forex.CAD, date);
 
@@ -437,7 +437,7 @@ namespace Invest.MVC.Infrastructure.Services
             _unitOfWork.SaveChanges();
 
             // Snapshot
-            decimal exchangeRate;
+            float exchangeRate;
 
             var max = _until;
 
@@ -522,7 +522,7 @@ namespace Invest.MVC.Infrastructure.Services
             string path = $"data/{id}.csv";
             string[] data;
             DateTime date;
-            decimal value;
+            float value;
 
             // Read file using StreamReader. Reads file line by line    
             using (StreamReader file = new StreamReader(path))
@@ -542,7 +542,7 @@ namespace Invest.MVC.Infrastructure.Services
 
                         data = ln.Split(';');
                         date = Convert.ToDateTime(data[0]);
-                        value = Convert.ToDecimal(data[1], ci);
+                        value = float.Parse(data[1], ci);
 
                         stock.Value = value;
 
@@ -592,7 +592,7 @@ namespace Invest.MVC.Infrastructure.Services
             string path = $"data/{id}.csv";
             string[] data;
             DateTime date;
-            decimal exchangeRate;
+            float exchangeRate;
 
             // Read file using StreamReader. Reads file line by line    
             using (StreamReader file = new StreamReader(path))
@@ -612,7 +612,7 @@ namespace Invest.MVC.Infrastructure.Services
 
                         data = ln.Split(';');
                         date = Convert.ToDateTime(data[0]);
-                        exchangeRate = Convert.ToDecimal(data[1], ci);
+                        exchangeRate = float.Parse(data[1], ci);
 
                         forex.ExchangeRate = exchangeRate;
 

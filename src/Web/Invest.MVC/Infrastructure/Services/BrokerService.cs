@@ -16,7 +16,7 @@ namespace Invest.MVC.Infrastructure.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Investment Buy(Investor investor, Stock stock, decimal quantity, DateTime? date = null)
+        public Investment Buy(Investor investor, Stock stock, float quantity, DateTime? date = null)
         {
             var dateUtc = ConvertDateToUtc(date);
 
@@ -65,7 +65,7 @@ namespace Invest.MVC.Infrastructure.Services
             return investment;
         }
 
-        public decimal Sell(Investor investor, Stock stock, decimal quantity, DateTime? date = null)
+        public float Sell(Investor investor, Stock stock, float quantity, DateTime? date = null)
         {
             var dateUtc = ConvertDateToUtc(date);
 
@@ -106,7 +106,7 @@ namespace Invest.MVC.Infrastructure.Services
             return amount;
         }
 
-        public void Deposit(Investor investor, decimal amount, string currency, DateTime? date = null)
+        public void Deposit(Investor investor, float amount, string currency, DateTime? date = null)
         {
             var dateUtc = ConvertDateToUtc(date);
 
@@ -122,7 +122,7 @@ namespace Invest.MVC.Infrastructure.Services
             _unitOfWork.TransactionRepository.Add(transaction);
         }
 
-        public void Withdraw(Investor investor, decimal amount, string currency, DateTime? date = null)
+        public void Withdraw(Investor investor, float amount, string currency, DateTime? date = null)
         {
             var dateUtc = ConvertDateToUtc(date);
 
@@ -140,7 +140,7 @@ namespace Invest.MVC.Infrastructure.Services
             _unitOfWork.TransactionRepository.Add(transaction);
         }
 
-        public void Dividend(Investor investor, Stock stock, decimal amount, DateTime? date = null)
+        public void Dividend(Investor investor, Stock stock, float amount, DateTime? date = null)
         {
             var dateUtc = ConvertDateToUtc(date);
 
@@ -167,7 +167,7 @@ namespace Invest.MVC.Infrastructure.Services
 
         }
 
-        public decimal Transfer(Investor investor, decimal amount, string fromCurrency, string toDestination, DateTime? date = null)
+        public float Transfer(Investor investor, float amount, string fromCurrency, string toDestination, DateTime? date = null)
         {
             var dateUtc = ConvertDateToUtc(date);
 
@@ -182,7 +182,7 @@ namespace Invest.MVC.Infrastructure.Services
             return amount;
         }
 
-        public decimal Balance(Investor investor, DateTime date)
+        public float Balance(Investor investor, DateTime date)
         {
             var dateUtc = ConvertDateToUtc(date);
 
@@ -190,7 +190,7 @@ namespace Invest.MVC.Infrastructure.Services
 
             //     _unitOfWork.TransactionRepository.
 
-            return 0M;
+            return 0f;
         }
 
         private DateTime ConvertDateToUtc(DateTime? date)

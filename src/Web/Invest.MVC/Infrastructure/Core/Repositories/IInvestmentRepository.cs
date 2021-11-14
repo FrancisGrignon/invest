@@ -11,6 +11,6 @@ namespace Invest.MVC.Infrastructure.Core.Repositories
 
         Task<Investment> GetByStockAsync(Stock stock);
 
-        void TakeSnapshot(Investment entity, DateTime date, decimal stockValue, decimal exchangeRate);
+        void TakeSnapshot(Investment entity, DateTime date, float stockValue, float exchangeRate);
     }
 }

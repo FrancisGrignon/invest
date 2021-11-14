@@ -3,7 +3,6 @@ using System;
 using Invest.MVC;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Invest.MVC.Migrations
@@ -15,33 +14,30 @@ namespace Invest.MVC.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.1");
+                .HasAnnotation("ProductVersion", "5.0.12");
 
             modelBuilder.Entity("Invest.MVC.Forex", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Enable")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("ExchangeRate")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("ExchangeRate")
+                        .HasColumnType("REAL");
 
                     b.Property<DateTime>("UpdatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -54,31 +50,30 @@ namespace Invest.MVC.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Enable")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("ExchangeRate")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("ExchangeRate")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("ForexId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("UpdatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -91,32 +86,31 @@ namespace Invest.MVC.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Enable")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("InvestorId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Quantity")
+                    b.Property<float>("Quantity")
                         .HasPrecision(18, 5)
-                        .HasColumnType("decimal(18,5)");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("StockId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("UpdatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -131,45 +125,44 @@ namespace Invest.MVC.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Enable")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("ExchangeRate")
+                    b.Property<float>("ExchangeRate")
                         .HasPrecision(18, 5)
-                        .HasColumnType("decimal(18,5)");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("InvestmentId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("InvestorId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Quantity")
+                    b.Property<float>("Quantity")
                         .HasPrecision(18, 5)
-                        .HasColumnType("decimal(18,5)");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("StockId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("UpdatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Value")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("Value")
+                        .HasColumnType("REAL");
 
                     b.HasKey("Id");
 
@@ -186,26 +179,25 @@ namespace Invest.MVC.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Enable")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -216,22 +208,21 @@ namespace Invest.MVC.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Enable")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -241,66 +232,66 @@ namespace Invest.MVC.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6405),
+                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(655),
                             Enable = true,
                             Name = "Buy",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6416)
+                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(665)
                         },
                         new
                         {
                             Id = 5,
-                            CreatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6845),
+                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1078),
                             Enable = true,
                             Name = "Dividend",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6847)
+                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1081)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6849),
+                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1083),
                             Enable = true,
                             Name = "Merge",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6850)
+                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1084)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6852),
+                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1086),
                             Enable = true,
                             Name = "Sell",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6853)
+                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1087)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6854),
+                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1089),
                             Enable = true,
                             Name = "Split",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6856)
+                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1090)
                         },
                         new
                         {
                             Id = 6,
-                            CreatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6857),
+                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1092),
                             Enable = true,
                             Name = "Deposit",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6858)
+                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1093)
                         },
                         new
                         {
                             Id = 7,
-                            CreatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6860),
+                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1095),
                             Enable = true,
                             Name = "Withdraw",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6861)
+                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1096)
                         },
                         new
                         {
                             Id = 8,
-                            CreatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6862),
+                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1098),
                             Enable = true,
                             Name = "Transfer",
-                            UpdatedUtc = new DateTime(2020, 12, 28, 23, 52, 56, 915, DateTimeKind.Utc).AddTicks(6864)
+                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1099)
                         });
                 });
 
@@ -308,35 +299,34 @@ namespace Invest.MVC.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Enable")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Symbol")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Value")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("Value")
+                        .HasColumnType("REAL");
 
                     b.HasKey("Id");
 
@@ -350,41 +340,40 @@ namespace Invest.MVC.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Enable")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("StockId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Symbol")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Value")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("Value")
+                        .HasColumnType("REAL");
 
                     b.HasKey("Id");
 
@@ -399,47 +388,46 @@ namespace Invest.MVC.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("Amount")
+                        .HasColumnType("REAL");
 
                     b.Property<DateTime>("CreatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Enable")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("ExchangeRate")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("ExchangeRate")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("InvestorId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("OperationId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("Quantity")
+                        .HasColumnType("REAL");
 
                     b.Property<int?>("StockId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("UpdatedUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

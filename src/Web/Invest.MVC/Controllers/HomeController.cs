@@ -51,8 +51,8 @@ namespace Invest.MVC.Controllers
             var investments = _context.Investments.Include(prop => prop.Stock)
               .Where(p => false == ExcludeGenevieve || ExcludeGenevieve && p.Investor.Name != "GENEVIÈVE");
 
-            var exchangeRate = 1.27M;
-            decimal total = 0M;
+            var exchangeRate = 1.27f;
+            float total = 0f;
 
             foreach (var investment in investments)
             {

@@ -15,6 +15,7 @@ namespace Invest.MVC
                 if (context != null && context.Database != null)
                 {
                     context.Database.Migrate();
+                    context.Import();
                 }
             }
         }

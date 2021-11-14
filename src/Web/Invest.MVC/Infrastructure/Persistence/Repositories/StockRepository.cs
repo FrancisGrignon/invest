@@ -54,7 +54,7 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
             history.Enable = stock.Enable;
         }
 
-        public decimal GetValue(Stock stock, DateTime date)
+        public float GetValue(Stock stock, DateTime date)
         {
             var dateUtc = date.ToUniversalTime().Date;
 

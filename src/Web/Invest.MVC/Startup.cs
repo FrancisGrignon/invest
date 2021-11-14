@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using System.Reflection;
+using System.IO;
 
 namespace Invest.MVC
 {
@@ -101,7 +102,11 @@ namespace Invest.MVC
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.MigrateDatabase();
+            if (false == File.Exists("invest.db"))
+            {
+                // File.Delete("invest.db");
+                app.MigrateDatabase();
+            }            
         }
     }
 }

@@ -11,6 +11,6 @@ namespace Invest.MVC.Infrastructure.Core.Repositories
 
         public void TakeSnapshot(Stock stock, DateTime date);
 
-        public decimal GetValue(Stock stock, DateTime date);
+        public float GetValue(Stock stock, DateTime date);
     }
 }

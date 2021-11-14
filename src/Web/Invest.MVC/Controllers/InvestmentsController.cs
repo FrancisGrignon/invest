@@ -89,7 +89,7 @@ namespace Invest.MVC.Controllers
 
             var dateUtc = DateTime.MinValue;
             var index = -1;
-            decimal today = 0M, yesterday = 0M;
+            float today = 0f, yesterday = 0f;
             ProgressViewModel model;
 
             foreach (var history in await histories.ToListAsync())
@@ -111,7 +111,7 @@ namespace Invest.MVC.Controllers
                     {
                         Investor = history.Investor,
                         Stock = history.Stock,
-                        Values = new decimal[] { 0M, 0M, 0M, 0M, 0M, 0M, 0M, 0M, 0M }
+                        Values = new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f }
                     };
 
                     dictionnary[history.Investor] = model;
@@ -156,13 +156,13 @@ namespace Invest.MVC.Controllers
         private const string FORMAT_MONEY = "0.00$;-0.00$";
         private const string FORMAT_PERCENT = "0.00%;-0.00%";
 
-        private string Style(decimal value)
+        private string Style(float value)
         {
-            if (value < 0m)
+            if (value < 0f)
             {
                 return "fw-price-dn";
             } 
-            else if (0m < value)
+            else if (0f < value)
             {
                 return "fw-price-up";
             }
@@ -176,7 +176,7 @@ namespace Invest.MVC.Controllers
 
         public string Stock { get; set; }
 
-        public decimal[] Values { get; set; }
+        public float[] Values { get; set; }
 
         public string A { get { return Values[0].ToString(FORMAT_MONEY); } }
         public string B1 { get { return Values[1].ToString(FORMAT_MONEY); } }

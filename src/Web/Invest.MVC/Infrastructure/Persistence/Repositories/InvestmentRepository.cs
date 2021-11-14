@@ -33,7 +33,7 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
             return Context.Set<Investment>().Where(p => p.Enable && p.StockId == stock.Id && p.InvestorId == investor.Id).SingleOrDefaultAsync();
         }
 
-        public void TakeSnapshot(Investment entity, DateTime date, decimal stockValue, decimal exchangeRate)
+        public void TakeSnapshot(Investment entity, DateTime date, float stockValue, float exchangeRate)
         {
             var dateUtc = date.ToUniversalTime().Date;
 

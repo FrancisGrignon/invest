@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Invest.MVC.Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -28,9 +29,8 @@ namespace Invest.MVC
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            //options.UseSqlServer(@"Server =.\SQLExpress; AttachDbFilename=C:\Temp\Invest.mdf;Database=dbname;Trusted_Connection=Yes;");
-            options.UseSqlServer(@"Server = localhost,11433; Database = invest; User Id = sa; Password = P@ssword66");
-
+            ///options.UseSqlServer(@"Server = localhost,11433; Database = invest; User Id = sa; Password = P@ssword66");
+            options.UseSqlite("Filename=invest.db");
             options.EnableSensitiveDataLogging();
         }
 
@@ -80,6 +80,13 @@ namespace Invest.MVC
 
             base.OnModelCreating(modelBuilder);
         }
+
+        public void Import()
+        {
+            var _importService = new ImportService(this);
+
+            _importService.Execute();
+        }
     }
 
     public interface IEntity
@@ -95,7 +102,9 @@ namespace Invest.MVC
 
     public class Investor : IEntity
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
         public int Id { get; set; }
 
         [Required]
@@ -119,7 +128,9 @@ namespace Invest.MVC
 
     public class Stock : IEntity
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
         public int Id { get; set; }
 
         [Required]
@@ -131,7 +142,7 @@ namespace Invest.MVC
         public string Symbol { get; set; }
 
         [Range(0, Int32.MaxValue)]
-        public decimal Value { get; set; }
+        public float Value { get; set; }
 
         // CAD, USD
         [Required]
@@ -149,7 +160,9 @@ namespace Invest.MVC
 
     public class StockHistory : IEntity
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
         public int Id { get; set; }
 
         public Stock Stock { get; set; }
@@ -165,7 +178,7 @@ namespace Invest.MVC
         public string Symbol { get; set; }
 
         [Range(0, Int32.MaxValue)]
-        public decimal Value { get; set; }
+        public float Value { get; set; }
 
         // CAD, USD
         [Required]
@@ -201,6 +214,7 @@ namespace Invest.MVC
 
     public class Investment : IEntity
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
@@ -213,7 +227,7 @@ namespace Invest.MVC
         public Investor Investor { get; set; }
 
         [Range(0, Int32.MaxValue)]
-        public decimal Quantity { get; set; }
+        public float Quantity { get; set; }
 
         // CAD, USD
         [Required]
@@ -231,6 +245,7 @@ namespace Invest.MVC
 
     public class InvestmentHistory : IEntity
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
@@ -247,17 +262,17 @@ namespace Invest.MVC
         public Investor Investor { get; set; }
 
         [Range(0, Int32.MaxValue)]
-        public decimal Quantity { get; set; }
+        public float Quantity { get; set; }
 
         [Range(0, Int32.MaxValue)]
-        public decimal Value { get; set; }
+        public float Value { get; set; }
 
         [Required]
         [StringLength(3)]
         public string Currency { get; set; }
 
         [Required]
-        public decimal ExchangeRate { get; set; }
+        public float ExchangeRate { get; set; }
 
         public DateTime DateUtc { get; set; } = DateTime.UtcNow.Date;
 
@@ -273,6 +288,7 @@ namespace Invest.MVC
         public const string CAD = "CAD";
         public const string USD = "USD";
 
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
@@ -281,7 +297,7 @@ namespace Invest.MVC
         public string Currency { get; set; }
 
         [Required]
-        public decimal ExchangeRate { get; set; }
+        public float ExchangeRate { get; set; }
 
         public List<ForexHistory> ForexHistories { get; } = new List<ForexHistory>();
 
@@ -294,6 +310,7 @@ namespace Invest.MVC
 
     public class ForexHistory : IEntity
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
@@ -306,7 +323,7 @@ namespace Invest.MVC
         public string Currency { get; set; }
 
         [Required]
-        public decimal ExchangeRate { get; set; }
+        public float ExchangeRate { get; set; }
 
         public DateTime DateUtc { get; set; } = DateTime.UtcNow.Date;
 
@@ -335,6 +352,7 @@ namespace Invest.MVC
 
     public class Transaction : IEntity
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
@@ -351,17 +369,17 @@ namespace Invest.MVC
         public Investor Investor { get; set; }
 
         [Range(0, Int32.MaxValue)]
-        public decimal Quantity { get; set; }
+        public float Quantity { get; set; }
 
         [Range(0, Int32.MaxValue)]
-        public decimal Amount { get; set; }
+        public float Amount { get; set; }
 
         [Required]
         [StringLength(3)]
         public string Currency { get; set; }
 
         [Required]
-        public decimal ExchangeRate { get; set; }
+        public float ExchangeRate { get; set; }
 
         [StringLength(255)]
         public string Description { get; set; }

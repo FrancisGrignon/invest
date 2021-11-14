@@ -53,7 +53,7 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
         }
 
 
-        public decimal GetExchangeRate(string fromCurrency, string toCurrency, DateTime date)
+        public float GetExchangeRate(string fromCurrency, string toCurrency, DateTime date)
         {
             var dateUtc = date.ToUniversalTime().Date;
 
@@ -64,7 +64,7 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
 
             if (fromCurrency == toCurrency)
             {
-                exchangeRate = 1M;
+                exchangeRate = 1f;
             }
             else if (Forex.CAD == fromCurrency && Forex.USD == toCurrency)
             {

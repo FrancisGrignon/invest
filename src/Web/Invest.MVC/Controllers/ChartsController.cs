@@ -32,11 +32,11 @@ namespace Invest.MVC.Controllers
 
             if (true == string.IsNullOrEmpty(id))
             {
-                symbols = _context.Stocks.Select(p => p.Symbol.ToUpper()).ToList();
+                symbols = _context.Stocks.Select(p => p.Symbol).ToList();
             }
             else
             {
-                symbols = id.ToUpper().Split(',').ToList();
+                symbols = id.Split(',').ToList();
             }
 
             var query = _context.StockHistories
@@ -62,11 +62,11 @@ namespace Invest.MVC.Controllers
                 .Select(p => p.ToString("yyyy-MM-dd"))
                 .ToList();
 
-            var dict = new Dictionary<string, List<decimal?>>();
+            var dict = new Dictionary<string, List<double?>>();
 
             foreach (var symbol in symbols)
             {
-                dict[symbol] = new List<decimal?>();
+                dict[symbol] = new List<double?>();
             }
 
             query = _context.StockHistories
@@ -126,7 +126,7 @@ namespace Invest.MVC.Controllers
 
                 values.ForEach(p =>
                 {
-                    data.Add(new LineSeriesData { Y = (p.HasValue ? Convert.ToDouble(p.Value) : null) });
+                    data.Add(new LineSeriesData { Y = (p.HasValue ? p.Value : null) });
                 });
 
                 var serie = new LineSeries
@@ -155,14 +155,14 @@ namespace Invest.MVC.Controllers
 
             if (true == string.IsNullOrEmpty(id))
             {
-                names = _context.Investors.Select(p => p.Name.ToUpper()).ToList();
+                names = _context.Investors.Select(p => p.Name).ToList();
             }
             else
             {
-                names = id.ToUpper().Split(',').ToList();
+                names = id.Split(',').ToList();
             }
 
-            names = names.Where(p => false == ExcludeGenevieve || ExcludeGenevieve && p != "GENEVIÈVE").ToList();
+            names = names.Where(p => false == ExcludeGenevieve || ExcludeGenevieve && p != "Geneviève").ToList();
 
             var query = _context.InvestmentHistories
                 .Where(m => names.Contains(m.Investor.Name));
@@ -172,13 +172,13 @@ namespace Invest.MVC.Controllers
             if (from.HasValue)
             {
                 dateUtc = from.Value.ToUniversalTime().Date;
-                query = query.Where(p => dateUtc <= p.DateUtc);
+                query = _context.InvestmentHistories.Where(p => dateUtc <= p.DateUtc);
             }
 
             if (to.HasValue)
             {
                 dateUtc = from.Value.ToUniversalTime().Date;
-                query = query.Where(p => p.DateUtc <= dateUtc);
+                query = _context.InvestmentHistories.Where(p => p.DateUtc <= dateUtc);
             }
 
             var categories = query
@@ -187,26 +187,26 @@ namespace Invest.MVC.Controllers
                 .Select(p => p.ToString("yyyy-MM-dd"))
                 .ToList();
 
-            var dict = new Dictionary<string, List<decimal?>>();
+            var dict = new Dictionary<string, List<double?>>();
 
             foreach (var name in names)
             {
-                dict[name] = new List<decimal?>();
+                dict[name] = new List<double?>();
             }
 
             query = _context.InvestmentHistories
-                .Where(m => names.Contains(m.Investor.Name));
+               .Where(m => names.Contains(m.Investor.Name));
 
             if (from.HasValue)
             {
                 dateUtc = from.Value.ToUniversalTime().Date;
-                query = query.Where(p => dateUtc <= p.DateUtc);
+                query = _context.InvestmentHistories.Where(p => dateUtc <= p.DateUtc);
             }
 
             if (to.HasValue)
             {
                 dateUtc = from.Value.ToUniversalTime().Date;
-                query = query.Where(p => p.DateUtc <= dateUtc);
+                query = _context.InvestmentHistories.Where(p => p.DateUtc <= dateUtc);
             }
 
             var histories = query
@@ -225,11 +225,11 @@ namespace Invest.MVC.Controllers
 
             foreach (var history in histories)
             {
-                key = history.Name.ToUpper();
+                key = history.Name;
 
                 if (date == history.DateUtc.ToString("yyyy-MM-dd"))
                 {
-                    dict[key][index] = Math.Round(history.Value, 2);
+                    dict[key][index] = Math.Round(Convert.ToDouble(history.Value), 2);
                 }
                 else
                 {
@@ -254,7 +254,7 @@ namespace Invest.MVC.Controllers
 
                 values.ForEach(p =>
                 {
-                    data.Add(new LineSeriesData { Y = (p.HasValue ? Convert.ToDouble(p.Value) : null) });
+                    data.Add(new LineSeriesData { Y = (p.HasValue ? p.Value : null) });
                 });
 
                 var serie = new LineSeries
@@ -283,14 +283,14 @@ namespace Invest.MVC.Controllers
 
             if (true == string.IsNullOrEmpty(id))
             {
-                names = _context.Investors.Select(p => p.Name.ToUpper()).ToList();
+                names = _context.Investors.Select(p => p.Name).ToList();
             }
             else
             {
-                names = id.ToUpper().Split(',').ToList();
+                names = id.Split(',').ToList();
             }
 
-            names = names.Where(p => false == ExcludeGenevieve || ExcludeGenevieve && p != "GENEVIÈVE").ToList();
+            names = names.Where(p => false == ExcludeGenevieve || ExcludeGenevieve && p != "Geneviève").ToList();
 
             DateTime dateUtc;
 
@@ -325,13 +325,13 @@ namespace Invest.MVC.Controllers
                 return NotFound();
             }
 
-            var values = new List<decimal>();
+            var values = new List<double>();
             var categories = new List<string>();
 
             foreach (var history in histories)
             {
                 categories.Add(history.DateUtc.ToString("yyyy-MM-dd"));
-                values.Add(Math.Round(history.Value / history.Count, 2));
+                values.Add(Math.Round(Convert.ToDouble(history.Value / history.Count), 2));
             }
 
             var xAxis = new XAxis
@@ -343,7 +343,7 @@ namespace Invest.MVC.Controllers
 
             values.ForEach(p =>
             {
-                data.Add(new LineSeriesData { Y = Convert.ToDouble(p) });
+                data.Add(new LineSeriesData { Y = p });
             });
 
             var serie = new LineSeries
@@ -364,11 +364,11 @@ namespace Invest.MVC.Controllers
 
             if (true == string.IsNullOrEmpty(id))
             {
-                names = _context.Investors.Select(p => p.Name.ToUpper()).ToList();
+                names = _context.Investors.Select(p => p.Name).ToList();
             }
             else
             {
-                names = id.ToUpper().Split(',').ToList();
+                names = id.Split(',').ToList();
             }
 
             names = names.Where(p => false == ExcludeGenevieve || ExcludeGenevieve && p != "GENEVIÈVE").ToList();
@@ -405,13 +405,13 @@ namespace Invest.MVC.Controllers
                 return NotFound();
             }
 
-            var values = new List<decimal>();
+            var values = new List<double>();
             var categories = new List<string>();
 
             foreach (var history in histories)
             {
                 categories.Add(history.DateUtc.ToString("yyyy-MM-dd"));
-                values.Add(history.Value);
+                values.Add(Math.Round(Convert.ToDouble(history.Value), 2));
             }
 
             var xAxis = new XAxis
@@ -423,7 +423,7 @@ namespace Invest.MVC.Controllers
 
             values.ForEach(p =>
             {
-                data.Add(new LineSeriesData { Y = Convert.ToDouble(p) });
+                data.Add(new LineSeriesData { Y = p });
             });
 
             var serie = new LineSeries

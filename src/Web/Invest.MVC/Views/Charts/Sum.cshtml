@@ -55,3 +55,12 @@
 }
 
 @Html.Raw(renderer.RenderHtml())
+
+<div>
+    Période: <a href="/charts/investors">tout</a> |
+    <a href="/charts/sum?from=@ViewData["1y"]">1a</a> |
+    <a href="/charts/sum?from=@ViewData["6m"]">6m</a> |
+    <a href="/charts/sum?from=@ViewData["1m"]">1m</a> |
+    <a href="/charts/sum?from=@ViewData["1w"]">1s</a> |
+    <a href="/charts/sum?from=@ViewData["cousin"]">cousin</a>
+</div>

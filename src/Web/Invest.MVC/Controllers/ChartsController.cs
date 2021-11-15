@@ -146,8 +146,12 @@ namespace Invest.MVC.Controllers
             ViewData["XAxis"] = new List<XAxis>() { xAxis };
             ViewData["Series"] = series;
 
+            AddRange();
+
             return View();
         }
+
+
 
         public IActionResult Investors(string id, DateTime? from, DateTime? to)
         {
@@ -274,6 +278,8 @@ namespace Invest.MVC.Controllers
             ViewData["XAxis"] = new List<XAxis>() { xAxis };
             ViewData["Series"] = series;
 
+            AddRange();
+
             return View();
         }
 
@@ -355,6 +361,8 @@ namespace Invest.MVC.Controllers
             ViewData["XAxis"] = new List<XAxis>() { xAxis };
             ViewData["Series"] = new List<Series> { serie };
 
+            AddRange();
+
             return View();
         }
 
@@ -435,7 +443,24 @@ namespace Invest.MVC.Controllers
             ViewData["XAxis"] = new List<XAxis>() { xAxis };
             ViewData["Series"] = new List<Series> { serie };
 
+            AddRange();
+
             return View();
+        }
+
+        private void AddRange()
+        {
+            var currentDateUtc = _context
+                .InvestmentHistories
+                .Where(p => false == ExcludeGenevieve || ExcludeGenevieve && p.Investor.Name != "GENEVIÈVE")
+                .Max(p => p.DateUtc);
+
+            ViewData["1w"] = currentDateUtc.AddDays(-7).ToString("yyyy-MM-dd");
+            ViewData["1m"] = currentDateUtc.AddDays(-7 * 4).ToString("yyyy-MM-dd");
+            ViewData["6m"] = currentDateUtc.AddDays(-7 * 26).ToString("yyyy-MM-dd");
+            ViewData["1y"] = currentDateUtc.AddYears(-1).ToString("yyyy-MM-dd");
+            ViewData["all"] = new DateTime(2019, 06, 07).ToUniversalTime().ToString("yyyy-MM-dd");
+            ViewData["cousin"] = new DateTime(2020, 12, 25).ToUniversalTime().ToString("yyyy-MM-dd");
         }
     }
 }

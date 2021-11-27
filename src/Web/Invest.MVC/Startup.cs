@@ -102,11 +102,11 @@ namespace Invest.MVC
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            if (false == File.Exists("invest.db"))
-            {
-                // File.Delete("invest.db");
-                app.MigrateDatabase();
-            }            
+            //if (false == File.Exists("invest.db"))
+            //{
+            //    // File.Delete("invest.db");
+            //    app.MigrateDatabase();
+            //}            
         }
     }
 }

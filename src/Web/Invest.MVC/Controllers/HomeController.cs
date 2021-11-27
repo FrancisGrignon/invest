@@ -36,6 +36,12 @@ namespace Invest.MVC.Controllers
 
         public IActionResult Index()
         {
+            if (false == System.IO.File.Exists("invest.db"))
+            {
+                _context.Database.Migrate();
+                _context.Import();
+            }
+
             return View();
         }
 

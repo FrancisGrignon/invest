@@ -38,7 +38,7 @@
                 @Html.DisplayFor(modelItem => item.Investor)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Stock)
+                @Html.DisplayFor(modelItem => item.Stock) (<a href="@string.Format("https://www.google.com/finance/quote/{0}:{1}", item.Symbol, item.Market)">@Html.DisplayFor(modelItem => item.Symbol)</a>)
             </td>
             <td class="ali">
                 @Html.DisplayFor(modelItem => item.A)

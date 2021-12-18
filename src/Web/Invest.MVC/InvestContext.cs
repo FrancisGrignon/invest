@@ -141,6 +141,10 @@ namespace Invest.MVC
         [StringLength(255)]
         public string Symbol { get; set; }
 
+        [Required]
+        [StringLength(255)]
+        public string Market { get; set; }
+
         [Range(0, Int32.MaxValue)]
         public float Value { get; set; }
 

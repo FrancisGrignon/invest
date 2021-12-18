@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 
 namespace Invest.MVC.Controllers
@@ -35,6 +36,12 @@ namespace Invest.MVC.Controllers
         }
 
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        [Route("/import")]
+        public IActionResult Import()
         {
             if (false == System.IO.File.Exists("invest.db"))
             {
@@ -72,9 +79,9 @@ namespace Invest.MVC.Controllers
                 }
             }
 
-            ViewData["Total"] = total.ToString("C0");
-            ViewData["From"] = 700.ToString("C0");
-            ViewData["Increase"] = (total - 700).ToString("C0");
+            ViewData["Total"] = total.ToString("0.00");
+            ViewData["From"] = 700.ToString("0.00");
+            ViewData["Increase"] = (total - 700).ToString("0.00");
 
             return View();
         }

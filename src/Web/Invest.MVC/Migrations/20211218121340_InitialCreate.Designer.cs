@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Invest.MVC.Migrations
 {
     [DbContext(typeof(InvestContext))]
-    [Migration("20211114183552_InitialCreate")]
+    [Migration("20211218121340_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,66 +234,66 @@ namespace Invest.MVC.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(655),
+                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(7842),
                             Enable = true,
                             Name = "Buy",
-                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(665)
+                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(7849)
                         },
                         new
                         {
                             Id = 5,
-                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1078),
+                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8332),
                             Enable = true,
                             Name = "Dividend",
-                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1081)
+                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8335)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1083),
+                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8337),
                             Enable = true,
                             Name = "Merge",
-                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1084)
+                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8339)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1086),
+                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8340),
                             Enable = true,
                             Name = "Sell",
-                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1087)
+                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8342)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1089),
+                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8343),
                             Enable = true,
                             Name = "Split",
-                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1090)
+                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8345)
                         },
                         new
                         {
                             Id = 6,
-                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1092),
+                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8346),
                             Enable = true,
                             Name = "Deposit",
-                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1093)
+                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8348)
                         },
                         new
                         {
                             Id = 7,
-                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1095),
+                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8349),
                             Enable = true,
                             Name = "Withdraw",
-                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1096)
+                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8351)
                         },
                         new
                         {
                             Id = 8,
-                            CreatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1098),
+                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8353),
                             Enable = true,
                             Name = "Transfer",
-                            UpdatedUtc = new DateTime(2021, 11, 14, 18, 35, 51, 969, DateTimeKind.Utc).AddTicks(1099)
+                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8354)
                         });
                 });
 
@@ -313,6 +313,11 @@ namespace Invest.MVC.Migrations
 
                     b.Property<bool>("Enable")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Market")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()

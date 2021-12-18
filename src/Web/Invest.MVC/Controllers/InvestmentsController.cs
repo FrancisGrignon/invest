@@ -83,7 +83,10 @@ namespace Invest.MVC.Controllers
                 .OrderByDescending(p => p.Id)
                 .OrderByDescending(p => p.DateUtc)
                 .ThenBy(p => p.Investor.Name)
-                .Select(p => new { p.DateUtc, Investor = p.Investor.Name, Stock = $"{p.Stock.Name} ({p.Stock.Symbol})", Value = (p.Quantity * p.Value * p.ExchangeRate) });
+                .Select(p => new { 
+                    p.DateUtc, 
+                    Investor = p.Investor.Name, Stock = p.Stock.Name, p.Stock.Symbol, p.Stock.Market, 
+                    Value = (p.Quantity * p.Value * p.ExchangeRate) });
 
             var dictionnary = new Dictionary<string, ProgressViewModel>();
 
@@ -111,6 +114,8 @@ namespace Invest.MVC.Controllers
                     {
                         Investor = history.Investor,
                         Stock = history.Stock,
+                        Symbol = history.Symbol,
+                        Market = history.Market,
                         Values = new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f }
                     };
 
@@ -175,6 +180,10 @@ namespace Invest.MVC.Controllers
         public string Investor { get; set; }
 
         public string Stock { get; set; }
+
+        public string Market { get; set; }
+        
+        public string Symbol { get; set; }
 
         public float[] Values { get; set; }
 

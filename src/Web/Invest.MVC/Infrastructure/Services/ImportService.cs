@@ -52,15 +52,15 @@ namespace Invest.MVC.Infrastructure.Services
             ImportForex(Forex.CAD);
             ImportForex(Forex.USD);
 
-            ImportStock("ABNB");
-            ImportStock("COST");
-            ImportStock("EMP.A");
-            ImportStock("GOOGL");
-            ImportStock("L");
-            ImportStock("MSFT"); 
-            ImportStock("NTDOY");
-            ImportStock("SHOP");
-            ImportStock("TSLA");
+            ImportStock("ABNB", "Airbnb", "NASDAQ", Forex.USD);
+            ImportStock("COST", "Costco", "NASDAQ", Forex.USD);
+            ImportStock("EMP.A", "Empire", "TSE", Forex.CAD);
+            ImportStock("GOOGL", "Alphabet", "NASDAQ", Forex.USD);
+            ImportStock("L", "Loblaw", "TSE", Forex.CAD);
+            ImportStock("MSFT", "Microsoft", "NASDAQ", Forex.USD); 
+            ImportStock("NTDOY", "Nintendo", "OTCMKTS", Forex.USD);
+            ImportStock("SHOP", "Shopify", "TSE", Forex.CAD);
+            ImportStock("TSLA", "Tesla", "NASDAQ", Forex.USD);
 
             ImportInvestors();
 
@@ -455,7 +455,7 @@ namespace Invest.MVC.Infrastructure.Services
             _unitOfWork.SaveChanges();
         }
 
-        public void ImportStock(string id)
+        public void ImportStock(string id, string name, string market, string currency)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -470,50 +470,11 @@ namespace Invest.MVC.Infrastructure.Services
             {
                 stock = new Stock
                 {
-                    Symbol = id
+                    Symbol = id,
+                    Name = name,
+                    Market = market,
+                    Currency = currency
                 };
-
-                switch (id)
-                {
-                    case "ABNB":
-                        stock.Name = "Airbnb";
-                        stock.Currency = Forex.USD;
-                        break;
-                    case "COST":
-                        stock.Name = "Costco";
-                        stock.Currency = Forex.USD;
-                        break;
-                    case "EMP.A":
-                        stock.Name = "Empire";
-                        stock.Currency = Forex.CAD;
-                        break;
-                    case "GOOGL":
-                        stock.Name = "Alphabet";
-                        stock.Currency = Forex.USD;
-                        break;
-                    case "L":
-                        stock.Name = "Loblaw";
-                        stock.Currency = Forex.CAD;
-                        break;
-                    case "MSFT":
-                        stock.Name = "Microsoft";
-                        stock.Currency = Forex.USD;
-                        break;
-                    case "NTDOY":
-                        stock.Name = "Nintendo";
-                        stock.Currency = Forex.USD;
-                        break;
-                    case "SHOP":
-                        stock.Name = "Shopify";
-                        stock.Currency = Forex.CAD;
-                        break;
-                    case "TSLA":
-                        stock.Name = "Tesla";
-                        stock.Currency = Forex.USD;
-                        break;
-                    default:
-                        return;
-                }
 
                 _unitOfWork.StockRepository.Add(stock);
                 _unitOfWork.SaveChanges();

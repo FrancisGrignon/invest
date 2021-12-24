@@ -106,7 +106,14 @@ namespace Invest.MVC.Infrastructure.Services
             return amount;
         }
 
-        public void Deposit(Investor investor, float amount, string currency, DateTime? date = null)
+        public Money Deposit(Investor investor, Money money, DateTime? date = null)
+        {
+            Deposit(investor, money.Amount, money.Currency, date);
+
+            return money;
+        }
+
+        public float Deposit(Investor investor, float amount, string currency, DateTime? date = null)
         {
             var dateUtc = ConvertDateToUtc(date);
 
@@ -120,6 +127,8 @@ namespace Invest.MVC.Infrastructure.Services
             };
 
             _unitOfWork.TransactionRepository.Add(transaction);
+
+            return amount;
         }
 
         public void Withdraw(Investor investor, float amount, string currency, DateTime? date = null)

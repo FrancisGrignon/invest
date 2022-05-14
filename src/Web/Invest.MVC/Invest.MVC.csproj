@@ -8,11 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="invest.db" />
     <None Remove="invest.db-shm" />
     <None Remove="invest.db-wal" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="invest.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="invest.db-shm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

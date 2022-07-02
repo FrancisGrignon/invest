@@ -55,6 +55,11 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
 
         public float GetExchangeRate(string fromCurrency, string toCurrency, DateTime date)
         {
+            if (fromCurrency == toCurrency)
+            {
+                return 1f;
+            }
+
             var dateUtc = date.ToUniversalTime().Date;
 
             var exchangeRate = Context.Set<ForexHistory>()

@@ -62,7 +62,14 @@ namespace Invest.MVC.Infrastructure.Services
                 _unitOfWork.InvestmentRepository.Update(investment);
             }
 
+            _unitOfWork.SaveChanges();
+
             return investment;
+        }
+
+        public float Sell(Investment investment, DateTime? date = null)
+        {
+            return Sell(investment.Investor, investment.Stock, investment.Quantity, date);
         }
 
         public float Sell(Investor investor, Stock stock, float quantity, DateTime? date = null)
@@ -81,8 +88,10 @@ namespace Invest.MVC.Infrastructure.Services
                 throw new Exception($"The investor {investor.Name} doesn't own that {quantity} stock of {stock.Name}.");
             }
 
+            var value = _unitOfWork.StockRepository.GetValue(stock, dateUtc);
+
             // Check if how stock
-            var amount = quantity * stock.Value;
+            var amount = quantity * value;
 
             // Add money
             var transaction = new Transaction
@@ -115,18 +124,28 @@ namespace Invest.MVC.Infrastructure.Services
 
         public float Deposit(Investor investor, float amount, string currency, DateTime? date = null)
         {
+            return Deposit(investor, amount, currency, currency, date);
+        }
+
+        public float Deposit(Investor investor, float amount, string sourceCurrency, string destinationCurrency, DateTime? date = null)
+        {
             var dateUtc = ConvertDateToUtc(date);
+
+            var exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(sourceCurrency, destinationCurrency, dateUtc);
+
+            amount = amount * exchangeRate;
 
             var transaction = new Transaction
             {
                 Investor = investor,
                 OperationId = Operation.Deposit,
                 Amount = amount,
-                Currency = currency,
+                Currency = destinationCurrency,
                 DateUtc = dateUtc
             };
 
             _unitOfWork.TransactionRepository.Add(transaction);
+            _unitOfWork.SaveChanges();
 
             return amount;
         }
@@ -147,6 +166,7 @@ namespace Invest.MVC.Infrastructure.Services
             };
 
             _unitOfWork.TransactionRepository.Add(transaction);
+            _unitOfWork.SaveChanges();
         }
 
         public void Dividend(Investor investor, Stock stock, float amount, DateTime? date = null)
@@ -164,6 +184,7 @@ namespace Invest.MVC.Infrastructure.Services
             };
 
             _unitOfWork.TransactionRepository.Add(transaction);
+            _unitOfWork.SaveChanges();
         }
 
         public void Split(Investor investor, Stock stock, int ratio, DateTime? date = null)
@@ -178,15 +199,24 @@ namespace Invest.MVC.Infrastructure.Services
 
         public float Transfer(Investor investor, float amount, string fromCurrency, string toDestination, DateTime? date = null)
         {
-            var dateUtc = ConvertDateToUtc(date);
+            if (fromCurrency == toDestination)
+            {
+                // Do nothing
+            }
+            else
+            {
+                var dateUtc = ConvertDateToUtc(date);
 
-            Withdraw(investor, amount, fromCurrency, date);
+                Withdraw(investor, amount, fromCurrency, date);
 
-            var exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(fromCurrency, toDestination, dateUtc);
+                var exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(fromCurrency, toDestination, dateUtc);
 
-            amount = amount * exchangeRate;
+                amount = amount * exchangeRate;
 
-            Deposit(investor, amount, toDestination, date);
+                Deposit(investor, amount, toDestination, date);
+
+                _unitOfWork.SaveChanges();
+            }
 
             return amount;
         }

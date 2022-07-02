@@ -62,12 +62,13 @@ namespace Invest.MVC.Infrastructure.Services
             ImportStock("SHOP", "Shopify", "TSE", Forex.CAD);
             ImportStock("TSLA", "Tesla", "NASDAQ", Forex.USD);
             ImportStock("VFV", "S&P 500", "TSE", Forex.CAD);
+            ImportStock("BAM.A", "Brookfield", "TSE", Forex.CAD);
 
             ImportInvestors();
 
             ImportOlderTransactions("Aglaé", "GOOGL");
             ImportOlderTransactions("Pénélope", "COST");
-            ImportOlderTransactions("Geneviève", "SHOP");
+            ImportGenevieveTransactions();
             ImportEtienneTransactions();
             ImportOtherTransactions("Aaricia", "ABNB");
             ImportOtherTransactions("Cédrik", "TSLA");
@@ -184,61 +185,27 @@ namespace Invest.MVC.Infrastructure.Services
             var broker = new BrokerService(_unitOfWork);
             var investor = _unitOfWork.InvestorRepository.GetByName(investorName);
             var stock = _unitOfWork.StockRepository.GetBySymbol(stockName);
-            float amount = 100f;
+            var amount = 0f;
 
-            var date = new DateTime(2019, 06, 07);
+            DateTime date = new DateTime(2019, 06, 07);
+
+            // 2019
 
             // 100 Deposit
-            broker.Deposit(investor, amount, Forex.CAD, date);
-
-            _unitOfWork.SaveChanges();
-
-            // CAD to USD
-            if (Forex.USD == stock.Currency)
-            {
-                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
-            }
-
-            _unitOfWork.SaveChanges();
+            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
 
             // Buy            
             var value = _unitOfWork.StockRepository.GetValue(stock, date);
             var quantity = amount / value;
             var investment = broker.Buy(investor, stock, quantity, date);
 
-            _unitOfWork.SaveChanges();
-
             // Snapshot
-            float exchangeRate;
-            DateTime max = new DateTime(2020, 06, 05);
+            date = Snapshot(investment, date, new DateTime(2020, 06, 05));
 
-            // Take snapshot
-            while (date <= max)
-            {
-                value = _unitOfWork.StockRepository.GetValue(stock, date);
-                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
-
-                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
-
-                date = date.AddDays(7);
-            }
-
-            amount = 100f;
-
-            _unitOfWork.SaveChanges();
+            // 2020
 
             // 100 Deposit
-            broker.Deposit(investor, amount, Forex.CAD, date);
-
-            _unitOfWork.SaveChanges();
-
-            // CAD to USD
-            if (Forex.USD == stock.Currency)
-            {
-                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
-            }
-
-            _unitOfWork.SaveChanges();
+            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -246,34 +213,21 @@ namespace Invest.MVC.Infrastructure.Services
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot
-            max = new DateTime(2021, 06, 4);
+            date = Snapshot(investment, date, new DateTime(2021, 06, 4));
 
-            while (date <= max)
-            {
-                value = _unitOfWork.StockRepository.GetValue(stock, date);
-                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
+            // 2021
+            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
 
-                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
 
-                date = date.AddDays(7);
-            }
+            // Take snapshot 2022
+            date = Snapshot(investment, date, new DateTime(2022, 06, 10));
 
-            _unitOfWork.SaveChanges();
-
-            // 100$ more
-            amount = 100f;
-
-            broker.Deposit(investor, amount, Forex.CAD, date);
-
-            _unitOfWork.SaveChanges();
-
-            // CAD to USD
-            if (Forex.USD == stock.Currency)
-            {
-                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
-            }
-
-            _unitOfWork.SaveChanges();
+            // 2022
+            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date); ;
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -282,20 +236,6 @@ namespace Invest.MVC.Infrastructure.Services
 
             // Take snapshot
             Snapshot(investment, date, _until);
-
-            max = _until;
-
-            while (date <= max)
-            {
-                value = _unitOfWork.StockRepository.GetValue(stock, date);
-                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
-
-                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
-
-                date = date.AddDays(7);
-            }
-
-            _unitOfWork.SaveChanges();
         }
 
         public void ImportEtienneTransactions()
@@ -305,13 +245,11 @@ namespace Invest.MVC.Infrastructure.Services
             var broker = new BrokerService(_unitOfWork);
             var investor = _unitOfWork.InvestorRepository.GetByName("Étienne");
 
-            // Deposit 100 CAD
+            // 2019
             var date = new DateTime(2019, 06, 07);
             var amount = 100f;
 
             broker.Deposit(investor, amount, Forex.CAD, date);
-
-            _unitOfWork.SaveChanges();
 
             // Buy IGA
             var stock = _unitOfWork.StockRepository.GetBySymbol("EMP.A");
@@ -320,40 +258,19 @@ namespace Invest.MVC.Infrastructure.Services
 
             var investment = broker.Buy(investor, stock, quantity, date);
 
-            _unitOfWork.SaveChanges();
-
             // Take snapshots
-            float exchangeRate;
-            DateTime max = new DateTime(2020, 06, 05);
+            date = Snapshot(investment, date, new DateTime(2020, 06, 05));
 
-            while (date <= max)
-            {
-                value = _unitOfWork.StockRepository.GetValue(stock, date);
-                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
-
-                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
-
-                date = date.AddDays(7);
-            }
-
-            _unitOfWork.SaveChanges();
+            // 2020
 
             // Sell IGA
             amount = broker.Sell(investor, stock, quantity, date);
 
-            _unitOfWork.SaveChanges();
-
             // Deposit 100$
-            broker.Deposit(investor, 100f, Forex.CAD, date);
-
-            _unitOfWork.SaveChanges();
-
-            amount = amount + 100f;
+            amount += broker.Deposit(investor, 100f, Forex.CAD, date);
 
             // Transfer CAD to USD
             amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
-
-            _unitOfWork.SaveChanges();
 
             // Buy Microsoft
             stock = _unitOfWork.StockRepository.GetBySymbol("MSFT");
@@ -362,38 +279,26 @@ namespace Invest.MVC.Infrastructure.Services
 
             investment = broker.Buy(investor, stock, quantity, date);
 
-            _unitOfWork.SaveChanges();
-
-            max = new DateTime(2021, 06, 04);
-
             // Take snapshots
-            while (date <= max)
-            {
-                value = _unitOfWork.StockRepository.GetValue(stock, date);
-                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
+            date = Snapshot(investment, date, new DateTime(2021, 06, 04));
 
-                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
-
-                date = date.AddDays(7);
-            }
-
-            _unitOfWork.SaveChanges();
-
-            // 100$ more
-            amount = 100f;
+            // 2021
 
             // 100 Deposit
-            broker.Deposit(investor, amount, Forex.CAD, date);
+            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
 
-            _unitOfWork.SaveChanges();
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
 
-            // CAD to USD
-            if (Forex.USD == stock.Currency)
-            {
-                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
-            }
+            // Take snapshots
+            date = Snapshot(investment, date, new DateTime(2022, 06, 10));
 
-            _unitOfWork.SaveChanges();
+            // 2022
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -401,19 +306,79 @@ namespace Invest.MVC.Infrastructure.Services
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot
-            max = _until;
+            Snapshot(investment, date, _until);
+        }
 
-            while (date <= max)
-            {
-                value = _unitOfWork.StockRepository.GetValue(stock, date);
-                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
+        public void ImportGenevieveTransactions()
+        {
+            var investorName = "Geneviève";
+            var stockName = "SHOP";
 
-                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
+            Console.WriteLine($"ImportGeneviveTransactions()");
 
-                date = date.AddDays(7);
-            }
+            var broker = new BrokerService(_unitOfWork);
+            var investor = _unitOfWork.InvestorRepository.GetByName(investorName);
+            var stock = _unitOfWork.StockRepository.GetBySymbol(stockName);
 
-            _unitOfWork.SaveChanges();
+            // 2019
+
+            float amount = 100f;
+            var date = new DateTime(2019, 06, 07);
+
+            // 100 Deposit
+            broker.Deposit(investor, amount, Forex.CAD, date);
+
+            // Buy            
+            var value = _unitOfWork.StockRepository.GetValue(stock, date);
+            var quantity = amount / value;
+            var investment = broker.Buy(investor, stock, quantity, date);
+
+            // Snapshot
+            date = Snapshot(investment, date, new DateTime(2020, 06, 05));
+
+            // 2020
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2021, 06, 4));
+
+            // 2021
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2022, 06, 10));
+
+            // 2022
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Sell SHOP
+            amount += broker.Sell(investor, stock, investment.Quantity, date);
+
+            // Buy BAM.A
+            stock = _unitOfWork.StockRepository.GetBySymbol("BAM.A");
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            Snapshot(investment, date, _until);
         }
 
         public void ImportOtherTransactions(string investorName, string symbol)

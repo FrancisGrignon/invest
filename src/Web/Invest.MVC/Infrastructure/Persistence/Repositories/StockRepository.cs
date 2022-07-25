@@ -49,6 +49,7 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
             history.Symbol = stock.Symbol;
             history.Value = stock.Value;
             history.Currency = stock.Currency;
+            history.Split = stock.Split;
 
             history.UpdatedUtc = DateTime.UtcNow;
             history.Enable = stock.Enable;

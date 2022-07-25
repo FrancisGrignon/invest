@@ -148,6 +148,9 @@ namespace Invest.MVC
         [Range(0, Int32.MaxValue)]
         public float Value { get; set; }
 
+        [Range(0, Int32.MaxValue)]
+        public float Split { get; set; }
+
         // CAD, USD
         [Required]
         [StringLength(3)]
@@ -183,6 +186,9 @@ namespace Invest.MVC
 
         [Range(0, Int32.MaxValue)]
         public float Value { get; set; }
+
+        [Range(0, Int32.MaxValue)]
+        public float Split { get; set; }
 
         // CAD, USD
         [Required]

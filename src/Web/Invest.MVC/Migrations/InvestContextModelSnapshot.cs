@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace Invest.MVC.Migrations
 {
     [DbContext(typeof(InvestContext))]
@@ -13,8 +15,7 @@ namespace Invest.MVC.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.12");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.4");
 
             modelBuilder.Entity("Invest.MVC.Forex", b =>
                 {
@@ -232,66 +233,66 @@ namespace Invest.MVC.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(7842),
+                            CreatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(170),
                             Enable = true,
                             Name = "Buy",
-                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(7849)
+                            UpdatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(172)
                         },
                         new
                         {
                             Id = 5,
-                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8332),
+                            CreatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(174),
                             Enable = true,
                             Name = "Dividend",
-                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8335)
+                            UpdatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(174)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8337),
+                            CreatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(175),
                             Enable = true,
                             Name = "Merge",
-                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8339)
+                            UpdatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(175)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8340),
+                            CreatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(176),
                             Enable = true,
                             Name = "Sell",
-                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8342)
+                            UpdatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(176)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8343),
+                            CreatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(176),
                             Enable = true,
                             Name = "Split",
-                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8345)
+                            UpdatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(177)
                         },
                         new
                         {
                             Id = 6,
-                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8346),
+                            CreatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(177),
                             Enable = true,
                             Name = "Deposit",
-                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8348)
+                            UpdatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(178)
                         },
                         new
                         {
                             Id = 7,
-                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8349),
+                            CreatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(178),
                             Enable = true,
                             Name = "Withdraw",
-                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8351)
+                            UpdatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(179)
                         },
                         new
                         {
                             Id = 8,
-                            CreatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8353),
+                            CreatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(179),
                             Enable = true,
                             Name = "Transfer",
-                            UpdatedUtc = new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8354)
+                            UpdatedUtc = new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(179)
                         });
                 });
 
@@ -321,6 +322,9 @@ namespace Invest.MVC.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
+
+                    b.Property<float>("Split")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Symbol")
                         .IsRequired()
@@ -365,6 +369,9 @@ namespace Invest.MVC.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
+
+                    b.Property<float>("Split")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("StockId")
                         .HasColumnType("INTEGER");

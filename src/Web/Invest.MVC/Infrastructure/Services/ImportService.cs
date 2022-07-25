@@ -66,7 +66,7 @@ namespace Invest.MVC.Infrastructure.Services
 
             ImportInvestors();
 
-            ImportOlderTransactions("Aglaé", "GOOGL");
+            ImportAglaeTransactions();
             ImportOlderTransactions("Pénélope", "COST");
             ImportGenevieveTransactions();
             ImportEtienneTransactions();
@@ -233,6 +233,70 @@ namespace Invest.MVC.Infrastructure.Services
             value = _unitOfWork.StockRepository.GetValue(stock, date);
             quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            Snapshot(investment, date, _until);
+        }
+        public void ImportAglaeTransactions()
+        {
+            Console.WriteLine($"ImportAglaeTransactions()");
+
+            var broker = new BrokerService(_unitOfWork);
+            var investor = _unitOfWork.InvestorRepository.GetByName("Aglaé");
+            var stock = _unitOfWork.StockRepository.GetBySymbol("GOOGL");
+
+            DateTime date = new DateTime(2019, 06, 07);
+
+            // 2019
+
+            // 100 Deposit
+            var amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+
+            // Buy            
+            var value = _unitOfWork.StockRepository.GetValue(stock, date);
+            var quantity = amount / value;
+            var investment = broker.Buy(investor, stock, quantity, date);
+
+            // Snapshot
+            date = Snapshot(investment, date, new DateTime(2020, 06, 05));
+
+            // 2020
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2021, 06, 4));
+
+            // 2021
+            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot 2022
+            date = Snapshot(investment, date, new DateTime(2022, 06, 10));
+
+            // 2022
+            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date); ;
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2022, 07, 15));
+
+            // Split - 2022-07-23
+            investment = broker.Split(investor, stock, 20, date);
 
             // Take snapshot
             Snapshot(investment, date, _until);
@@ -605,7 +669,8 @@ namespace Invest.MVC.Infrastructure.Services
                     Symbol = id,
                     Name = name,
                     Market = market,
-                    Currency = currency
+                    Currency = currency,
+                    Split = 1
                 };
 
                 _unitOfWork.StockRepository.Add(stock);
@@ -615,7 +680,7 @@ namespace Invest.MVC.Infrastructure.Services
             string path = $"data/{id}.csv";
             string[] data;
             DateTime date;
-            float value;
+            float value, split;
 
             // Read file using StreamReader. Reads file line by line    
             using (StreamReader file = new StreamReader(path))
@@ -636,6 +701,11 @@ namespace Invest.MVC.Infrastructure.Services
                         data = ln.Split(';');
                         date = Convert.ToDateTime(data[0]);
                         value = float.Parse(data[1], ci);
+
+                        if (3 < data.Length)
+                        {
+                            split = float.Parse(data[3], ci);
+                        }
 
                         stock.Value = value;
 

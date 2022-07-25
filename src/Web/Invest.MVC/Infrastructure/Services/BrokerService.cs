@@ -187,9 +187,32 @@ namespace Invest.MVC.Infrastructure.Services
             _unitOfWork.SaveChanges();
         }
 
-        public void Split(Investor investor, Stock stock, int ratio, DateTime? date = null)
+        public Investment Split(Investor investor, Stock stock, int ratio, DateTime? date = null)
         {
+            var dateUtc = ConvertDateToUtc(date);
 
+            // Update the quantity
+            var investment = _unitOfWork.InvestmentRepository.GetByStock(stock);
+
+             investment.Quantity *= ratio;
+
+            // Record the transaction
+            var transaction = new Transaction
+            {
+                Investor = investor,
+                OperationId = Operation.Split,
+                Stock = stock,
+                Amount = 0,
+                Quantity = investment.Quantity,
+                Currency = stock.Currency,
+                DateUtc = dateUtc
+            };
+
+            _unitOfWork.InvestmentRepository.Update(investment);
+            _unitOfWork.TransactionRepository.Add(transaction);
+            _unitOfWork.SaveChanges();
+
+            return investment;
         }
 
         public void Merge(Investor investor, Stock stock, int ratio, DateTime? date = null)

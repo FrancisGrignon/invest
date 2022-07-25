@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace Invest.MVC.Migrations
 {
     public partial class InitialCreate : Migration
@@ -67,6 +69,7 @@ namespace Invest.MVC.Migrations
                     Symbol = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     Market = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     Value = table.Column<float>(type: "REAL", nullable: false),
+                    Split = table.Column<float>(type: "REAL", nullable: false),
                     Currency = table.Column<string>(type: "TEXT", maxLength: 3, nullable: false),
                     CreatedUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
@@ -142,6 +145,7 @@ namespace Invest.MVC.Migrations
                     Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     Symbol = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     Value = table.Column<float>(type: "REAL", nullable: false),
+                    Split = table.Column<float>(type: "REAL", nullable: false),
                     Currency = table.Column<string>(type: "TEXT", maxLength: 3, nullable: false),
                     DateUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CreatedUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
@@ -196,8 +200,7 @@ namespace Invest.MVC.Migrations
                         name: "FK_Transactions_Stocks_StockId",
                         column: x => x.StockId,
                         principalTable: "Stocks",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -243,42 +246,42 @@ namespace Invest.MVC.Migrations
             migrationBuilder.InsertData(
                 table: "Operations",
                 columns: new[] { "Id", "CreatedUtc", "Enable", "Name", "UpdatedUtc" },
-                values: new object[] { 1, new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(7842), true, "Buy", new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(7849) });
+                values: new object[] { 1, new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(170), true, "Buy", new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(172) });
 
             migrationBuilder.InsertData(
                 table: "Operations",
                 columns: new[] { "Id", "CreatedUtc", "Enable", "Name", "UpdatedUtc" },
-                values: new object[] { 5, new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8332), true, "Dividend", new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8335) });
+                values: new object[] { 2, new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(176), true, "Sell", new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(176) });
 
             migrationBuilder.InsertData(
                 table: "Operations",
                 columns: new[] { "Id", "CreatedUtc", "Enable", "Name", "UpdatedUtc" },
-                values: new object[] { 4, new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8337), true, "Merge", new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8339) });
+                values: new object[] { 3, new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(176), true, "Split", new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(177) });
 
             migrationBuilder.InsertData(
                 table: "Operations",
                 columns: new[] { "Id", "CreatedUtc", "Enable", "Name", "UpdatedUtc" },
-                values: new object[] { 2, new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8340), true, "Sell", new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8342) });
+                values: new object[] { 4, new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(175), true, "Merge", new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(175) });
 
             migrationBuilder.InsertData(
                 table: "Operations",
                 columns: new[] { "Id", "CreatedUtc", "Enable", "Name", "UpdatedUtc" },
-                values: new object[] { 3, new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8343), true, "Split", new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8345) });
+                values: new object[] { 5, new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(174), true, "Dividend", new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(174) });
 
             migrationBuilder.InsertData(
                 table: "Operations",
                 columns: new[] { "Id", "CreatedUtc", "Enable", "Name", "UpdatedUtc" },
-                values: new object[] { 6, new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8346), true, "Deposit", new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8348) });
+                values: new object[] { 6, new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(177), true, "Deposit", new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(178) });
 
             migrationBuilder.InsertData(
                 table: "Operations",
                 columns: new[] { "Id", "CreatedUtc", "Enable", "Name", "UpdatedUtc" },
-                values: new object[] { 7, new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8349), true, "Withdraw", new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8351) });
+                values: new object[] { 7, new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(178), true, "Withdraw", new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(179) });
 
             migrationBuilder.InsertData(
                 table: "Operations",
                 columns: new[] { "Id", "CreatedUtc", "Enable", "Name", "UpdatedUtc" },
-                values: new object[] { 8, new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8353), true, "Transfer", new DateTime(2021, 12, 18, 12, 13, 40, 558, DateTimeKind.Utc).AddTicks(8354) });
+                values: new object[] { 8, new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(179), true, "Transfer", new DateTime(2022, 7, 25, 1, 38, 5, 542, DateTimeKind.Utc).AddTicks(179) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Forexes_Currency",

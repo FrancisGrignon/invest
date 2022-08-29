@@ -194,7 +194,7 @@ namespace Invest.MVC.Infrastructure.Services
             // Update the quantity
             var investment = _unitOfWork.InvestmentRepository.GetByStock(stock);
 
-             investment.Quantity *= ratio;
+            investment.Quantity *= ratio;
 
             // Record the transaction
             var transaction = new Transaction

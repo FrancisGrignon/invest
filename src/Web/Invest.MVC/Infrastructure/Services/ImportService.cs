@@ -71,7 +71,7 @@ namespace Invest.MVC.Infrastructure.Services
             ImportGenevieveTransactions();
             ImportEtienneTransactions();
             ImportOtherTransactions("Aaricia", "ABNB");
-            ImportOtherTransactions("Cédrik", "TSLA");
+            ImportCedrikTransactions();
             ImportOtherTransactions("Marco", "NTDOY");
 
             ImportAnnabelleTransactions();
@@ -297,6 +297,45 @@ namespace Invest.MVC.Infrastructure.Services
 
             // Split - 2022-07-23
             investment = broker.Split(investor, stock, 20, date);
+
+            // Take snapshot
+            Snapshot(investment, date, _until);
+        }
+        public void ImportCedrikTransactions()
+        {
+            Console.WriteLine($"ImportCedrikTransactions()");
+
+            var broker = new BrokerService(_unitOfWork);
+            var investor = _unitOfWork.InvestorRepository.GetByName("Cédrik");
+            var stock = _unitOfWork.StockRepository.GetBySymbol("TSLA");
+
+            // 2020
+            var date = new DateTime(2020, 12, 25);
+
+            // 100 Deposit
+            var amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+
+            // Buy            
+            var value = _unitOfWork.StockRepository.GetValue(stock, date);
+            var quantity = amount / value;
+            var investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2021, 12, 17));
+
+            // 2021
+            amount = broker.Deposit(investor, 100f, Forex.USD, stock.Currency, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2022, 08, 19));
+
+            // Split - 2022-08-26
+            investment = broker.Split(investor, stock, 3, date);
 
             // Take snapshot
             Snapshot(investment, date, _until);

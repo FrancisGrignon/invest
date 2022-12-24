@@ -63,6 +63,8 @@ namespace Invest.MVC.Infrastructure.Services
             ImportStock("TSLA", "Tesla", "NASDAQ", Forex.USD);
             ImportStock("VFV", "S&P 500", "TSE", Forex.CAD);
             ImportStock("BAM.A", "Brookfield", "TSE", Forex.CAD);
+            ImportStock("BAM", "Brookfield", "TSE", Forex.CAD);
+            ImportStock("BN", "Brookfield Corporation", "TSE", Forex.CAD);
 
             ImportInvestors();
 
@@ -476,6 +478,18 @@ namespace Invest.MVC.Infrastructure.Services
 
             // Buy BAM.A
             stock = _unitOfWork.StockRepository.GetBySymbol("BAM.A");
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2022, 12, 02));
+
+            // Split BAM.A into BAM and BN
+            amount = broker.Sell(investor, stock, investment.Quantity, date);
+
+            stock = _unitOfWork.StockRepository.GetBySymbol("BAM");
             value = _unitOfWork.StockRepository.GetValue(stock, date);
             quantity = amount / value;
 

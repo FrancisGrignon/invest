@@ -142,7 +142,7 @@ namespace Invest.MVC.Controllers
 
             var viewModel = new ProgressListViewModel
             {
-                Progresses = dictionnary.Values.ToList(),
+                Progresses = dictionnary.Values.OrderByDescending(x => x.Values[0]).ToList(),
                 Date = currentDateUtc.ToString("yyyy-MM-dd")
             };
 

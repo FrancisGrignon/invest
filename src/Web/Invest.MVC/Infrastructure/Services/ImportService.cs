@@ -327,7 +327,7 @@ namespace Invest.MVC.Infrastructure.Services
             date = Snapshot(investment, date, new DateTime(2021, 12, 17));
 
             // 2021
-            amount = broker.Deposit(investor, 100f, Forex.USD, stock.Currency, date);
+            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -339,6 +339,17 @@ namespace Invest.MVC.Infrastructure.Services
 
             // Split - 2022-08-26
             investment = broker.Split(investor, stock, 3, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2022, 12, 23));
+
+            // 2022
+            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot
             Snapshot(investment, date, _until);
@@ -536,6 +547,18 @@ namespace Invest.MVC.Infrastructure.Services
             investment = broker.Split(investor, stock, 5, date);
 
             // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2022, 12, 23));
+
+            // 2022
+            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
             Snapshot(investment, date, _until);
         }
 
@@ -607,18 +630,20 @@ namespace Invest.MVC.Infrastructure.Services
             quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
 
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2022, 12, 23));
+
+            // 2022
+            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+
+            investment = broker.Buy(investor, stock, quantity, date);
+
             // Take snapshots
-            while (date <= _until)
-            {
-                value = _unitOfWork.StockRepository.GetValue(stock, date);
-                exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, date);
-
-                _unitOfWork.InvestmentRepository.TakeSnapshot(investment, date, value, exchangeRate);
-
-                date = date.AddDays(7);
-            }
-
-            _unitOfWork.SaveChanges();
+            Snapshot(investment, date, _until);
         }
 
         public void ImportAnnabelleTransactions()
@@ -668,7 +693,17 @@ namespace Invest.MVC.Infrastructure.Services
 
             investment = broker.Buy(investor, stock, quantity, date);
 
-            _unitOfWork.SaveChanges();
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2022, 12, 23));
+
+            // 2022
+            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+
+            investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshots
             Snapshot(investment, date, _until);

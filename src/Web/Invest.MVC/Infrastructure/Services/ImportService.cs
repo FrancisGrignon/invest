@@ -1,5 +1,4 @@
-﻿using NuGet.Protocol;
-using System;
+﻿using System;
 using System.Globalization;
 using System.IO;
 
@@ -15,7 +14,6 @@ namespace Invest.MVC.Infrastructure.Services
         {
 
         }
-
 
         public ImportService(UnitOfWork unitOfWork)
         {

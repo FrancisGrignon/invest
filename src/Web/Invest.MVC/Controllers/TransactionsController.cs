@@ -1,7 +1,4 @@
-﻿using Invest.MVC.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,17 +15,31 @@ namespace Invest.MVC.Controllers
         }
 
         // GET: Transactions
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string id)
         {
-            var investContext = _context
-                .Transactions
-                .Include(t => t.Investor)
-                .Include(t => t.Operation)
-                .Include(t => t.Stock)
-                .OrderBy(t => t.DateUtc)
-                .ThenBy(t => t.Id);
+            if (string.IsNullOrEmpty(id)) 
+            {
+                var withoutId = _context
+                    .Transactions
+                    .Include(t => t.Investor)
+                    .Include(t => t.Operation)
+                    .Include(t => t.Stock)
+                    .OrderBy(t => t.DateUtc)
+                    .ThenBy(t => t.Id);
 
-            return View(await investContext.ToListAsync());
+                return View(await withoutId.ToListAsync());
+            }
+
+            var withId = _context
+                 .Transactions
+                 .Include(t => t.Investor)
+                 .Include(t => t.Operation)
+                 .Include(t => t.Stock)
+                 .Where(t => t.Investor.Name == id)
+                 .OrderBy(t => t.DateUtc)
+                 .ThenBy(t => t.Id);
+
+            return View(await withId.ToListAsync());
         }
     }
 }

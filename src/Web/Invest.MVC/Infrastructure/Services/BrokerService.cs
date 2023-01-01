@@ -234,13 +234,9 @@ namespace Invest.MVC.Infrastructure.Services
             {
                 var dateUtc = ConvertDateToUtc(date);
 
- //               Withdraw(investor, amount, fromCurrency, date);
-
-                var exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(fromCurrency, toCurrency, dateUtc);
+                 var exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(fromCurrency, toCurrency, dateUtc);
 
                 amount = amount * exchangeRate;
-
-//                Deposit(investor, amount, toCurrency, date);
 
                 var transaction = new Transaction
                 {

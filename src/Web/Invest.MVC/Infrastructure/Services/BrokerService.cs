@@ -33,7 +33,8 @@ namespace Invest.MVC.Infrastructure.Services
                 Quantity = quantity,
                 Amount = amount,
                 Currency = stock.Currency,
-                DateUtc = dateUtc
+                DateUtc = dateUtc,
+                ExchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, dateUtc)
             };
 
             _unitOfWork.TransactionRepository.Add(transaction);
@@ -102,7 +103,8 @@ namespace Invest.MVC.Infrastructure.Services
                 Quantity = quantity,
                 Amount = amount,
                 Currency = stock.Currency,
-                DateUtc = dateUtc
+                DateUtc = dateUtc,
+                ExchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, dateUtc)
             };            
 
             _unitOfWork.TransactionRepository.Add(transaction);
@@ -141,7 +143,8 @@ namespace Invest.MVC.Infrastructure.Services
                 OperationId = Operation.Deposit,
                 Amount = amount,
                 Currency = destinationCurrency,
-                DateUtc = dateUtc
+                DateUtc = dateUtc,
+                ExchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(destinationCurrency, Forex.CAD, dateUtc)
             };
 
             _unitOfWork.TransactionRepository.Add(transaction);
@@ -154,15 +157,14 @@ namespace Invest.MVC.Infrastructure.Services
         {
             var dateUtc = ConvertDateToUtc(date);
 
-            // Check if enough money
-
             var transaction = new Transaction
             {
                 Investor = investor,
                 OperationId = Operation.Withdraw,
                 Amount = amount,
                 Currency = currency,
-                DateUtc = dateUtc
+                DateUtc = dateUtc,
+                ExchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(currency, Forex.CAD, dateUtc)
             };
 
             _unitOfWork.TransactionRepository.Add(transaction);
@@ -180,7 +182,8 @@ namespace Invest.MVC.Infrastructure.Services
                 Stock = stock,
                 Amount = amount,
                 Currency = stock.Currency,
-                DateUtc = dateUtc
+                DateUtc = dateUtc,
+                ExchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, dateUtc)
             };
 
             _unitOfWork.TransactionRepository.Add(transaction);
@@ -205,7 +208,8 @@ namespace Invest.MVC.Infrastructure.Services
                 Amount = 0,
                 Quantity = investment.Quantity,
                 Currency = stock.Currency,
-                DateUtc = dateUtc
+                DateUtc = dateUtc,
+                ExchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, dateUtc)
             };
 
             _unitOfWork.InvestmentRepository.Update(investment);
@@ -220,9 +224,9 @@ namespace Invest.MVC.Infrastructure.Services
 
         }
 
-        public float Transfer(Investor investor, float amount, string fromCurrency, string toDestination, DateTime? date = null)
+        public float Transfer(Investor investor, float amount, string fromCurrency, string toCurrency, DateTime? date = null)
         {
-            if (fromCurrency == toDestination)
+            if (fromCurrency == toCurrency)
             {
                 // Do nothing
             }
@@ -230,14 +234,25 @@ namespace Invest.MVC.Infrastructure.Services
             {
                 var dateUtc = ConvertDateToUtc(date);
 
-                Withdraw(investor, amount, fromCurrency, date);
+ //               Withdraw(investor, amount, fromCurrency, date);
 
-                var exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(fromCurrency, toDestination, dateUtc);
+                var exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(fromCurrency, toCurrency, dateUtc);
 
                 amount = amount * exchangeRate;
 
-                Deposit(investor, amount, toDestination, date);
+//                Deposit(investor, amount, toCurrency, date);
 
+                var transaction = new Transaction
+                {
+                    Investor = investor,
+                    OperationId = Operation.Transfer,
+                    Amount = amount,
+                    Currency = toCurrency,
+                    DateUtc = dateUtc,
+                    ExchangeRate = exchangeRate
+                };
+
+                _unitOfWork.TransactionRepository.Add(transaction);
                 _unitOfWork.SaveChanges();
             }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NuGet.Protocol;
+using System;
 using System.Globalization;
 using System.IO;
 
@@ -194,7 +195,12 @@ namespace Invest.MVC.Infrastructure.Services
             // 2019
 
             // 100 Deposit
-            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            if (Forex.USD == stock.Currency)
+            {
+                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            }
 
             // Buy            
             var value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -207,7 +213,12 @@ namespace Invest.MVC.Infrastructure.Services
             // 2020
 
             // 100 Deposit
-            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            if (Forex.USD == stock.Currency)
+            {
+                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            }
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -218,7 +229,12 @@ namespace Invest.MVC.Infrastructure.Services
             date = Snapshot(investment, date, new DateTime(2021, 06, 4));
 
             // 2021
-            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            if (Forex.USD == stock.Currency)
+            {
+                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            }
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -229,7 +245,12 @@ namespace Invest.MVC.Infrastructure.Services
             date = Snapshot(investment, date, new DateTime(2022, 06, 10));
 
             // 2022
-            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date); ;
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            if (Forex.USD == stock.Currency)
+            {
+                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            }
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -252,7 +273,10 @@ namespace Invest.MVC.Infrastructure.Services
             // 2019
 
             // 100 Deposit
-            var amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+            var amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
 
             // Buy            
             var value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -265,7 +289,10 @@ namespace Invest.MVC.Infrastructure.Services
             // 2020
 
             // 100 Deposit
-            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -276,7 +303,12 @@ namespace Invest.MVC.Infrastructure.Services
             date = Snapshot(investment, date, new DateTime(2021, 06, 4));
 
             // 2021
-            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -287,7 +319,12 @@ namespace Invest.MVC.Infrastructure.Services
             date = Snapshot(investment, date, new DateTime(2022, 06, 10));
 
             // 2022
-            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date); ;
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -316,7 +353,10 @@ namespace Invest.MVC.Infrastructure.Services
             var date = new DateTime(2020, 12, 25);
 
             // 100 Deposit
-            var amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+            var amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
 
             // Buy            
             var value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -327,7 +367,12 @@ namespace Invest.MVC.Infrastructure.Services
             date = Snapshot(investment, date, new DateTime(2021, 12, 17));
 
             // 2021
-            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -344,7 +389,12 @@ namespace Invest.MVC.Infrastructure.Services
             date = Snapshot(investment, date, new DateTime(2022, 12, 23));
 
             // 2022
-            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -402,7 +452,10 @@ namespace Invest.MVC.Infrastructure.Services
             // 2021
 
             // 100 Deposit
-            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -415,7 +468,10 @@ namespace Invest.MVC.Infrastructure.Services
             // 2022
 
             // 100 Deposit
-            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -522,7 +578,10 @@ namespace Invest.MVC.Infrastructure.Services
             var date = new DateTime(2020, 12, 25);
 
             // 100 Deposit
-            var amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+            var amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
 
             // Buy            
             var value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -533,7 +592,12 @@ namespace Invest.MVC.Infrastructure.Services
             date = Snapshot(investment, date, new DateTime(2021, 12, 17));
 
             // 2021
-            amount = broker.Deposit(investor, 100f, Forex.USD, stock.Currency, date);
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date); ;
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -550,7 +614,12 @@ namespace Invest.MVC.Infrastructure.Services
             date = Snapshot(investment, date, new DateTime(2022, 12, 23));
 
             // 2022
-            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);
@@ -616,13 +685,9 @@ namespace Invest.MVC.Infrastructure.Services
 
             broker.Deposit(investor, amount, Forex.CAD, date);
 
-            _unitOfWork.SaveChanges();
-
             if (Forex.USD == stock.Currency)
             {
                 amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
-
-                _unitOfWork.SaveChanges();
             }
 
             // Buy
@@ -634,7 +699,15 @@ namespace Invest.MVC.Infrastructure.Services
             date = Snapshot(investment, date, new DateTime(2022, 12, 23));
 
             // 2022
-            amount = broker.Deposit(investor, 100f, Forex.CAD, stock.Currency, date);
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            if (Forex.USD == stock.Currency)
+            {
+                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            }
 
             // Buy
             value = _unitOfWork.StockRepository.GetValue(stock, date);

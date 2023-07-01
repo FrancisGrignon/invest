@@ -255,6 +255,22 @@ namespace Invest.MVC.Infrastructure.Services
             quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
 
+            // Take snapshot 2023
+            date = Snapshot(investment, date, new DateTime(2023, 06, 23));
+
+            // 2023
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            if (Forex.USD == stock.Currency)
+            {
+                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            }
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
             // Take snapshot
             Snapshot(investment, date, _until);
         }
@@ -334,6 +350,22 @@ namespace Invest.MVC.Infrastructure.Services
 
             // Split - 2022-07-23
             investment = broker.Split(investor, stock, 20, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2023, 06, 23));
+
+            // 2023
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot
             Snapshot(investment, date, _until);
@@ -476,6 +508,22 @@ namespace Invest.MVC.Infrastructure.Services
             quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
 
+            // Take snapshots
+            date = Snapshot(investment, date, new DateTime(2023, 06, 23));
+
+            // 2023
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
             // Take snapshot
             Snapshot(investment, date, _until);
         }
@@ -558,6 +606,19 @@ namespace Invest.MVC.Infrastructure.Services
             value = _unitOfWork.StockRepository.GetValue(stock, date);
             quantity = amount / value;
 
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2023, 06, 23));
+
+            // 2023
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot

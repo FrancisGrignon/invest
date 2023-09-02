@@ -1,13 +1,9 @@
-﻿using Azure;
-using Highsoft.Web.Mvc.Charts;
+﻿using Highsoft.Web.Mvc.Charts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection.Emit;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Invest.MVC.Controllers
 {
@@ -431,7 +427,7 @@ namespace Invest.MVC.Controllers
             var xValue = new List<double>();
             var xDepot = new List<double>();
 
-         //   var values = new List<double>();
+            //   var values = new List<double>();
             var categories = new List<string>();
             double sum = 0;
             float amount;
@@ -444,7 +440,7 @@ namespace Invest.MVC.Controllers
                 sum = deposits.Where(p => p.DateUtc <= history.DateUtc).Sum(p => p.Value);
 
                 xDepot.Add(Math.Round(Convert.ToDouble(sum), 2));
-            } 
+            }
 
             var xAxis = new XAxis
             {

@@ -25,7 +25,7 @@ namespace Invest.MVC
 
         public DbSet<StockHistory> StockHistories { get; set; }
 
-        public DbSet<Transaction> Transactions { get; set; }        
+        public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -40,12 +40,12 @@ namespace Invest.MVC
                 .HasMany(c => c.StockHistories)
                 .WithOne(c => c.Stock)
                 .OnDelete(DeleteBehavior.NoAction);
-          
+
             modelBuilder.Entity<Investment>()
                 .HasMany(c => c.InvestmentHistories)
                 .WithOne(c => c.Investment)
                 .OnDelete(DeleteBehavior.NoAction);
-           
+
             modelBuilder.Entity<Forex>()
                 .HasMany(c => c.ForexHistories)
                 .WithOne(c => c.Forex)

@@ -17,6 +17,21 @@ FROM build AS publish
 RUN dotnet publish "Invest.MVC.csproj" -c Release -o /app/publish
 
 FROM base AS final
+
+# Hardening
+RUN addgroup --group friendlygroupname \
+    --gid 2000 \
+ && adduser \    
+    --uid 1000 \
+    --gid 2000 \
+    --disabled-password \
+    --home /app \
+    --gecos '' \
+    friendlyusername  \
+ && chown friendlyusername:friendlygroupname /app
+
+USER friendlyusername:friendlygroupname 
+
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Invest.MVC.dll"]

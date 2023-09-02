@@ -105,7 +105,7 @@ namespace Invest.MVC.Infrastructure.Services
                 Currency = stock.Currency,
                 DateUtc = dateUtc,
                 ExchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(stock.Currency, Forex.CAD, dateUtc)
-            };            
+            };
 
             _unitOfWork.TransactionRepository.Add(transaction);
 
@@ -234,7 +234,7 @@ namespace Invest.MVC.Infrastructure.Services
             {
                 var dateUtc = ConvertDateToUtc(date);
 
-                 var exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(fromCurrency, toCurrency, dateUtc);
+                var exchangeRate = _unitOfWork.ForexRepository.GetExchangeRate(fromCurrency, toCurrency, dateUtc);
 
                 amount = amount * exchangeRate;
 

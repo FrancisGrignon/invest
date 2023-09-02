@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 
 namespace Invest.MVC.Controllers
@@ -16,9 +15,9 @@ namespace Invest.MVC.Controllers
         private readonly InvestContext _context;
         private readonly UnitOfWork _unitOfWork;
 
-        private bool ExcludeGenevieve 
+        private bool ExcludeGenevieve
         {
-            get 
+            get
             {
                 return HttpContext.Session.Get<bool>("ExcludeGenevieve");
             }

@@ -17,7 +17,7 @@ namespace Invest.MVC.Controllers
         // GET: Transactions
         public async Task<IActionResult> Index(string id)
         {
-            if (string.IsNullOrEmpty(id)) 
+            if (string.IsNullOrEmpty(id))
             {
                 var withoutId = _context
                     .Transactions

@@ -10,7 +10,7 @@ namespace Invest.MVC.Infrastructure.Services
         private readonly DateTime _until;
         private readonly CultureInfo _ci = new CultureInfo("en-US");
 
-        public ImportService(InvestContext context) : this(new UnitOfWork(context)) 
+        public ImportService(InvestContext context) : this(new UnitOfWork(context))
         {
 
         }
@@ -56,7 +56,7 @@ namespace Invest.MVC.Infrastructure.Services
             ImportStock("EMP.A", "Empire", "TSE", Forex.CAD);
             ImportStock("GOOGL", "Alphabet", "NASDAQ", Forex.USD);
             ImportStock("L", "Loblaw", "TSE", Forex.CAD);
-            ImportStock("MSFT", "Microsoft", "NASDAQ", Forex.USD); 
+            ImportStock("MSFT", "Microsoft", "NASDAQ", Forex.USD);
             ImportStock("NTDOY", "Nintendo", "OTCMKTS", Forex.USD);
             ImportStock("SHOP", "Shopify", "TSE", Forex.CAD);
             ImportStock("TSLA", "Tesla", "NASDAQ", Forex.USD);
@@ -724,7 +724,7 @@ namespace Invest.MVC.Infrastructure.Services
             // Snapshot
             float exchangeRate;
 
-            var max = new DateTime(2021,12,17);
+            var max = new DateTime(2021, 12, 17);
 
             // Take snapshots
             while (date <= max)

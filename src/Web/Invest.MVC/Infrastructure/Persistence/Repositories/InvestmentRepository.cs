@@ -47,7 +47,7 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
                 history = new InvestmentHistory();
                 history.InvestmentId = entity.Id;
                 history.Investment = entity;
-                
+
                 history.DateUtc = dateUtc;
 
                 history.CreatedUtc = DateTime.UtcNow;

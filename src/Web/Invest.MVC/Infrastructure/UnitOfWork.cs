@@ -1,8 +1,5 @@
 ﻿using Invest.MVC.Infrastructure.Core.Repositories;
 using Invest.MVC.Infrastructure.Persistence.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Invest.MVC.Infrastructure
@@ -17,7 +14,7 @@ namespace Invest.MVC.Infrastructure
         private ITransactionRepository _transactionRepository;
 
         public IForexRepository ForexRepository
-        { 
+        {
             get
             {
                 if (null == _forexRepository)

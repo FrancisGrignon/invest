@@ -1,5 +1,3 @@
-using System;
-
 namespace Invest.MVC.Models
 {
     public class ErrorViewModel

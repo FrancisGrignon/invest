@@ -586,6 +586,19 @@ namespace Invest.MVC.Infrastructure.Services
             // 100 Deposit
             amount = broker.Deposit(investor, 100f, Forex.CAD, date);
 
+            if (false) { 
+                value = _unitOfWork.StockRepository.GetValue(stock, date);
+                quantity = amount / value;
+
+                investment = broker.Buy(investor, stock, quantity, date);
+
+                // Take snapshot
+                date = Snapshot(investment, date, new DateTime(2022, 06, 24));
+
+                // Split - 2022-07-01
+                investment = broker.Split(investor, stock, 10, date);
+            }
+            else { 
             // Sell SHOP
             amount += broker.Sell(investor, stock, investment.Quantity, date);
 

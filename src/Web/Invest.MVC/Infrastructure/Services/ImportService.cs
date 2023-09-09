@@ -599,27 +599,28 @@ namespace Invest.MVC.Infrastructure.Services
                 investment = broker.Split(investor, stock, 10, date);
             }
             else { 
-            // Sell SHOP
-            amount += broker.Sell(investor, stock, investment.Quantity, date);
+                // Sell SHOP
+                amount += broker.Sell(investor, stock, investment.Quantity, date);
 
-            // Buy BAM.A
-            stock = _unitOfWork.StockRepository.GetBySymbol("BAM.A");
-            value = _unitOfWork.StockRepository.GetValue(stock, date);
-            quantity = amount / value;
+                // Buy BAM.A
+                stock = _unitOfWork.StockRepository.GetBySymbol("BAM.A");
+                value = _unitOfWork.StockRepository.GetValue(stock, date);
+                quantity = amount / value;
 
-            investment = broker.Buy(investor, stock, quantity, date);
+                investment = broker.Buy(investor, stock, quantity, date);
 
-            // Take snapshot
-            date = Snapshot(investment, date, new DateTime(2022, 12, 02));
+                // Take snapshot
+                date = Snapshot(investment, date, new DateTime(2022, 12, 02));
 
-            // Split BAM.A into BAM and BN
-            amount = broker.Sell(investor, stock, investment.Quantity, date);
+                // Split BAM.A into BAM and BN
+                amount = broker.Sell(investor, stock, investment.Quantity, date);
 
-            stock = _unitOfWork.StockRepository.GetBySymbol("BAM");
-            value = _unitOfWork.StockRepository.GetValue(stock, date);
-            quantity = amount / value;
+                stock = _unitOfWork.StockRepository.GetBySymbol("BAM");
+                value = _unitOfWork.StockRepository.GetValue(stock, date);
+                quantity = amount / value;
 
-            investment = broker.Buy(investor, stock, quantity, date);
+                investment = broker.Buy(investor, stock, quantity, date);
+            }
 
             // Take snapshot
             date = Snapshot(investment, date, new DateTime(2023, 06, 23));

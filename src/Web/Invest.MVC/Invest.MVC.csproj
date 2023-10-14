@@ -63,9 +63,6 @@
     <None Update="Data\USD.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="invest.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="invest.db-shm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

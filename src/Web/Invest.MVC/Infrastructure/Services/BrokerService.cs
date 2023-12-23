@@ -113,6 +113,8 @@ namespace Invest.MVC.Infrastructure.Services
             investment.Quantity = investment.Quantity - quantity;
 
             _unitOfWork.InvestmentRepository.Update(investment);
+            
+            _unitOfWork.SaveChanges();
 
             return amount;
         }

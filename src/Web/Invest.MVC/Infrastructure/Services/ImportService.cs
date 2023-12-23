@@ -431,8 +431,18 @@ namespace Invest.MVC.Infrastructure.Services
             quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
 
+            var endDate = new DateTime(2023, 12, 22);
+
             // Take snapshot
-            Snapshot(investment, date, _until);
+            Snapshot(investment, date, endDate);
+
+            amount = broker.Sell(investment, endDate);
+
+            amount = broker.Transfer(investor, amount, Forex.USD, Forex.CAD, endDate);
+
+            broker.Withdraw(investor, amount, Forex.CAD, endDate);
+
+            Console.WriteLine($"Cédric end result: {amount} CAD");
         }
 
         public void ImportEtienneTransactions()
@@ -852,7 +862,16 @@ namespace Invest.MVC.Infrastructure.Services
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshots
-            Snapshot(investment, date, _until);
+            var endDate = new DateTime(2023, 12, 22);
+
+            Snapshot(investment, date, endDate);
+
+            // Sell VFV
+            amount = broker.Sell(investment, endDate);
+            
+            broker.Withdraw(investor, amount, Forex.CAD, endDate);
+
+            Console.WriteLine($"Annabelle end result: {amount} CAD");
         }
 
         public void Buy(string investorName, DateTime date, string symbol, string amount)

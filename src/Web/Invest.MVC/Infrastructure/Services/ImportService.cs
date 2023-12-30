@@ -75,7 +75,7 @@ namespace Invest.MVC.Infrastructure.Services
             ImportCedrikTransactions();
             ImportMarcoTransactions();
 
-            ImportAnnabelleTransactions();
+            ImportAnabelleTransactions();
         }
 
         //public void ImportJournal()
@@ -159,7 +159,7 @@ namespace Invest.MVC.Infrastructure.Services
         {
             Console.WriteLine($"ImportInvestors()");
 
-            var names = new string[] { "Aglaé", "Pénélope", "Étienne", "Cédrik", "Annabelle", "Aaricia", "Marco", "Geneviève" };
+            var names = new string[] { "Aglaé", "Pénélope", "Étienne", "Cédrik", "Anabelle", "Aaricia", "Marco", "Geneviève" };
 
             foreach (var name in names)
             {
@@ -431,18 +431,23 @@ namespace Invest.MVC.Infrastructure.Services
             quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
 
-            var endDate = new DateTime(2023, 12, 22);
+            // Take snapshots
+            date = Snapshot(investment, date, new DateTime(2023, 12, 15));
 
-            // Take snapshot
-            Snapshot(investment, date, endDate);
+            // 2023
 
-            amount = broker.Sell(investment, endDate);
+            // Sell VFV
+            amount = broker.Sell(investment, date);
 
-            amount = broker.Transfer(investor, amount, Forex.USD, Forex.CAD, endDate);
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.USD, Forex.CAD, date);
 
-            broker.Withdraw(investor, amount, Forex.CAD, endDate);
+            // Withdraw
+            broker.Withdraw(investor, amount, Forex.CAD, date);
 
-            Console.WriteLine($"Cédric end result: {amount} CAD");
+            Console.WriteLine($"Cedrik end result: {amount} CAD");
+
+            Snapshot(investment, date, date);
         }
 
         public void ImportEtienneTransactions()
@@ -711,6 +716,23 @@ namespace Invest.MVC.Infrastructure.Services
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2023, 12, 15));
+
+            // 2023
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date); ;
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
             Snapshot(investment, date, _until);
         }
 
@@ -798,16 +820,36 @@ namespace Invest.MVC.Infrastructure.Services
 
             investment = broker.Buy(investor, stock, quantity, date);
 
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2023, 12, 15));
+
+            // 2023
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            if (Forex.USD == stock.Currency)
+            {
+                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            }
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+
+            investment = broker.Buy(investor, stock, quantity, date);
+
             // Take snapshots
             Snapshot(investment, date, _until);
         }
 
-        public void ImportAnnabelleTransactions()
+        public void ImportAnabelleTransactions()
         {
-            Console.WriteLine($"ImportAnnabelleTransactions()");
+            Console.WriteLine($"ImportAnabelleTransactions()");
 
             var broker = new BrokerService(_unitOfWork);
-            var investor = _unitOfWork.InvestorRepository.GetByName("Annabelle");
+            var investor = _unitOfWork.InvestorRepository.GetByName("Anabelle");
 
             var date = new DateTime(2020, 12, 25);
 
@@ -862,16 +904,18 @@ namespace Invest.MVC.Infrastructure.Services
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshots
-            var endDate = new DateTime(2023, 12, 22);
+            date = Snapshot(investment, date, new DateTime(2023, 12, 15));
 
-            Snapshot(investment, date, endDate);
+            // 2023
 
             // Sell VFV
-            amount = broker.Sell(investment, endDate);
+            amount = broker.Sell(investment, date);
             
-            broker.Withdraw(investor, amount, Forex.CAD, endDate);
+            broker.Withdraw(investor, amount, Forex.CAD, date);
 
-            Console.WriteLine($"Annabelle end result: {amount} CAD");
+            Console.WriteLine($"Anabelle end result: {amount} CAD");
+
+            Snapshot(investment, date, date);
         }
 
         public void Buy(string investorName, DateTime date, string symbol, string amount)

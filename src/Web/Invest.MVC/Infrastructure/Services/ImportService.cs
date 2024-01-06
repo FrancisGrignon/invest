@@ -272,6 +272,25 @@ namespace Invest.MVC.Infrastructure.Services
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2023, 12, 29));
+
+            // Cadeau Noel Martine
+
+            // 60 Deposit
+            amount = broker.Deposit(investor, 60f, Forex.CAD, date);
+
+            // Convert to USD
+            if (Forex.USD == stock.Currency)
+            {
+                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            }
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
             Snapshot(investment, date, _until);
         }
         public void ImportAglaeTransactions()
@@ -358,6 +377,22 @@ namespace Invest.MVC.Infrastructure.Services
 
             // 100 Deposit
             amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2023, 12, 29));
+
+            // Cadeau Noel Martine
+
+            // 60 Deposit
+            amount = broker.Deposit(investor, 60f, Forex.CAD, date);
 
             // Convert to USD
             amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
@@ -540,6 +575,22 @@ namespace Invest.MVC.Infrastructure.Services
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2023, 12, 29));
+
+            // Cadeau Noel Martine
+
+            // 60 Deposit
+            amount = broker.Deposit(investor, 60f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
             Snapshot(investment, date, _until);
         }
 
@@ -650,8 +701,20 @@ namespace Invest.MVC.Infrastructure.Services
             quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
 
+            // Take snapshots
+            date = Snapshot(investment, date, new DateTime(2023, 12, 29));
+
+            // 2023
+
+            // Sell BAM
+            amount = broker.Sell(investment, date);
+
+            broker.Withdraw(investor, amount, Forex.CAD, date);
+
+            Console.WriteLine($"Geneviève end result: {amount} CAD");
+
             // Take snapshot
-            Snapshot(investment, date, _until);
+            Snapshot(investment, date, date);
         }
 
         public void ImportMarcoTransactions()
@@ -730,6 +793,22 @@ namespace Invest.MVC.Infrastructure.Services
             value = _unitOfWork.StockRepository.GetValue(stock, date);
             quantity = amount / value;
 
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2023, 12, 29));
+
+            // Cadeau Noel Martine
+
+            // 60 Deposit
+            amount = broker.Deposit(investor, 60f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot
@@ -838,6 +917,25 @@ namespace Invest.MVC.Infrastructure.Services
             value = _unitOfWork.StockRepository.GetValue(stock, date);
             quantity = amount / value;
 
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2023, 12, 29));
+
+            // Cadeau Noel Martine
+
+            // 60 Deposit
+            amount = broker.Deposit(investor, 60f, Forex.CAD, date);
+
+            // Convert to USD
+            if (Forex.USD == stock.Currency)
+            {
+                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            }
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshots

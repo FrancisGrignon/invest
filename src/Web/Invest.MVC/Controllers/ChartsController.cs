@@ -409,12 +409,12 @@ namespace Invest.MVC.Controllers
                 .ToList();
 
             var deposits = _context.Transactions
-                .Where(p => p.OperationId == Operation.Deposit && p.Currency == Forex.CAD)
+                .Where(p => (p.OperationId == Operation.Deposit || p.OperationId == Operation.Withdraw) && p.Currency == Forex.CAD)
                 .GroupBy(p => p.DateUtc.Date)
                 .Select(p => new
                 {
                     DateUtc = p.Key,
-                    Value = p.Sum(y => y.Amount * y.ExchangeRate)
+                    Value = p.Sum(y => (y.OperationId == Operation.Deposit ? y.Amount : -y.Amount) * y.ExchangeRate)
                 })
                 .OrderBy(p => p.DateUtc)
                 .ToList();

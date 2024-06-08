@@ -71,7 +71,7 @@ namespace Invest.MVC.Infrastructure.Services
             ImportOlderTransactions("Pénélope", "COST");
             ImportGenevieveTransactions();
             ImportEtienneTransactions();
-            ImportOtherTransactions("Aaricia", "ABNB");
+            ImportAariciaTransactions();
             ImportCedrikTransactions();
             ImportMarcoTransactions();
 
@@ -815,9 +815,12 @@ namespace Invest.MVC.Infrastructure.Services
             Snapshot(investment, date, _until);
         }
 
-        public void ImportOtherTransactions(string investorName, string symbol)
+        public void ImportAariciaTransactions()
         {
-            Console.WriteLine($"ImportOtherTransactions({investorName}, {symbol})");
+            Console.WriteLine($"ImportAariciaTransactions()");
+
+            var investorName = "Aaricia";
+            var symbol = "ABNB";
 
             var broker = new BrokerService(_unitOfWork);
             var investor = _unitOfWork.InvestorRepository.GetByName(investorName);
@@ -939,7 +942,22 @@ namespace Invest.MVC.Infrastructure.Services
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshots
-            Snapshot(investment, date, _until);
+            date = Snapshot(investment, date, new DateTime(2024, 05, 24));
+
+            // 2024
+
+            // Sell ABNB
+            amount = broker.Sell(investment, date);
+
+            // Convert to CAD
+            amount = broker.Transfer(investor, amount, Forex.USD, Forex.CAD, date);
+
+            // Withdraw
+            broker.Withdraw(investor, amount, Forex.CAD, date);
+
+            Console.WriteLine($"Aaricia end result: {amount} CAD");
+
+            Snapshot(investment, date, date);
         }
 
         public void ImportAnabelleTransactions()

@@ -290,6 +290,24 @@ namespace Invest.MVC.Infrastructure.Services
             quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
 
+            // Take snapshot 2024
+            date = Snapshot(investment, date, new DateTime(2024, 06, 28));
+
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            if (Forex.USD == stock.Currency)
+            {
+                amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            }
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2023, 12, 29));
+
             // Take snapshot
             Snapshot(investment, date, _until);
         }
@@ -393,6 +411,22 @@ namespace Invest.MVC.Infrastructure.Services
 
             // 60 Deposit
             amount = broker.Deposit(investor, 60f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2024, 06, 28));
+
+            // 2024
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
 
             // Convert to USD
             amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
@@ -581,6 +615,22 @@ namespace Invest.MVC.Infrastructure.Services
 
             // 60 Deposit
             amount = broker.Deposit(investor, 60f, Forex.CAD, date);
+
+            // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2024, 06, 28));
+
+            // 2024
+
+            // 100 Deposit
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
 
             // Convert to USD
             amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);

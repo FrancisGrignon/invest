@@ -68,7 +68,7 @@ namespace Invest.MVC.Infrastructure.Services
             ImportInvestors();
 
             ImportAglaeTransactions();
-            ImportOlderTransactions("Pénélope", "COST");
+            ImportPenelopeTransactions();
             ImportGenevieveTransactions();
             ImportEtienneTransactions();
             ImportAariciaTransactions();
@@ -179,8 +179,11 @@ namespace Invest.MVC.Infrastructure.Services
             _unitOfWork.SaveChanges();
         }
 
-        public void ImportOlderTransactions(string investorName, string stockName)
+        public void ImportPenelopeTransactions()
         {
+            var investorName = "Pénélope";
+            var stockName = "COST";
+
             Console.WriteLine($"ImportOlderTransactions({investorName},{stockName})");
 
             var broker = new BrokerService(_unitOfWork);
@@ -305,8 +308,17 @@ namespace Invest.MVC.Infrastructure.Services
             quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
 
-            // Take snapshot
-            date = Snapshot(investment, date, new DateTime(2023, 12, 29));
+            // Take snapshot until Christmas 2024
+            date = Snapshot(investment, date, new DateTime(2024, 12, 13));
+
+            // Martine and Carl gift
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot
             Snapshot(investment, date, _until);
@@ -429,6 +441,18 @@ namespace Invest.MVC.Infrastructure.Services
             amount = broker.Deposit(investor, 100f, Forex.CAD, date);
 
             // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot until Christmas 2024
+            date = Snapshot(investment, date, new DateTime(2024, 12, 13));
+
+            // Martine and Carl gift
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
             amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
 
             // Buy
@@ -633,6 +657,18 @@ namespace Invest.MVC.Infrastructure.Services
             amount = broker.Deposit(investor, 100f, Forex.CAD, date);
 
             // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot until Christmas 2024
+            date = Snapshot(investment, date, new DateTime(2024, 12, 13));
+
+            // Martine and Carl gift
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
             amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
 
             // Buy
@@ -854,6 +890,18 @@ namespace Invest.MVC.Infrastructure.Services
             amount = broker.Deposit(investor, 60f, Forex.CAD, date);
 
             // Convert to USD
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+
+            // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot until Christmas 2024
+            date = Snapshot(investment, date, new DateTime(2024, 12, 13));
+
+            // Martine and Carl gift
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
             amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
 
             // Buy

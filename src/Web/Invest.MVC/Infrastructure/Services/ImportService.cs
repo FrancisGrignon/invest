@@ -902,9 +902,12 @@ namespace Invest.MVC.Infrastructure.Services
 
             // Martine and Carl gift
             amount = broker.Deposit(investor, 100f, Forex.CAD, date);
-            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+
+            // Francis' gift
+            amount += broker.Deposit(investor, 100f, Forex.CAD, date);
 
             // Buy
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
             value = _unitOfWork.StockRepository.GetValue(stock, date);
             quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);

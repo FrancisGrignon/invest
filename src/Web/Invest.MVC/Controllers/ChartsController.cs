@@ -490,6 +490,73 @@ namespace Invest.MVC.Controllers
             return View();
         }
 
+        public IActionResult Rate(DateTime? from, DateTime? to)
+        {
+            DateTime dateUtc;
+
+            var query = _context.ForexHistories.Where(p => 1 == 1);
+
+            if (from.HasValue)
+            {
+                dateUtc = from.Value.ToUniversalTime().Date;
+                query = query.Where(p => dateUtc <= p.DateUtc);
+            }
+
+            if (to.HasValue)
+            {
+                dateUtc = from.Value.ToUniversalTime().Date;
+                query = query.Where(p => p.DateUtc <= dateUtc);
+            }
+
+            var histories = query
+                .Select(p => new
+                {
+                    p.DateUtc,
+                    Value = p.ExchangeRate
+                })
+                .OrderBy(p => p.DateUtc)
+                .ToList();
+
+            if (histories == null || false == histories.Any())
+            {
+                return NotFound();
+            }
+
+            var values = new List<double>();
+            var categories = new List<string>();
+
+            foreach (var history in histories)
+            {
+                categories.Add(history.DateUtc.ToString("yyyy-MM-dd"));
+                values.Add(history.Value);
+            }
+
+            var xAxis = new XAxis
+            {
+                Categories = categories
+            };
+
+            var data = new List<LineSeriesData>();
+
+            values.ForEach(p =>
+            {
+                data.Add(new LineSeriesData { Y = p });
+            });
+
+            var serie = new LineSeries
+            {
+                Name = "1 USD en CAD",
+                Data = data
+            };
+
+            ViewData["XAxis"] = new List<XAxis>() { xAxis };
+            ViewData["Series"] = new List<Series> { serie };
+
+            AddRange();
+
+            return View();
+        }
+
         private void AddRange()
         {
             var currentDateUtc = _context

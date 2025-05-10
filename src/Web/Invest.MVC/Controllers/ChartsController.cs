@@ -494,7 +494,7 @@ namespace Invest.MVC.Controllers
         {
             DateTime dateUtc;
 
-            var query = _context.ForexHistories.Where(p => 1 == 1);
+            var query = _context.ForexHistories.Where(p => p.ForexId == 2);
 
             if (from.HasValue)
             {

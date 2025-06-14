@@ -67,9 +67,8 @@
     <None Update="invest.db-shm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="invest.db-wal">
+        <None Update="invest.db-wal">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
 </Project>

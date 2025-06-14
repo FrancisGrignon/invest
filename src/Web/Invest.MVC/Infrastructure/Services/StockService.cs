@@ -10,7 +10,7 @@ public class StockService
     private readonly HttpClient _httpClient;
     private readonly DateTime _until;
 
-    private const string ApiKey = ""; // Remplacez par votre clé API Alpha Vantage
+    private const string ApiKey = ""; // Remplacez par votre cle API Alpha Vantage
     private const string ApiUrl = "https://www.alphavantage.co/query";
 
     public StockService()
@@ -21,15 +21,15 @@ public class StockService
 
     public async Task UpdateStockValuesAsync(string symbol, string filePath)
     {
-        // Étape 1 : Récupérer la valeur boursière
+        // Ã‰tape 1 : RÃ©cupÃ©rer la valeur boursiÃ©re
         var stockValue = await GetStockValueAsync(symbol);
         if (stockValue == null)
         {
-            Console.WriteLine($"Impossible de récupérer la valeur pour {symbol}");
+            Console.WriteLine($"Impossible de rÃ©cupÃ©rer la valeur pour {symbol}");
             return;
         }
 
-        // Étape 2 : Ajouter la valeur au fichier CSV
+        // Ã‰tape 2 : Ajouter la valeur au fichier CSV
         AppendToCsv(filePath, stockValue.Value);
     }
 
@@ -40,14 +40,14 @@ public class StockService
             var query = $"{ApiUrl}?function=GLOBAL_QUOTE&symbol={symbol}&apikey={ApiKey}";
             var response = await _httpClient.GetAsync(query);
 
-            // Vérifiez si la requête a réussi
+            // VÃ©rifiez si la requÃªte a rÃ©ussi
             if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine($"Erreur HTTP : {response.StatusCode} pour le symbole {symbol}");
                 return null;
             }
 
-            // Analysez la réponse JSON
+            // Analysez la rÃ©ponse JSON
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var jsonDocument = JsonDocument.Parse(jsonResponse);
 
@@ -58,12 +58,12 @@ public class StockService
                 return price;
             }
 
-            Console.WriteLine($"Données manquantes ou mal formatées pour le symbole {symbol}");
+            Console.WriteLine($"DonnÃ©es manquantes ou mal formatï¿½es pour le symbole {symbol}");
             return null;
         }
         catch (HttpRequestException ex)
         {
-            Console.WriteLine($"Erreur de requête HTTP pour le symbole {symbol} : {ex.Message}");
+            Console.WriteLine($"Erreur de requÃªte HTTP pour le symbole {symbol} : {ex.Message}");
             return null;
         }
         catch (JsonException ex)

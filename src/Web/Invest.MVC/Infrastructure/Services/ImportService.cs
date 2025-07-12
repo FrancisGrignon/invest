@@ -492,8 +492,21 @@ namespace Invest.MVC.Infrastructure.Services
             quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
 
-            // Take snapshot
-            Snapshot(investment, date, _until);
+            // Take snapshots
+            date = Snapshot(investment, date, new DateTime(2025, 07, 04));
+
+            // Sell
+            amount = broker.Sell(investment, date);
+
+            // Convert to CAD
+            amount = broker.Transfer(investor, amount, Forex.USD, Forex.CAD, date);
+
+            // Withdraw
+            broker.Withdraw(investor, amount, Forex.CAD, date);
+
+            Console.WriteLine($"Aglaé end result: {amount} CAD");
+
+            Snapshot(investment, date, date);
         }
 
         public void ImportCedrikTransactions()

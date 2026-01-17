@@ -336,6 +336,18 @@ namespace Invest.MVC.Infrastructure.Services
             quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
 
+            // Take snapshot until Christmas 2025
+            date = Snapshot(investment, date, new DateTime(2026, 01, 02));
+
+            // Martine's gift
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Buy
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
             // Take snapshot
             Snapshot(investment, date, _until);
         }
@@ -492,21 +504,34 @@ namespace Invest.MVC.Infrastructure.Services
             quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
 
-            // Take snapshots
-            date = Snapshot(investment, date, new DateTime(2025, 07, 04));
+            //// Take snapshots
+            //date = Snapshot(investment, date, new DateTime(2025, 07, 04));
 
-            // Sell
-            amount = broker.Sell(investment, date);
+            //// Sell
+            //amount = broker.Sell(investment, date);
 
-            // Convert to CAD
-            amount = broker.Transfer(investor, amount, Forex.USD, Forex.CAD, date);
+            //// Convert to CAD
+            //amount = broker.Transfer(investor, amount, Forex.USD, Forex.CAD, date);
 
-            // Withdraw
-            broker.Withdraw(investor, amount, Forex.CAD, date);
+            //// Withdraw
+            //broker.Withdraw(investor, amount, Forex.CAD, date);
 
-            Console.WriteLine($"Aglaé end result: {amount} CAD");
+            //Console.WriteLine($"Aglaé end result: {amount} CAD");
 
-            Snapshot(investment, date, date);
+            // Take snapshot until Christmas 2025
+            date = Snapshot(investment, date, new DateTime(2026, 01, 02));
+
+            // Martine's gift
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Buy
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            Snapshot(investment, date, _until);
         }
 
         public void ImportCedrikTransactions()
@@ -733,6 +758,18 @@ namespace Invest.MVC.Infrastructure.Services
             amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
 
             // Buy
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot until Christmas 2025
+            date = Snapshot(investment, date, new DateTime(2026, 01, 02));
+
+            // Martine's gift
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Buy
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
             value = _unitOfWork.StockRepository.GetValue(stock, date);
             quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
@@ -966,6 +1003,30 @@ namespace Invest.MVC.Infrastructure.Services
 
             // Francis' gift
             amount += broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Buy
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot until Christmas 2025
+            date = Snapshot(investment, date, new DateTime(2025, 12, 19));
+
+            // Francis' gift
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Buy
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot until Christmas 2025
+            date = Snapshot(investment, date, new DateTime(2026, 01, 02));
+
+            // Martine's gift
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
 
             // Buy
             amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);

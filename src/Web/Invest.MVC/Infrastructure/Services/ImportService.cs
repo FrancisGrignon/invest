@@ -1169,18 +1169,21 @@ namespace Invest.MVC.Infrastructure.Services
 
             // 2024
 
-            // Sell ABNB
-            amount = broker.Sell(investment, date);
+            //// Sell ABNB
+            //amount = broker.Sell(investment, date);
 
-            // Convert to CAD
-            amount = broker.Transfer(investor, amount, Forex.USD, Forex.CAD, date);
+            //// Convert to CAD
+            //amount = broker.Transfer(investor, amount, Forex.USD, Forex.CAD, date);
 
-            // Withdraw
-            broker.Withdraw(investor, amount, Forex.CAD, date);
+            //// Withdraw
+            //broker.Withdraw(investor, amount, Forex.CAD, date);
 
-            Console.WriteLine($"Aaricia end result: {amount} CAD");
+            //Console.WriteLine($"Aaricia end result: {amount} CAD");
 
-            Snapshot(investment, date, date);
+            //Snapshot(investment, date, date);
+
+            // Take snapshot
+            Snapshot(investment, date, _until);
         }
 
         public void ImportAnabelleTransactions()

@@ -349,6 +349,18 @@ namespace Invest.MVC.Infrastructure.Services
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2026, 06, 26));
+
+            // 2026
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Buy
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
             Snapshot(investment, date, _until);
         }
         public void ImportAglaeTransactions()
@@ -766,6 +778,18 @@ namespace Invest.MVC.Infrastructure.Services
             date = Snapshot(investment, date, new DateTime(2026, 01, 02));
 
             // Martine's gift
+            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+
+            // Buy
+            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            value = _unitOfWork.StockRepository.GetValue(stock, date);
+            quantity = amount / value;
+            investment = broker.Buy(investor, stock, quantity, date);
+
+            // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2026, 06, 26));
+
+            // 2026
             amount = broker.Deposit(investor, 100f, Forex.CAD, date);
 
             // Buy

@@ -349,7 +349,7 @@ namespace Invest.MVC.Infrastructure.Services
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot
-            date = Snapshot(investment, date, new DateTime(2026, 06, 26));
+            date = Snapshot(investment, date, new DateTime(2026, 06, 19));
 
             // 2026
             amount = broker.Deposit(investor, 100f, Forex.CAD, date);
@@ -787,7 +787,7 @@ namespace Invest.MVC.Infrastructure.Services
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot
-            date = Snapshot(investment, date, new DateTime(2026, 06, 26));
+            date = Snapshot(investment, date, new DateTime(2026, 06, 19));
 
             // 2026
             amount = broker.Deposit(investor, 100f, Forex.CAD, date);

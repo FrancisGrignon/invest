@@ -1,5 +1,11 @@
-﻿using Invest.MVC.Infrastructure.Services;
+﻿using Humanizer;
+using Invest.MVC.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Update;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -32,6 +38,17 @@ namespace Invest.MVC
             ///options.UseSqlServer(@"Server = localhost,11433; Database = invest; User Id = sa; Password = P@ssword66");
             options.UseSqlite("Filename=invest.db");
             options.EnableSensitiveDataLogging();
+            options.ConfigureWarnings(warnings =>
+                warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+
+            // e.g. `new DateTime()`, `Guid.NewGuid()`).
+            // Add a new migration and examine its contents to locate the cause,
+            // and replace the dynamic call with a static, hardcoded value.
+            // See https://aka.ms/efcore-docs-pending-changes.
+            // This exception can be suppressed or logged by
+            // passing event ID 'RelationalEventId.PendingModelChangesWarning'
+            // to the 'ConfigureWarnings' method in 'DbContext.OnConfiguring' or 'AddDbContext'.'
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -109,11 +126,11 @@ namespace Invest.MVC
 
         [Required]
         [StringLength(255)]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [EmailAddress()]
         [StringLength(255)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         public List<Transaction> Transactions { get; } = new List<Transaction>();
 
@@ -135,15 +152,15 @@ namespace Invest.MVC
 
         [Required]
         [StringLength(255)]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string Symbol { get; set; }
+        public required string Symbol { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string Market { get; set; }
+        public required string Market { get; set; }
 
         [Range(0, Int32.MaxValue)]
         public float Value { get; set; }
@@ -154,7 +171,7 @@ namespace Invest.MVC
         // CAD, USD
         [Required]
         [StringLength(3)]
-        public string Currency { get; set; }
+        public required string Currency { get; set; }
 
         public List<StockHistory> StockHistories { get; } = new List<StockHistory>();
 
@@ -172,17 +189,17 @@ namespace Invest.MVC
 
         public int Id { get; set; }
 
-        public Stock Stock { get; set; }
+        public required Stock Stock { get; set; }
 
         public int StockId { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string Symbol { get; set; }
+        public required string Symbol { get; set; }
 
         [Range(0, Int32.MaxValue)]
         public float Value { get; set; }
@@ -193,7 +210,7 @@ namespace Invest.MVC
         // CAD, USD
         [Required]
         [StringLength(3)]
-        public string Currency { get; set; }
+        public required string Currency { get; set; }
 
         public DateTime DateUtc { get; set; } = DateTime.UtcNow.Date;
 
@@ -203,7 +220,7 @@ namespace Invest.MVC
 
         public bool Enable { get; set; } = true;
 
-        public static StockHistory StockFrom(Stock stock)
+        public static StockHistory CreateFrom(Stock stock, DateTime dateUtc)
         {
             var history = new StockHistory
             {
@@ -214,6 +231,7 @@ namespace Invest.MVC
                 Value = stock.Value,
                 Currency = stock.Currency,
                 CreatedUtc = stock.CreatedUtc,
+                DateUtc = dateUtc.ToUniversalTime().Date,
                 UpdatedUtc = stock.UpdatedUtc,
                 Enable = stock.Enable
             };
@@ -230,11 +248,11 @@ namespace Invest.MVC
 
         public int StockId { get; set; }
 
-        public Stock Stock { get; set; }
+        public required Stock Stock { get; set; }
 
         public int InvestorId { get; set; }
 
-        public Investor Investor { get; set; }
+        public required Investor Investor { get; set; }
 
         [Range(0, Int32.MaxValue)]
         public float Quantity { get; set; }
@@ -242,7 +260,7 @@ namespace Invest.MVC
         // CAD, USD
         [Required]
         [StringLength(3)]
-        public string Currency { get; set; }
+        public required string Currency { get; set; }
 
         public List<InvestmentHistory> InvestmentHistories { get; } = new List<InvestmentHistory>();
 
@@ -261,15 +279,15 @@ namespace Invest.MVC
 
         public int InvestmentId { get; set; }
 
-        public Investment Investment { get; set; }
+        public Investment? Investment { get; set; }
 
         public int StockId { get; set; }
 
-        public Stock Stock { get; set; }
+        public Stock? Stock { get; set; }
 
         public int InvestorId { get; set; }
 
-        public Investor Investor { get; set; }
+        public Investor? Investor { get; set; }
 
         [Range(0, Int32.MaxValue)]
         public float Quantity { get; set; }
@@ -279,10 +297,10 @@ namespace Invest.MVC
 
         [Required]
         [StringLength(3)]
-        public string Currency { get; set; }
+        public required string Currency { get; set; } = string.Empty;
 
         [Required]
-        public float ExchangeRate { get; set; }
+        public float ExchangeRate { get; set; } = float.NaN;
 
         public DateTime DateUtc { get; set; } = DateTime.UtcNow.Date;
 
@@ -291,6 +309,29 @@ namespace Invest.MVC
         public DateTime UpdatedUtc { get; set; } = DateTime.UtcNow;
 
         public bool Enable { get; set; } = true;
+
+        public static InvestmentHistory CreateFrom(Investment investment, DateTime datetime, float stockValue, float exchangeRate)
+        {
+            var history = new InvestmentHistory
+            {
+                Investment = investment,
+                InvestmentId = investment.Id,
+                StockId = investment.StockId,
+                Stock = investment.Stock,
+                InvestorId = investment.InvestorId,
+                Investor = investment.Investor,
+                Quantity = investment.Quantity,
+                Value = stockValue,
+                Currency = investment.Currency,
+                ExchangeRate = exchangeRate,
+                DateUtc = datetime.ToUniversalTime().Date,
+                CreatedUtc = investment.CreatedUtc,
+                UpdatedUtc = investment.UpdatedUtc,
+                Enable = investment.Enable
+            };
+
+            return history;
+        }
     }
 
     public class Forex : IEntity
@@ -304,10 +345,10 @@ namespace Invest.MVC
 
         [Required]
         [StringLength(3)]
-        public string Currency { get; set; }
+        public required string Currency { get; set; }
 
         [Required]
-        public float ExchangeRate { get; set; }
+        public required float ExchangeRate { get; set; }
 
         public List<ForexHistory> ForexHistories { get; } = new List<ForexHistory>();
 
@@ -326,14 +367,14 @@ namespace Invest.MVC
 
         public int ForexId { get; set; }
 
-        public Forex Forex { get; set; }
+        public Forex? Forex { get; set; }
 
         [Required]
         [StringLength(3)]
-        public string Currency { get; set; }
+        public required string Currency { get; set; } = Forex.CAD;
 
         [Required]
-        public float ExchangeRate { get; set; }
+        public required float ExchangeRate { get; set; } = 1f;
 
         public DateTime DateUtc { get; set; } = DateTime.UtcNow.Date;
 
@@ -343,7 +384,7 @@ namespace Invest.MVC
 
         public bool Enable { get; set; } = true;
 
-        public static ForexHistory CreateFrom(Forex forex)
+        public static ForexHistory CreateFrom(Forex forex, DateTime datetime)
         {
             var history = new ForexHistory
             {
@@ -352,6 +393,7 @@ namespace Invest.MVC
                 Currency = forex.Currency,
                 ExchangeRate = forex.ExchangeRate,
                 CreatedUtc = forex.CreatedUtc,
+                DateUtc = datetime.ToUniversalTime().Date,
                 UpdatedUtc = forex.UpdatedUtc,
                 Enable = forex.Enable
             };
@@ -368,15 +410,15 @@ namespace Invest.MVC
 
         public int? StockId { get; set; }
 
-        public Stock Stock { get; set; }
+        public Stock? Stock { get; set; }
 
         public int OperationId { get; set; }
 
-        public Operation Operation { get; set; }
+        public Operation? Operation { get; set; }
 
         public int InvestorId { get; set; }
 
-        public Investor Investor { get; set; }
+        public Investor? Investor { get; set; }
 
         [Range(0, Int32.MaxValue)]
         public float Quantity { get; set; }
@@ -386,13 +428,13 @@ namespace Invest.MVC
 
         [Required]
         [StringLength(3)]
-        public string Currency { get; set; }
+        public required string Currency { get; set; }
 
         [Required]
-        public float ExchangeRate { get; set; }
+        public required float ExchangeRate { get; set; }
 
         [StringLength(255)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public DateTime DateUtc { get; set; } = DateTime.UtcNow.Date;
 
@@ -418,7 +460,7 @@ namespace Invest.MVC
 
         [Required]
         [StringLength(255)]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
 

@@ -33,40 +33,34 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
             return Context.Set<Investment>().Where(p => p.Enable && p.StockId == stock.Id && p.InvestorId == investor.Id).SingleOrDefaultAsync();
         }
 
-        public void TakeSnapshot(Investment entity, DateTime date, float stockValue, float exchangeRate)
+        public void TakeSnapshot(Investment investment, DateTime date, float stockValue, float exchangeRate)
         {
             var dateUtc = date.ToUniversalTime().Date;
 
             var history = this.Context
                 .InvestmentHistories
-                .Where(p => p.InvestmentId == entity.Id && p.DateUtc == dateUtc)
+                .Where(p => p.InvestmentId == investment.Id && p.DateUtc == dateUtc)
                 .SingleOrDefault();
 
             if (null == history)
             {
-                history = new InvestmentHistory();
-                history.InvestmentId = entity.Id;
-                history.Investment = entity;
+                history = InvestmentHistory.CreateFrom(investment, dateUtc, stockValue, exchangeRate);
 
-                history.DateUtc = dateUtc;
-
-                history.CreatedUtc = DateTime.UtcNow;
-
-                entity.InvestmentHistories.Add(history);
+                investment.InvestmentHistories.Add(history);
             }
 
-            history.StockId = entity.StockId;
-            history.Stock = entity.Stock;
-            history.InvestorId = entity.InvestorId;
-            history.Investor = entity.Investor;
+            history.StockId = investment.StockId;
+            history.Stock = investment.Stock;
+            history.InvestorId = investment.InvestorId;
+            history.Investor = investment.Investor;
 
-            history.Quantity = entity.Quantity;
+            history.Quantity = investment.Quantity;
             history.Value = stockValue;
-            history.Currency = entity.Currency;
+            history.Currency = investment.Currency;
             history.ExchangeRate = exchangeRate;
 
             history.UpdatedUtc = DateTime.UtcNow;
-            history.Enable = entity.Enable;
+            history.Enable = investment.Enable;
         }
     }
 }

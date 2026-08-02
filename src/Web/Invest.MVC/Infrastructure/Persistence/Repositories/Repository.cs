@@ -14,6 +14,8 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
 
         public Repository(TContext context)
         {
+            if (context == null) throw new ArgumentNullException(nameof(context));
+            
             Context = context;
         }
 

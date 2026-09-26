@@ -1,0 +1,486 @@
+{
+  "settings": {
+    "components": {
+      "code": true,
+      "binaries": false
+    },
+    "targetId": "net10.0",
+    "targetDisplayName": ".NETCoreApp,Version=v10.0"
+  },
+  "analysisStartTime": "2026-07-26T14:25:28.2914329Z",
+  "analysisEndTime": "2026-07-26T14:25:30.0229723Z",
+  "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2270980",
+  "stats": {
+    "summary": {
+      "projects": 1,
+      "issues": 5,
+      "incidents": 14,
+      "effort": 14
+    },
+    "charts": {
+      "severity": {
+        "Mandatory": 2,
+        "Optional": 0,
+        "Potential": 12,
+        "Information": 0
+      },
+      "category": {
+        "NuGet": 6,
+        "Project": 1,
+        "Api": 7
+      }
+    }
+  },
+  "projects": [
+    {
+      "path": "Invest.MVC.csproj",
+      "startingProject": true,
+      "issues": 5,
+      "storyPoints": 14,
+      "properties": {
+        "appName": "Invest.MVC",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net8.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 88,
+        "numberOfCodeFiles": 77,
+        "linesTotal": 9114,
+        "linesOfCode": 7848,
+        "totalApiScanned": 20404,
+        "minLinesOfCodeToChange": 7,
+        "maxLinesOfCodeToChange": 7
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "2adb943a-7f94-492a-8426-fdd501c8c2d2",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Invest.MVC.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Design, 8.0.29\n\nRecommandation\u00A0:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.10",
+              "protected": "Microsoft.EntityFrameworkCore.Design, 8.0.29\n\nRecommandation\u00A0:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.10"
+            },
+            "kind": "File",
+            "path": "Invest.MVC.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Design, 8.0.29\n\nRecommandation\u00A0:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.10",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Design, 8.0.29\n\nRecommandation\u00A0:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.10",
+            "label": "Microsoft.EntityFrameworkCore.Design 8.0.29",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.Design",
+              "PackageVersion": "8.0.29",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "49974446-a915-42db-93a4-6c08a13b8c11",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Invest.MVC.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Sqlite, 8.0.28\n\nRecommandation\u00A0:\n\nRemove Microsoft.EntityFrameworkCore.Sqlite, and replace with new package Microsoft.EntityFrameworkCore.Sqlite 10.0.10",
+              "protected": "Microsoft.EntityFrameworkCore.Sqlite, 8.0.28\n\nRecommandation\u00A0:\n\nRemove Microsoft.EntityFrameworkCore.Sqlite, and replace with new package Microsoft.EntityFrameworkCore.Sqlite 10.0.10"
+            },
+            "kind": "File",
+            "path": "Invest.MVC.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Sqlite, 8.0.28\n\nRecommandation\u00A0:\n\nRemove Microsoft.EntityFrameworkCore.Sqlite, and replace with new package Microsoft.EntityFrameworkCore.Sqlite 10.0.10",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Sqlite, 8.0.28\n\nRecommandation\u00A0:\n\nRemove Microsoft.EntityFrameworkCore.Sqlite, and replace with new package Microsoft.EntityFrameworkCore.Sqlite 10.0.10",
+            "label": "Microsoft.EntityFrameworkCore.Sqlite 8.0.28",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.Sqlite",
+              "PackageVersion": "8.0.28",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "6dd9750c-30bc-4634-ac6f-492ba5e5229c",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Invest.MVC.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Tools, 8.0.28\n\nRecommandation\u00A0:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.10",
+              "protected": "Microsoft.EntityFrameworkCore.Tools, 8.0.28\n\nRecommandation\u00A0:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.10"
+            },
+            "kind": "File",
+            "path": "Invest.MVC.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Tools, 8.0.28\n\nRecommandation\u00A0:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.10",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Tools, 8.0.28\n\nRecommandation\u00A0:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.10",
+            "label": "Microsoft.EntityFrameworkCore.Tools 8.0.28",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.Tools",
+              "PackageVersion": "8.0.28",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "cc30cd3d-a438-48e9-b5fb-a2654cc22a35",
+          "ruleId": "NuGet.0001",
+          "projectPath": "Invest.MVC.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.VisualStudio.Azure.Containers.Tools.Targets, 1.23.0\n\nRecommandation\u00A0:\n\nVersion prise en charge introuvable",
+              "protected": "Microsoft.VisualStudio.Azure.Containers.Tools.Targets, 1.23.0\n\nRecommandation\u00A0:\n\nVersion prise en charge introuvable"
+            },
+            "kind": "File",
+            "path": "Invest.MVC.csproj",
+            "snippet": "Microsoft.VisualStudio.Azure.Containers.Tools.Targets, 1.23.0\n\nRecommandation\u00A0:\n\nVersion prise en charge introuvable",
+            "protectedSnippet": "Microsoft.VisualStudio.Azure.Containers.Tools.Targets, 1.23.0\n\nRecommandation\u00A0:\n\nVersion prise en charge introuvable",
+            "label": "Microsoft.VisualStudio.Azure.Containers.Tools.Targets 1.23.0",
+            "properties": {
+              "PackageId": "Microsoft.VisualStudio.Azure.Containers.Tools.Targets",
+              "PackageVersion": "1.23.0",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "7325f74d-4acc-48b1-8ffa-e431068e0ad3",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Invest.MVC.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 8.0.23\n\nRecommandation\u00A0:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.2",
+              "protected": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 8.0.23\n\nRecommandation\u00A0:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.2"
+            },
+            "kind": "File",
+            "path": "Invest.MVC.csproj",
+            "snippet": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 8.0.23\n\nRecommandation\u00A0:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.2",
+            "protectedSnippet": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 8.0.23\n\nRecommandation\u00A0:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.2",
+            "label": "Microsoft.VisualStudio.Web.CodeGeneration.Design 8.0.23",
+            "properties": {
+              "PackageId": "Microsoft.VisualStudio.Web.CodeGeneration.Design",
+              "PackageVersion": "8.0.23",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "63b38114-d932-4e8b-97d3-c237e4dd2ca7",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Invest.MVC.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Text.Json, 8.0.6\n\nRecommandation\u00A0:\n\nRemove System.Text.Json, and replace with new package System.Text.Json 10.0.10",
+              "protected": "System.Text.Json, 8.0.6\n\nRecommandation\u00A0:\n\nRemove System.Text.Json, and replace with new package System.Text.Json 10.0.10"
+            },
+            "kind": "File",
+            "path": "Invest.MVC.csproj",
+            "snippet": "System.Text.Json, 8.0.6\n\nRecommandation\u00A0:\n\nRemove System.Text.Json, and replace with new package System.Text.Json 10.0.10",
+            "protectedSnippet": "System.Text.Json, 8.0.6\n\nRecommandation\u00A0:\n\nRemove System.Text.Json, and replace with new package System.Text.Json 10.0.10",
+            "label": "System.Text.Json 8.0.6",
+            "properties": {
+              "PackageId": "System.Text.Json",
+              "PackageVersion": "8.0.6",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "ae06bc8f-e5ff-4b94-adb7-8b7d6d2a55f4",
+          "ruleId": "Project.0002",
+          "projectPath": "Invest.MVC.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Infrastructure cible actuelle: net8.0\nInfrastructure cible recommand\u00E9: net10.0",
+              "protected": "Infrastructure cible actuelle: net8.0\nInfrastructure cible recommand\u00E9: net10.0"
+            },
+            "kind": "File",
+            "path": "Invest.MVC.csproj",
+            "snippet": "Infrastructure cible actuelle: net8.0\nInfrastructure cible recommand\u00E9: net10.0",
+            "protectedSnippet": "Infrastructure cible actuelle: net8.0\nInfrastructure cible recommand\u00E9: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net8.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "247182e9-4eae-4943-b9af-42964491d82f",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: Exception diagnostics are suppressed when IExceptionHandler.TryHandleAsync returns true ",
+          "projectPath": "Invest.MVC.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "app.UseExceptionHandler(\u0022/Home/Error\u0022);",
+              "protected": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)"
+            },
+            "kind": "File",
+            "path": "Startup.cs",
+            "snippet": "app.UseExceptionHandler(\u0022/Home/Error\u0022);",
+            "protectedSnippet": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)",
+            "label": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)",
+            "links": [
+              {
+                "title": "Documentation sur les API",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/exception-handler-diagnostics-suppressed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 80,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "5aa57fe6-dabb-49ce-ab1b-4a6e43810313",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "Invest.MVC.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "options.IdleTimeout = TimeSpan.FromSeconds(10);",
+              "protected": "M:System.TimeSpan.FromSeconds(System.Double)"
+            },
+            "kind": "File",
+            "path": "Startup.cs",
+            "snippet": "options.IdleTimeout = TimeSpan.FromSeconds(10);",
+            "protectedSnippet": "M:System.TimeSpan.FromSeconds(System.Double)",
+            "label": "M:System.TimeSpan.FromSeconds(System.Double)",
+            "links": [
+              {
+                "title": "Documentation sur les API",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 65,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "45d57a4a-229f-46d1-9325-dfab6bd48bff",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "Invest.MVC.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "options.ExpireTimeSpan = TimeSpan.FromMinutes(5.0);",
+              "protected": "M:System.TimeSpan.FromMinutes(System.Double)"
+            },
+            "kind": "File",
+            "path": "Startup.cs",
+            "snippet": "options.ExpireTimeSpan = TimeSpan.FromMinutes(5.0);",
+            "protectedSnippet": "M:System.TimeSpan.FromMinutes(System.Double)",
+            "label": "M:System.TimeSpan.FromMinutes(System.Double)",
+            "links": [
+              {
+                "title": "Documentation sur les API",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 52,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "814d984b-0fc4-4e06-bb6f-d5701ec50820",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "Invest.MVC.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);",
+              "protected": "M:System.TimeSpan.FromMinutes(System.Double)"
+            },
+            "kind": "File",
+            "path": "Startup.cs",
+            "snippet": "options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);",
+            "protectedSnippet": "M:System.TimeSpan.FromMinutes(System.Double)",
+            "label": "M:System.TimeSpan.FromMinutes(System.Double)",
+            "links": [
+              {
+                "title": "Documentation sur les API",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 37,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "ac3bb730-4e4e-4192-a351-7645211e5c34",
+          "ruleId": "Api.0003",
+          "description": "Nullable JsonDocument properties deserialize to JsonValueKind.Null ",
+          "projectPath": "Invest.MVC.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var jsonDocument = JsonDocument.Parse(jsonResponse);",
+              "protected": "T:System.Text.Json.JsonDocument"
+            },
+            "kind": "File",
+            "path": "Infrastructure\\Services\\StockService.cs",
+            "snippet": "var jsonDocument = JsonDocument.Parse(jsonResponse);",
+            "protectedSnippet": "T:System.Text.Json.JsonDocument",
+            "label": "T:System.Text.Json.JsonDocument",
+            "links": [
+              {
+                "title": "Documentation sur les API",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/serialization/9.0/jsondocument-props.md",
+                "isCustom": false
+              }
+            ],
+            "line": 51,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "3322abd5-3e0c-4fda-8448-7e231d438eb0",
+          "ruleId": "Api.0003",
+          "description": "Nullable JsonDocument properties deserialize to JsonValueKind.Null ",
+          "projectPath": "Invest.MVC.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var jsonDocument = JsonDocument.Parse(jsonResponse);",
+              "protected": "T:System.Text.Json.JsonDocument"
+            },
+            "kind": "File",
+            "path": "Infrastructure\\Services\\StockService.cs",
+            "snippet": "var jsonDocument = JsonDocument.Parse(jsonResponse);",
+            "protectedSnippet": "T:System.Text.Json.JsonDocument",
+            "label": "T:System.Text.Json.JsonDocument",
+            "links": [
+              {
+                "title": "Documentation sur les API",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/serialization/9.0/jsondocument-props.md",
+                "isCustom": false
+              }
+            ],
+            "line": 51,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "58a45a98-e03b-481d-b744-63da5041eff9",
+          "ruleId": "Api.0003",
+          "description": "Breaking change - Streaming HTTP responses enabled by default in browser HTTP clients ",
+          "projectPath": "Invest.MVC.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var jsonResponse = await response.Content.ReadAsStringAsync();",
+              "protected": "T:System.Net.Http.HttpContent"
+            },
+            "kind": "File",
+            "path": "Infrastructure\\Services\\StockService.cs",
+            "snippet": "var jsonResponse = await response.Content.ReadAsStringAsync();",
+            "protectedSnippet": "T:System.Net.Http.HttpContent",
+            "label": "T:System.Net.Http.HttpContent",
+            "links": [
+              {
+                "title": "Documentation sur les API",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/default-http-streaming.md",
+                "isCustom": false
+              }
+            ],
+            "line": 50,
+            "column": 12
+          }
+        }
+      ],
+      "features": []
+    }
+  ],
+  "rules": {
+    "NuGet.0002": {
+      "id": "NuGet.0002",
+      "isFeature": false,
+      "description": "La mise \u00E0 niveau du package NuGet est recommand\u00E9e pour l\u2019infrastructure cible s\u00E9lectionn\u00E9e.\n\nLes packages .NET standard sont recommand\u00E9s pour avoir des versions correspondant \u00E0 la version de .NET cibl\u00E9e par le projet.\n\nCertains autres packages fonctionnent \u00E9galement mieux pour les infrastructures cibles s\u00E9lectionn\u00E9es.",
+      "label": "La mise \u00E0 niveau du package NuGet est recommand\u00E9e",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262530",
+          "isCustom": false
+        }
+      ]
+    },
+    "NuGet.0001": {
+      "id": "NuGet.0001",
+      "isFeature": false,
+      "description": "Le package NuGet est incompatible avec l\u2019infrastructure cible s\u00E9lectionn\u00E9e.\n\nLe package doit \u00EAtre mis \u00E0 niveau vers une version qui prend en charge l\u2019infrastructure cible du projet s\u00E9lectionn\u00E9e. Si aucune nouvelle version de package ne prend en charge la nouvelle infrastructure cible, un package diff\u00E9rent doit \u00EAtre utilis\u00E9 et tout le code doit \u00EAtre mis \u00E0 niveau vers la nouvelle API.",
+      "label": "Le package NuGet est incompatible",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262529",
+          "isCustom": false
+        }
+      ]
+    },
+    "Project.0002": {
+      "id": "Project.0002",
+      "isFeature": false,
+      "description": "Le ou les infrastructures cibles du projet doivent \u00EAtre remplac\u00E9es par la nouvelle infrastructure cible que vous avez s\u00E9lectionn\u00E9e pour cette mise \u00E0 niveau.\n\nPendant la mise \u00E0 niveau, l\u2019infrastructure cible est ajust\u00E9e en fonction de la plateforme correspondante, le cas \u00E9ch\u00E9ant. Dans certains cas, le projet entra\u00EEnera plusieurs infrastructures cibles apr\u00E8s la mise \u00E0 niveau s\u2019il utilisait des fonctionnalit\u00E9s qui ont d\u00E9sormais leurs propres plateformes dans les infrastructures .NET modernes (Windows, iOS, Android, etc.).",
+      "label": "Le ou les frameworks cibles du projet doivent \u00EAtre modifi\u00E9s",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Vue d\u2019ensemble du transfert de .NET Framework vers .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265227",
+          "isCustom": false
+        },
+        {
+          "title": "Kits de d\u00E9veloppement logiciel (SDK) de projet .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265226",
+          "isCustom": false
+        }
+      ]
+    },
+    "Api.0003": {
+      "id": "Api.0003",
+      "isFeature": false,
+      "description": "L\u2019API pr\u00E9sente un changement de comportement dans la version .NET s\u00E9lectionn\u00E9e\u00A0: le code et les binaires peuvent se comporter diff\u00E9remment \u00E0 l\u2019ex\u00E9cution sans n\u00E9cessiter de recompilation, mais ce nouveau comportement peut \u00EAtre ind\u00E9sirable et n\u00E9cessiter des mises \u00E0 jour.",
+      "label": "Modification du comportement dans la version .NET s\u00E9lectionn\u00E9e",
+      "severity": "Potential",
+      "effort": 1
+    },
+    "Api.0002": {
+      "id": "Api.0002",
+      "isFeature": false,
+      "description": "L\u2019API est incompatible au niveau du code source pour la version .NET s\u00E9lectionn\u00E9e\u00A0: des modifications du code sont n\u00E9cessaires pour compiler avec succ\u00E8s en ciblant une nouvelle version, comme la suppression d\u2019API obsol\u00E8tes ou la modification des signatures de m\u00E9thode.",
+      "label": "Source incompatible avec la version .NET s\u00E9lectionn\u00E9e",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Changements cassants dans .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262679",
+          "isCustom": false
+        }
+      ]
+    }
+  }
+}

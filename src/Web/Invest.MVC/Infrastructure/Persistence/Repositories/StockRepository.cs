@@ -34,14 +34,8 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
 
             if (null == history)
             {
-                history = new StockHistory();
-                history.StockId = stock.Id;
-                history.Stock = stock;
-
-                history.DateUtc = dateUtc;
-
-                history.CreatedUtc = DateTime.UtcNow;
-
+                history = StockHistory.CreateFrom(stock, dateUtc);
+    
                 stock.StockHistories.Add(history);
             }
 

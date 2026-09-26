@@ -34,14 +34,8 @@ namespace Invest.MVC.Infrastructure.Persistence.Repositories
 
             if (null == history)
             {
-                history = new ForexHistory();
-                history.ForexId = forex.Id;
-                history.Forex = forex;
-
-                history.DateUtc = dateUtc;
-
-                history.CreatedUtc = DateTime.UtcNow;
-
+                history = ForexHistory.CreateFrom(forex, dateUtc);
+ 
                 forex.ForexHistories.Add(history);
             }
 

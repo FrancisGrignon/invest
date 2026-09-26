@@ -52,7 +52,7 @@ namespace Invest.MVC.Controllers
 
             if (to.HasValue)
             {
-                dateUtc = from.Value.ToUniversalTime().Date;
+                dateUtc = to.Value.ToUniversalTime().Date;
                 query = query.Where(p => p.DateUtc <= dateUtc);
             }
 
@@ -80,7 +80,7 @@ namespace Invest.MVC.Controllers
 
             if (to.HasValue)
             {
-                dateUtc = from.Value.ToUniversalTime().Date;
+                dateUtc = to.Value.ToUniversalTime().Date;
                 query = query.Where(p => p.DateUtc <= dateUtc);
             }
 
@@ -181,7 +181,7 @@ namespace Invest.MVC.Controllers
 
             if (to.HasValue)
             {
-                dateUtc = from.Value.ToUniversalTime().Date;
+                dateUtc = to.Value.ToUniversalTime().Date;
                 query = _context.InvestmentHistories.Where(p => p.DateUtc <= dateUtc);
             }
 
@@ -209,7 +209,7 @@ namespace Invest.MVC.Controllers
 
             if (to.HasValue)
             {
-                dateUtc = from.Value.ToUniversalTime().Date;
+                dateUtc = to.Value.ToUniversalTime().Date;
                 query = _context.InvestmentHistories.Where(p => p.DateUtc <= dateUtc);
             }
 
@@ -311,7 +311,7 @@ namespace Invest.MVC.Controllers
 
             if (to.HasValue)
             {
-                dateUtc = from.Value.ToUniversalTime().Date;
+                dateUtc = to.Value.ToUniversalTime().Date;
                 query = query.Where(p => p.DateUtc <= dateUtc);
             }
 
@@ -394,7 +394,7 @@ namespace Invest.MVC.Controllers
 
             if (to.HasValue)
             {
-                dateUtc = from.Value.ToUniversalTime().Date;
+                dateUtc = to.Value.ToUniversalTime().Date;
                 query = query.Where(p => p.DateUtc <= dateUtc);
             }
 
@@ -430,7 +430,6 @@ namespace Invest.MVC.Controllers
             //   var values = new List<double>();
             var categories = new List<string>();
             double sum = 0;
-            float amount;
 
             foreach (var history in histories)
             {
@@ -504,7 +503,7 @@ namespace Invest.MVC.Controllers
 
             if (to.HasValue)
             {
-                dateUtc = from.Value.ToUniversalTime().Date;
+                dateUtc = to.Value.ToUniversalTime().Date;
                 query = query.Where(p => p.DateUtc <= dateUtc);
             }
 

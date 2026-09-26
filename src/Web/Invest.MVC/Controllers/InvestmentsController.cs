@@ -52,7 +52,7 @@ namespace Invest.MVC.Controllers
                 .Where(p => p.DateUtc == dateUtc)
                 .OrderBy(p => p.Investor.Name);
 
-            return View(await history.ToListAsync());
+            return View(history);
         }
 
         public async Task<IActionResult> Progress()
@@ -182,7 +182,7 @@ namespace Invest.MVC.Controllers
             }
         }
 
-        public string Investor { get; set; }
+        public string? Investor { get; set; }
 
         public string Stock { get; set; }
 

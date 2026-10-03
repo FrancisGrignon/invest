@@ -1059,6 +1059,22 @@ namespace Invest.MVC.Infrastructure.Services
             investment = broker.Buy(investor, stock, quantity, date);
 
             // Take snapshot
+            date = Snapshot(investment, date, new DateTime(2026, 09, 25));
+
+            // 2026
+
+            // Sell NYDOY
+            amount = broker.Sell(investment, date);
+
+            // Convert to CAD
+            amount = broker.Transfer(investor, amount, Forex.USD, Forex.CAD, date);
+
+            // Withdraw
+            broker.Withdraw(investor, amount, Forex.CAD, date);
+
+            Console.WriteLine($"Marco end results: {amount} CAD");
+
+            // Take snapshot
             Snapshot(investment, date, _until);
         }
 

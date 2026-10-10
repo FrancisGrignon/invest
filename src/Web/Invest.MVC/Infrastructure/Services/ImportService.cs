@@ -516,34 +516,36 @@ namespace Invest.MVC.Infrastructure.Services
             quantity = amount / value;
             investment = broker.Buy(investor, stock, quantity, date);
 
-            //// Take snapshots
-            //date = Snapshot(investment, date, new DateTime(2025, 07, 04));
+            // Take snapshots
+            date = Snapshot(investment, date, new DateTime(2025, 07, 04));
 
-            //// Sell
-            //amount = broker.Sell(investment, date);
+            // Sell
+            amount = broker.Sell(investment, date);
 
-            //// Convert to CAD
-            //amount = broker.Transfer(investor, amount, Forex.USD, Forex.CAD, date);
+            // Convert to CAD
+            amount = broker.Transfer(investor, amount, Forex.USD, Forex.CAD, date);
 
-            //// Withdraw
-            //broker.Withdraw(investor, amount, Forex.CAD, date);
+            // Withdraw
+            broker.Withdraw(investor, amount, Forex.CAD, date);
 
-            //Console.WriteLine($"Aglaé end result: {amount} CAD");
+            Console.WriteLine($"Aglaé end result: {amount} CAD");
 
-            // Take snapshot until Christmas 2025
-            date = Snapshot(investment, date, new DateTime(2026, 01, 02));
+            Snapshot(investment, date, date);
 
-            // Martine's gift
-            amount = broker.Deposit(investor, 100f, Forex.CAD, date);
+            //// Take snapshot until Christmas 2025
+            //date = Snapshot(investment, date, new DateTime(2026, 01, 02));
 
-            // Buy
-            amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
-            value = _unitOfWork.StockRepository.GetValue(stock, date);
-            quantity = amount / value;
-            investment = broker.Buy(investor, stock, quantity, date);
+            //// Martine's gift
+            //amount = broker.Deposit(investor, 100f, Forex.CAD, date);
 
-            // Take snapshot
-            Snapshot(investment, date, _until);
+            //// Buy
+            //amount = broker.Transfer(investor, amount, Forex.CAD, Forex.USD, date);
+            //value = _unitOfWork.StockRepository.GetValue(stock, date);
+            //quantity = amount / value;
+            //investment = broker.Buy(investor, stock, quantity, date);
+
+            //// Take snapshot
+            //Snapshot(investment, date, _until);
         }
 
         public void ImportCedrikTransactions()
